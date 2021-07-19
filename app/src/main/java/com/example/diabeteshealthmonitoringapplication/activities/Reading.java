@@ -1,4 +1,4 @@
-package com.example.diabeteshealthmonitoringapplication;
+package com.example.diabeteshealthmonitoringapplication.activities;
 
 import androidx.annotation.Nullable;
 

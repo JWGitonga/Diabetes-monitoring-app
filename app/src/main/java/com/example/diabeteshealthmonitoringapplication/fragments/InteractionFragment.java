@@ -1,24 +1,20 @@
 package com.example.diabeteshealthmonitoringapplication.fragments;
 
-<<<<<<< HEAD
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-=======
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
->>>>>>> master
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< HEAD
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.activities.Registration;
@@ -42,30 +39,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class InteractionFragment extends Fragment {
 
-    private static final String FROM_UID = "from_uid";
-    private static final String TO_UID = "to_uid";
-    private LinearLayout chatsRecycler;
-    private EditText messageET;
-
-    private String fromUid;
-    private String toUid;
-=======
 import android.widget.Toast;
 
 import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.Registration;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class InteractionFragment extends Fragment {
+    private RecyclerView chatsRecycler;
+    private EditText messageET;
+    private static final String FROM_UID = "param1";
+    private static final String TO_UID = "param2";
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
->>>>>>> master
+    private String fromUid;
+    private String toUid;
 
     public InteractionFragment() {
         // Required empty public constructor
@@ -75,13 +62,9 @@ public class InteractionFragment extends Fragment {
     public static InteractionFragment newInstance(String param1, String param2) {
         InteractionFragment fragment = new InteractionFragment();
         Bundle args = new Bundle();
-<<<<<<< HEAD
         args.putString(FROM_UID, param1);
         args.putString(TO_UID, param2);
-=======
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
->>>>>>> master
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,25 +73,20 @@ public class InteractionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-<<<<<<< HEAD
             fromUid = getArguments().getString(FROM_UID);
             toUid = getArguments().getString(TO_UID);
-=======
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
->>>>>>> master
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_interraction, container, false);
-<<<<<<< HEAD
         chatsRecycler = view.findViewById(R.id.message_recycler);
         messageET = view.findViewById(R.id.message_et);
         ImageView send = view.findViewById(R.id.send);
-        View myChatView = getLayoutInflater().inflate(R.layout.my_chat, container,false);
-        View hisChatView = getLayoutInflater().inflate(R.layout.my_chat, container,false);
+        View myChatView = getLayoutInflater().inflate(R.layout.my_chat, container, false);
+        View hisChatView = getLayoutInflater().inflate(R.layout.my_chat, container, false);
         TextView myName = myChatView.findViewById(R.id.my_name);
         TextView myText = myChatView.findViewById(R.id.my_text);
         ImageView sent = myChatView.findViewById(R.id.sent);
@@ -141,11 +119,11 @@ public class InteractionFragment extends Fragment {
             String year = String.valueOf(Calendar.YEAR);
             String hour = String.valueOf(Calendar.HOUR_OF_DAY);
             String minute = String.valueOf(Calendar.MINUTE);
-            String date = day+"/"+month+"/"+year+" "+hour+":"+minute;
-            FirebaseDatabase.getInstance().getReference("messages/" + fromUid + "/" + toUid + "/messages"+System.currentTimeMillis())
-                    .setValue(new Chat(FirebaseAuth.getInstance().getUid(),toUid,text,date))
+            String date = day + "/" + month + "/" + year + " " + hour + ":" + minute;
+            FirebaseDatabase.getInstance().getReference("messages/" + fromUid + "/" + toUid + "/messages" + System.currentTimeMillis())
+                    .setValue(new Chat(FirebaseAuth.getInstance().getUid(), toUid, text, date))
                     .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             myName.setText(getNames(uid).getUsername());
                             myText.setText(text);
                             myTime.setText(date);
@@ -154,8 +132,6 @@ public class InteractionFragment extends Fragment {
                         }
                     });
         });
-=======
->>>>>>> master
         setHasOptionsMenu(true);
         return view;
     }
@@ -166,7 +142,6 @@ public class InteractionFragment extends Fragment {
         inflater.inflate(R.menu.interaction_menu, menu);
     }
 
-<<<<<<< HEAD
     private List<Chat> getData() {
         List<Chat> chats = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference("messages/" + fromUid + "/" + toUid + "/messages")
@@ -208,8 +183,6 @@ public class InteractionFragment extends Fragment {
     }
 
     @SuppressLint("NonConstantResourceId")
-=======
->>>>>>> master
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

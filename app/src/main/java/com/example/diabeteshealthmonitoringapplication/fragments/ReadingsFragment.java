@@ -10,10 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< HEAD
-=======
-import android.widget.DatePicker;
->>>>>>> master
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,22 +19,14 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.diabeteshealthmonitoringapplication.R;
-<<<<<<< HEAD
 import com.example.diabeteshealthmonitoringapplication.activities.Registration;
 import com.example.diabeteshealthmonitoringapplication.models.Reading;
-=======
-import com.example.diabeteshealthmonitoringapplication.Reading;
-import com.example.diabeteshealthmonitoringapplication.Registration;
->>>>>>> master
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-<<<<<<< HEAD
 import java.util.Calendar;
 
-=======
->>>>>>> master
 
 public class ReadingsFragment extends Fragment {
     private TextView reading, date, suggestion;
@@ -81,7 +70,6 @@ public class ReadingsFragment extends Fragment {
         date = view.findViewById(R.id.date_et);
         upload = view.findViewById(R.id.fab_upload);
         suggestion = view.findViewById(R.id.suggestion);
-<<<<<<< HEAD
 
         date.setOnFocusChangeListener((v, hasFocus) -> {
             if (v.getId() == R.id.date_et && hasFocus) {
@@ -96,17 +84,6 @@ public class ReadingsFragment extends Fragment {
             }
         });
 
-=======
-        DatePickerDialog datePicker = new DatePickerDialog(requireContext());
-        datePicker.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                strDate = dayOfMonth + "/" + month + "/" + year;
-            }
-        });
-        datePicker.show();
-        date.setText(strDate);
->>>>>>> master
         upload.setOnClickListener(v -> {
             strReading = reading.getText().toString().trim();
             strSuggestion = suggestion.getText().toString().trim();
@@ -127,15 +104,9 @@ public class ReadingsFragment extends Fragment {
                                     date.setText("");
                                     suggestion.setText("");
                                 }
-<<<<<<< HEAD
                             }).addOnFailureListener(e -> Toast.makeText(requireContext(), "An error occurred try again", Toast.LENGTH_SHORT).show());
-=======
-                            }).addOnFailureListener(e -> {
-                        Toast.makeText(requireContext(), "An error occurred try again", Toast.LENGTH_SHORT).show();
-                    });
->>>>>>> master
+                    }
                 }
-            }
         });
         setHasOptionsMenu(true);
         return view;

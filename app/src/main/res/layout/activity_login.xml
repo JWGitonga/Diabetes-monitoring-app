@@ -2,26 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="40dp"
     android:layout_height="wrap_content"
-<<<<<<< HEAD
+    android:padding="40dp"
     tools:context=".activities.LoginActivity">
-=======
-    tools:context=".LoginActivity">
->>>>>>> master
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
-<<<<<<< HEAD
-        android:text="Diabetes Health Monitoring Application"
-=======
         android:text="Diabetes Health Monitoring\n Application"
->>>>>>> master
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp" />
@@ -93,4 +85,4 @@
         android:gravity="center_horizontal"
         android:text="forgot password"
         android:textColor="@color/black" />
-    </RelativeLayout>
+</RelativeLayout>

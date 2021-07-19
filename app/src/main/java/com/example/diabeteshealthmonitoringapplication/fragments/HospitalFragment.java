@@ -1,5 +1,6 @@
 package com.example.diabeteshealthmonitoringapplication.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -23,15 +25,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-<<<<<<< HEAD
 import com.example.diabeteshealthmonitoringapplication.models.Appointment;
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.activities.Registration;
-=======
-import com.example.diabeteshealthmonitoringapplication.Appointment;
-import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.Registration;
->>>>>>> master
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -77,19 +73,17 @@ public class HospitalFragment extends Fragment implements AdapterView.OnItemSele
         time = view.findViewById(R.id.time_et_hospital);
         Button uploadAppointment = view.findViewById(R.id.book_apmnt_btn);
         Spinner hospitalSpinner = view.findViewById(R.id.hospital_spinner);
-        date.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int mMonth = calendar.get(Calendar.MONTH);
-            int mYear = calendar.get(Calendar.YEAR);
-            DatePickerDialog datePicker = new DatePickerDialog(requireContext(),
-<<<<<<< HEAD
-                    (view12, year, month, dayOfMonth) ->
-                            strDate = dayOfMonth + "/" + month + "/" + year, day, mMonth, mYear);
-=======
-                    (view12, year, month, dayOfMonth) -> strDate = dayOfMonth + "/" + month + "/" + year, day, mMonth, mYear);
->>>>>>> master
-            datePicker.show();
+        date.setOnFocusChangeListener((v,hasFocus)->{
+            if (v.getId()==R.id.date_et_hospital && hasFocus){
+                DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext());
+                datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                    @SuppressLint("DefaultLocale")
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        date.setText(String.format("%d/%d/%d",dayOfMonth,month,year));
+                    }
+                });
+            }
         });
         time.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();

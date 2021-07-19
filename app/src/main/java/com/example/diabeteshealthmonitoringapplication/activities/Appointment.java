@@ -1,4 +1,4 @@
-package com.example.diabeteshealthmonitoringapplication;
+package com.example.diabeteshealthmonitoringapplication.activities;
 
 public class Appointment {
     private String uid,date,time,hospital;
