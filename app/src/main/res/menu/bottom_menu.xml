@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/reading"
+        android:icon="@drawable/read"
+        android:title="Reading" />
+    <item
+        android:id="@+id/message"
+        android:icon="@drawable/message"
+        android:title="Interaction" />
+    <item
+        android:id="@+id/hospital"
+        android:icon="@drawable/outline_local_hospital_24"
+        android:title="Hospital" />
+
+</menu>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/order_drugs"
+        android:icon="@drawable/healing"
+        android:title="Medicine"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/exit"
+        android:icon="@drawable/exit_to_app"
+        android:title="exit" />
+</menu>
