@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.diabeteshealthmonitoringapplication.activities.HomePage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 
@@ -23,6 +24,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (FirebaseAuth.getInstance().getUid()!=null){
+            startActivity(new Intent(this, HomePage.class));
+            finish();
+        }
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Signing in...");
@@ -65,13 +71,13 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(v -> {
             EditText email = new EditText(this);
             email.setMaxEms(10);
-            email.setPadding(50, 0, 50, 0);
+            email.setPadding(50, 20, 50, 20);
             email.setHint("Enter email address");
-            String strEmail = email.getText().toString().trim();
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             alertDialog.setTitle("Password recovery");
             alertDialog.setView(email);
             alertDialog.setPositiveButton("Submit", (dialog, which) -> {
+                String strEmail = email.getText().toString().trim();
                 if (strEmail.isEmpty()) {
                     email.setError("Cannot be empty");
                 } else {
@@ -79,20 +85,16 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show();
                     } else {
                         FirebaseAuth.getInstance().sendPasswordResetEmail(strEmail)
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(this, "Reset link sent...", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                });
+                                .addOnSuccessListener(aVoid -> Toast.makeText(this, "Reset link sent to email", Toast.LENGTH_SHORT).show());
                     }
                 }
             });
             AlertDialog alert = alertDialog.create();
             alert.show();
-
         });
-        registration.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, Registration.class)));
-
+        registration.setOnClickListener(v ->{
+            startActivity(new Intent(LoginActivity.this, Registration.class));
+            finish();
+        } );
     }
 }

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,22 +21,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.diabeteshealthmonitoringapplication.activities.HomePage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Registration extends AppCompatActivity {
     private static final String TAG = "Register";
     private EditText nameEt, emailEt, phoneEt, passwordEt, confirmPasswordEt;
     private ImageView imageView;
     private Uri imageUrl;
-    private Button register;
     private String name, email, phone, password, cPassword;
     private ProgressDialog progressDialog;
     String imageUri;
@@ -52,12 +53,12 @@ public class Registration extends AppCompatActivity {
         phoneEt = findViewById(R.id.phone_no_register);
         passwordEt = findViewById(R.id.password_register);
         confirmPasswordEt = findViewById(R.id.confirm_password);
-        register = findViewById(R.id.register_btn);
+        Button register = findViewById(R.id.register_btn);
         imageView.setOnClickListener(v -> {
             if (checkPermission()) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                startActivityForResult(intent, 100);
+                startActivityIfNeeded(intent,100);
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
             }
@@ -69,11 +70,38 @@ public class Registration extends AppCompatActivity {
             phone = phoneEt.getText().toString().trim();
             password = passwordEt.getText().toString().trim();
             cPassword = confirmPasswordEt.getText().toString().trim();
-            register(email, password);
-            User user = new User(FirebaseAuth.getInstance().getUid(),name,email,phone,imageUri);
-            addUserToDb(user);
-        });
+            if (name.isEmpty()){
+                nameEt.setError("Cannot be empty");
+            }else {
+                if (email.isEmpty()){
+                    emailEt.setError("Cannot be empty");
+                }else {
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                        emailEt.setError("Invalid email address");
+                    }else {
+                        if (phone.isEmpty()){
+                            phoneEt.setError("Cannot be empty");
+                        }else {
+                            if (password.isEmpty()){
+                                passwordEt.setError("Cannot be empty");
+                            }else {
+                                if (cPassword.isEmpty()){
+                                    confirmPasswordEt.setError("Cannot be empty");
+                                }else {
+                                    if (!password.equals(cPassword)){
+                                        passwordEt.setError("Passwords does not match");
+                                        confirmPasswordEt.setError("Passwords does not match");
+                                    }else {
+                                        register(name,email,phone, password);
 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -82,7 +110,7 @@ public class Registration extends AppCompatActivity {
         if (requestCode == 200 && grantResults[0] == Activity.RESULT_OK) {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
-            startActivityForResult(intent, 100);
+            startActivityIfNeeded(intent,200);
         }
     }
 
@@ -100,11 +128,12 @@ public class Registration extends AppCompatActivity {
         }
     }
 
-    private void register(String email, String password) {
+    private void register(String name,String email,String phone, String password) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(task -> {
                     if (task.getUser() != null) {
-                        addImageToStorage();
+                        addImageToStorage(name, email, phone);
+                        Toast.makeText(this, "User created successfully", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(error -> {
@@ -123,23 +152,28 @@ public class Registration extends AppCompatActivity {
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void addImageToStorage() {
+    private void addImageToStorage(String name,String email,String phone) {
         StorageReference reference = FirebaseStorage.getInstance()
                 .getReference("user_images/" + FirebaseAuth.getInstance().getUid());
         reference.putFile(imageUrl)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         progressDialog.setMessage("Finalizing");
-                        imageUri = reference.getDownloadUrl().toString();
+                         reference.getDownloadUrl()
+                                .addOnSuccessListener(uri -> {
+                                    imageUri = uri.toString();
+                                    User user = new User(FirebaseAuth.getInstance().getUid(),name,email,phone,imageUri);
+                                    addUserToDb(user);
+                                });
                     }
                 });
     }
     private void addUserToDb(User user){
-        FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid())
-                .setValue(user)
+        DocumentReference ref = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getUid());
+                ref.set(user)
                 .addOnSuccessListener(task->{
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this,HomePage.class));
+                    startActivity(new Intent(this, HomePage.class));
                 });
     }
 }

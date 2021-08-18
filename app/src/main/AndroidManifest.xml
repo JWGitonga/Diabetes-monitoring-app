@@ -12,11 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DiabetesHealthMonitoringApplication">
-        <activity android:name=".activities.Registration"/>
         <activity android:name=".activities.HomePage" />
-        <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".Registration"/>
-        <activity android:name=".HomePage" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

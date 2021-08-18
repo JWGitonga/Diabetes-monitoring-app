@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.activities.Registration;
+import com.example.diabeteshealthmonitoringapplication.Registration;
 import com.example.diabeteshealthmonitoringapplication.models.Reading;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,36 +29,35 @@ import java.util.Calendar;
 
 public class ReadingsFragment extends Fragment {
     private TextView reading, date, suggestion;
-    private FloatingActionButton upload;
     private String strReading, strDate, strSuggestion;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+//    private static final String ARG_PARAM1 = "param1";
+//    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
+//    private String mParam1;
+//    private String mParam2;
 
     public ReadingsFragment() {
         // Required empty public constructor
     }
 
 
-    public static ReadingsFragment newInstance(String param1, String param2) {
-        ReadingsFragment fragment = new ReadingsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    public static ReadingsFragment newInstance(String param1, String param2) {
+//        ReadingsFragment fragment = new ReadingsFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -68,7 +66,7 @@ public class ReadingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_readings, container, false);
         reading = view.findViewById(R.id.reading_et);
         date = view.findViewById(R.id.date_et);
-        upload = view.findViewById(R.id.fab_upload);
+        FloatingActionButton upload = view.findViewById(R.id.fab_upload);
         suggestion = view.findViewById(R.id.suggestion);
 
         date.setOnFocusChangeListener((v, hasFocus) -> {
@@ -95,7 +93,7 @@ public class ReadingsFragment extends Fragment {
                 } else {
                     String uid = FirebaseAuth.getInstance().getUid();
                     Reading r = new Reading(uid, strReading, strDate, strSuggestion);
-                    FirebaseDatabase.getInstance().getReference("/readings" + uid)
+                    FirebaseDatabase.getInstance().getReference("readings/" + uid)
                             .setValue(r)
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {

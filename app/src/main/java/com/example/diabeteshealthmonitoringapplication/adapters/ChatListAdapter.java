@@ -23,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListViewHolder> {
     private List<ChatListItem> chatListItems;
-    private Context context;
+    private final Context context;
     private OnItemClick listener;
 
     public ChatListAdapter(Context context) {
@@ -31,7 +31,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListViewHolder> {
     }
 
     public interface OnItemClick{
-        public void onItemClick(int position);
+        void onItemClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClick listener){
@@ -46,11 +46,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListViewHolder> {
     @Override
     public ChatListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ChatListViewHolder(
-                LayoutInflater.from(parent.getContext())
+                LayoutInflater.from(context)
                         .inflate(R.layout.chat_list_item,
                                 parent,
                                 false),
-                context,
                 listener
         );
     }
@@ -66,10 +65,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListViewHolder> {
     }
 
     public static class ChatListViewHolder extends RecyclerView.ViewHolder {
-        private TextView nameTv, messageTv, timeTv;
-        private CircleImageView imageV;
+        final private TextView nameTv, messageTv, timeTv;
+        final private CircleImageView imageV;
 
-        public ChatListViewHolder(View view, Context context,OnItemClick listener) {
+        public ChatListViewHolder(View view, OnItemClick listener) {
             super(view);
             nameTv = view.findViewById(R.id.name_text_view);
             messageTv = view.findViewById(R.id.text_text_view);

@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "171176283716",
-    "project_id": "diabeteshealthmonitoringapp",
-    "storage_bucket": "diabeteshealthmonitoringapp.appspot.com"
+    "project_number": "1016956281481",
+    "project_id": "diabetes-monitoring-app-v1",
+    "storage_bucket": "diabetes-monitoring-app-v1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:171176283716:android:4d5c1b9736341276797611",
+        "mobilesdk_app_id": "1:1016956281481:android:6243574f2cfb4a81bc1c58",
         "android_client_info": {
           "package_name": "com.example.diabeteshealthmonitoringapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "171176283716-4uqgbq5q19v80oq5ud2eetaa03bj8p60.apps.googleusercontent.com",
+          "client_id": "1016956281481-h89jmbqps4il7k9k93gl6uvg4plfcfa3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBr5jfLEwo72HKXgtyQmHgDcKA3Jy0wckc"
+          "current_key": "AIzaSyAxCECNEJ7sVFz8Se4mxCv-caKW6D-SeD0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "171176283716-4uqgbq5q19v80oq5ud2eetaa03bj8p60.apps.googleusercontent.com",
+              "client_id": "1016956281481-h89jmbqps4il7k9k93gl6uvg4plfcfa3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

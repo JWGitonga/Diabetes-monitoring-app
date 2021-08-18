@@ -1,6 +1,5 @@
 package com.example.diabeteshealthmonitoringapplication.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,44 +23,46 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.example.diabeteshealthmonitoringapplication.models.Appointment;
 import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.activities.Registration;
+import com.example.diabeteshealthmonitoringapplication.Registration;
+import com.example.diabeteshealthmonitoringapplication.models.Appointment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Locale;
 
 
 public class HospitalFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     private EditText date, time;
     private String strDate, strTime, strHospital;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+//    private static final String ARG_PARAM1 = "param1";
+//    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
+//    private String mParam1;
+//    private String mParam2;
 
     public HospitalFragment() {
         // Required empty public constructor
     }
 
 
-    public static HospitalFragment newInstance(String param1, String param2) {
-        HospitalFragment fragment = new HospitalFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    public static HospitalFragment newInstance(String param1, String param2) {
+//        HospitalFragment fragment = new HospitalFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -76,13 +76,11 @@ public class HospitalFragment extends Fragment implements AdapterView.OnItemSele
         date.setOnFocusChangeListener((v,hasFocus)->{
             if (v.getId()==R.id.date_et_hospital && hasFocus){
                 DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext());
-                datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint("DefaultLocale")
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        date.setText(String.format("%d/%d/%d",dayOfMonth,month,year));
-                    }
-                });
+                datePickerDialog.setOnDateSetListener((view12, year, month, dayOfMonth) -> {
+                            date.setText(String.format(Locale.getDefault(),
+                                    "%d/%d/%d",dayOfMonth,month,year));
+                            strDate = dayOfMonth+"/"+month+"/"+year;
+                        });
             }
         });
         time.setOnClickListener(v -> {
