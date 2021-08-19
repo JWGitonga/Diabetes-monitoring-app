@@ -44,6 +44,7 @@ public class ChatFragment extends Fragment {
         adapter = new ChatListAdapter(requireContext());
     }
 
+
 //    public static ChatFragment newInstance(String param1, String param2) {
 //        ChatFragment fragment = new ChatFragment();
 //        Bundle args = new Bundle();
@@ -117,4 +118,5 @@ public class ChatFragment extends Fragment {
                 });
         return chatListItems;
     }
+
 }

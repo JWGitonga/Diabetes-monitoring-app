@@ -72,7 +72,6 @@ public class ReadingsFragment extends Fragment {
         date.setOnFocusChangeListener((v, hasFocus) -> {
             if (v.getId() == R.id.date_et && hasFocus) {
                 DatePickerDialog datePicker = new DatePickerDialog(requireContext());
-                datePicker.updateDate(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
                 datePicker.setOnDateSetListener((view1, year, month, dayOfMonth) -> {
                     strDate = dayOfMonth + "/" + month + "/" + year;
                     date.setText(strDate);

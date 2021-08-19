@@ -29,8 +29,6 @@ import com.example.diabeteshealthmonitoringapplication.models.Appointment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Locale;
-
 
 public class HospitalFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     private EditText date, time;
@@ -73,23 +71,30 @@ public class HospitalFragment extends Fragment implements AdapterView.OnItemSele
         time = view.findViewById(R.id.time_et_hospital);
         Button uploadAppointment = view.findViewById(R.id.book_apmnt_btn);
         Spinner hospitalSpinner = view.findViewById(R.id.hospital_spinner);
-        date.setOnFocusChangeListener((v,hasFocus)->{
-            if (v.getId()==R.id.date_et_hospital && hasFocus){
-                DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext());
-                datePickerDialog.setOnDateSetListener((view12, year, month, dayOfMonth) -> {
-                            date.setText(String.format(Locale.getDefault(),
-                                    "%d/%d/%d",dayOfMonth,month,year));
-                            strDate = dayOfMonth+"/"+month+"/"+year;
-                        });
+        date.setOnFocusChangeListener((v, hasFocus) -> {
+            if (v.getId() == R.id.date_et_hospital && hasFocus) {
+                DatePickerDialog datePicker = new DatePickerDialog(requireContext());
+                datePicker.setOnDateSetListener((view12, year, month, dayOfMonth) -> {
+                    strDate = dayOfMonth + "/" + month + "/" + year;
+                    date.setText(strDate);
+                });
+                datePicker.create();
+                datePicker.show();
             }
         });
-        time.setOnClickListener(v -> {
+        time.setOnFocusChangeListener((v, hasFocus) -> {
             Calendar calendar = Calendar.getInstance();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int mMinute = calendar.get(Calendar.MINUTE);
-            TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(),
-                    (view1, hourOfDay, minute) -> strTime = hourOfDay + ":" + minute, hour, mMinute, false);
-            timePickerDialog.show();
+            if (v.getId() == R.id.time_et_hospital && hasFocus) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(),
+                        (view1, hourOfDay, minute) -> {
+                            strTime = hourOfDay + ":" + minute;
+                            time.setText(strTime);
+                        }, hour, mMinute, true);
+                timePickerDialog.create();
+                timePickerDialog.show();
+            }
         });
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.hospitals,
@@ -108,7 +113,8 @@ public class HospitalFragment extends Fragment implements AdapterView.OnItemSele
                     } else {
                         String uid = FirebaseAuth.getInstance().getUid();
                         Appointment appointment = new Appointment(uid, strDate, strTime, strHospital);
-                        FirebaseDatabase.getInstance().getReference("/appointments/" + uid + "-" + strDate)
+                        String[] fom = strDate.split("/");
+                        FirebaseDatabase.getInstance().getReference("appointments/" + uid + ":" + fom[0]+"-"+fom[1]+"-"+fom[2])
                                 .setValue(appointment)
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {

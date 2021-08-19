@@ -25,8 +25,8 @@ import com.example.diabeteshealthmonitoringapplication.activities.HomePage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -39,7 +39,7 @@ public class Registration extends AppCompatActivity {
     private Uri imageUrl;
     private String name, email, phone, password, cPassword;
     private ProgressDialog progressDialog;
-    String imageUri;
+    private String imageUri;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +93,6 @@ public class Registration extends AppCompatActivity {
                                         confirmPasswordEt.setError("Passwords does not match");
                                     }else {
                                         register(name,email,phone, password);
-
                                     }
                                 }
                             }
@@ -154,7 +153,7 @@ public class Registration extends AppCompatActivity {
 
     private void addImageToStorage(String name,String email,String phone) {
         StorageReference reference = FirebaseStorage.getInstance()
-                .getReference("user_images/" + FirebaseAuth.getInstance().getUid());
+                .getReference("user_images").child(FirebaseAuth.getInstance().getUid());
         reference.putFile(imageUrl)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -162,6 +161,7 @@ public class Registration extends AppCompatActivity {
                          reference.getDownloadUrl()
                                 .addOnSuccessListener(uri -> {
                                     imageUri = uri.toString();
+                                    Log.i(TAG, "addImageToStorage: "+imageUri);
                                     User user = new User(FirebaseAuth.getInstance().getUid(),name,email,phone,imageUri);
                                     addUserToDb(user);
                                 });
@@ -169,8 +169,8 @@ public class Registration extends AppCompatActivity {
                 });
     }
     private void addUserToDb(User user){
-        DocumentReference ref = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getUid());
-                ref.set(user)
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getUid());
+                ref.setValue(user)
                 .addOnSuccessListener(task->{
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(this, HomePage.class));
