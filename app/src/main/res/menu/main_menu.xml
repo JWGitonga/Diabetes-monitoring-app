@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/exit"
         android:icon="@drawable/exit_to_app"
-        android:title="exit" />
+        android:title="@string/logout" />
+    <item
+        android:id="@+id/register_with_doctor"
+        android:icon="@drawable/register_with_doctor"
+        app:showAsAction="always"
+        android:title="@string/register_with_doctor" />
 </menu>

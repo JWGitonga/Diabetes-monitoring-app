@@ -3,19 +3,20 @@ package com.example.diabeteshealthmonitoringapplication.models;
 public class Appointment {
     private String uid,date,time,hospital;
 
-    /**
+    /***
      * @NoArgsConstructor
-     */
+     * No arguments constructor
+     ***/
     public Appointment() {
 
     }
 
     /**
      * @AllArgsConstructor
-     * @param uid
-     * @param date
-     * @param time
-     * @param hospital
+     * @param uid Firebase Assigned id
+     * @param date Date the appointment was booked
+     * @param time Time the appointment was booked
+     * @param hospital Hospital in which the appointment was booked
      */
     public Appointment(String uid, String date, String time, String hospital) {
         this.uid = uid;

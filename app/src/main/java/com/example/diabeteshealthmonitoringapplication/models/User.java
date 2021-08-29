@@ -1,30 +1,23 @@
 package com.example.diabeteshealthmonitoringapplication.models;
 
 public class User {
-    private String uid,username,email,phone,imageUrl;
+    private String uid,username,email,phone,imageUrl,role;
 
     /***
      * Default empty constructor for firebase
-     * without uid @param.uid for use for firebase SDK purposes
+     * with uid @param.uid
      */
     public User() {
 
     }
 
-    /** All Argument Constructor
-     * @param uid
-     * @param username
-     * @param email
-     * @param phone
-     * @param imageUrl
-     */
-
-    public User(String uid, String username, String email, String phone,String imageUrl) {
+    public User(String uid, String username, String email, String phone,String imageUrl,String role) {
         this.uid = uid;
         this.username = username;
         this.email = email;
         this.phone = phone;
         this.imageUrl = imageUrl;
+        this.role = role;
     }
 
     public String getUid() {
@@ -65,5 +58,13 @@ public class User {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

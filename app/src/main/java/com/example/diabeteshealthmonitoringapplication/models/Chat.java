@@ -1,7 +1,8 @@
 package com.example.diabeteshealthmonitoringapplication.models;
 
 public class Chat {
-    private String fromUid,toUid,message,time;
+    private String fromUid,toUid,message;
+    private Long time;
 
     /**
      * @NoArgsConstructor
@@ -17,7 +18,7 @@ public class Chat {
      * @param message
      * @param time
      */
-    public Chat(String fromUid, String toUid, String message,String time) {
+    public Chat(String fromUid, String toUid, String message,Long time) {
         this.fromUid = fromUid;
         this.toUid = toUid;
         this.message = message;
@@ -48,11 +49,11 @@ public class Chat {
         this.message = message;
     }
 
-    public String getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 }
