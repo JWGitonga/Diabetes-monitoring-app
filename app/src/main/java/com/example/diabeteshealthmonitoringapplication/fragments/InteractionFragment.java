@@ -24,6 +24,11 @@ import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.activities.Registration;
 import com.example.diabeteshealthmonitoringapplication.models.Chat;
 import com.example.diabeteshealthmonitoringapplication.models.User;
+import com.example.diabeteshealthmonitoringapplication.notification.APIService;
+import com.example.diabeteshealthmonitoringapplication.notification.Client;
+import com.example.diabeteshealthmonitoringapplication.notification.Data;
+import com.example.diabeteshealthmonitoringapplication.notification.MyResponse;
+import com.example.diabeteshealthmonitoringapplication.notification.Sender;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +40,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class InteractionFragment extends Fragment {
     private static final String TAG = "InteractionFragment";
     private RecyclerView chatsRecycler;
@@ -43,6 +52,9 @@ public class InteractionFragment extends Fragment {
     private static final String TO_UID = "toUid";
     private String fromUid;
     private String toUid;
+    private APIService apiService;
+    private User him;
+    private User me;
 
     public InteractionFragment() {
         // Required empty public constructor
@@ -62,6 +74,7 @@ public class InteractionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         if (getArguments() != null) {
             fromUid = getArguments().getString(FROM_UID);
             toUid = getArguments().getString(TO_UID);
@@ -84,6 +97,8 @@ public class InteractionFragment extends Fragment {
         TextView hisName = hisChatView.findViewById(R.id.his_name);
         TextView hisText = hisChatView.findViewById(R.id.his_text);
         TextView hisTime = hisChatView.findViewById(R.id.my_time);
+        me = getNames(FirebaseAuth.getInstance().getUid());
+        him = getNames(toUid);
         String uid = FirebaseAuth.getInstance().getUid();
         List<Chat> chats = getData();
         for (Chat chat : chats) {
@@ -113,6 +128,25 @@ public class InteractionFragment extends Fragment {
                             myTime.setText(simpleDateFormat.format(date));
                             sent.setVisibility(View.VISIBLE);
                             chatsRecycler.addView(myChatView);
+                            Data data = new Data(me.getUid(),"New message "+text,"Health Living",him.getUid(),R.drawable.ic_launcher_foreground);
+                            Sender sender = new Sender(data, him.getDeviceToken());
+                            apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
+                                    if (response.isSuccessful()){
+                                        if (response.body() != null) {
+                                            if (response.body().success!=1){
+                                                Toast.makeText(requireContext(), "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
+                                    Log.i(TAG, "onFailure: error -> "+t.getMessage());
+                                }
+                            });
                         }
                     });
         });

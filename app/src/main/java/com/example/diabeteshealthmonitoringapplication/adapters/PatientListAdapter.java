@@ -20,6 +20,11 @@ import androidx.annotation.RequiresApi;
 
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.models.User;
+import com.example.diabeteshealthmonitoringapplication.notification.APIService;
+import com.example.diabeteshealthmonitoringapplication.notification.Client;
+import com.example.diabeteshealthmonitoringapplication.notification.Data;
+import com.example.diabeteshealthmonitoringapplication.notification.MyResponse;
+import com.example.diabeteshealthmonitoringapplication.notification.Sender;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +34,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PatientListAdapter extends ArrayAdapter<User> {
     private static final String TAG = "PatientListAdapter";
     private final Context context;
@@ -36,6 +45,7 @@ public class PatientListAdapter extends ArrayAdapter<User> {
     private final List<User> userList;
     private int lastPosition = -1;
     private User mUser;
+    private APIService apiService;
 
 
     public PatientListAdapter(@NonNull Context context, int resource, @NonNull List<User> userList) {
@@ -43,6 +53,8 @@ public class PatientListAdapter extends ArrayAdapter<User> {
         this.context = context;
         this.resource = resource;
         this.userList = userList;
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+        mUser = getDoctor(FirebaseAuth.getInstance().getUid());
     }
 
     @NonNull
@@ -65,7 +77,6 @@ public class PatientListAdapter extends ArrayAdapter<User> {
             viewHolder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
-
         Picasso.get().load(userList.get(position).getImageUrl()).placeholder(R.drawable.outline_account_circle_24).into(viewHolder.imageView);
         viewHolder.name.setText(userList.get(position).getUsername());
         viewHolder.number.setText(userList.get(position).getPhone());
@@ -78,15 +89,35 @@ public class PatientListAdapter extends ArrayAdapter<User> {
             context.startActivity(intent);
         });
         viewHolder.accept.setOnClickListener(v -> addToPatients(userList.get(position)));
-        viewHolder.reject.setOnClickListener(v -> rejectRequest(userList.get(position).getUid()));
+        viewHolder.reject.setOnClickListener(v -> rejectRequest(userList.get(position)));
         return convertView;
     }
 
-    private void rejectRequest(String uid) {
-        FirebaseDatabase.getInstance().getReference("patients/" + FirebaseAuth.getInstance().getUid() + "/" + uid)
+    private void rejectRequest(User user) {
+        String uid = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance().getReference("patients/" + uid + "/" + user.getUid())
                 .setValue(null).addOnCompleteListener(task -> {
             if (task.isComplete() && task.isComplete()) {
                 Toast.makeText(context, "Successfully declined", Toast.LENGTH_SHORT).show();
+                Data data = new Data(uid, "Doctor " + mUser.getUsername() + " refused your request", "Healthy Living", uid, R.drawable.ic_launcher_foreground);
+                Sender sender = new Sender(data, mUser.getDeviceToken());
+                apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body() != null) {
+                                if (response.body().success != 1) {
+                                    Toast.makeText(context, "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
+                        Log.i(TAG, "onFailure: error -> " + t.getMessage());
+                    }
+                });
             }
         });
     }
@@ -101,7 +132,28 @@ public class PatientListAdapter extends ArrayAdapter<User> {
                         User user1 = getDoctor(uid);
                         FirebaseDatabase.getInstance().getReference(user.getUid() + "/doctors/" + uid)
                                 .setValue(user1)
-                                .addOnCompleteListener(task1 -> Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show())
+                                .addOnCompleteListener(task1 -> {
+                                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                                    Data data = new Data(uid,"Doctor "+mUser.getUsername()+" accepted your request","Healthy Living",uid,R.drawable.ic_launcher_foreground);
+                                    Sender sender = new Sender(data, mUser.getDeviceToken());
+                                    apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                                        @Override
+                                        public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
+                                            if (response.isSuccessful()){
+                                                if (response.body() != null) {
+                                                    if (response.body().success!=1){
+                                                        Toast.makeText(context, "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
+                                            Log.i(TAG, "onFailure: error -> "+t.getMessage());
+                                        }
+                                    });
+                                })
                                 .addOnFailureListener(e -> Log.i(TAG, "addToPatients: " + e.getMessage()));
                     }
                 }).addOnFailureListener(e -> Log.i(TAG, "addToPatients: " + e.getMessage()));

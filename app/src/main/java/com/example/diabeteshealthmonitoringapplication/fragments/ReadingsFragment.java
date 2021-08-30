@@ -24,6 +24,12 @@ import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.activities.Registration;
 import com.example.diabeteshealthmonitoringapplication.models.AssociatedHospital;
 import com.example.diabeteshealthmonitoringapplication.models.Reading;
+import com.example.diabeteshealthmonitoringapplication.models.User;
+import com.example.diabeteshealthmonitoringapplication.notification.APIService;
+import com.example.diabeteshealthmonitoringapplication.notification.Client;
+import com.example.diabeteshealthmonitoringapplication.notification.Data;
+import com.example.diabeteshealthmonitoringapplication.notification.MyResponse;
+import com.example.diabeteshealthmonitoringapplication.notification.Sender;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +42,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class ReadingsFragment extends Fragment {
     private static final String TAG = "ReadingsFragment";
@@ -43,6 +53,8 @@ public class ReadingsFragment extends Fragment {
     private String strReading, strDate, strSuggestion;
     private List<AssociatedHospital> doctors;
     private View view;
+    private User mUser;
+    private APIService apiService;
 
     public ReadingsFragment() {
         // Required empty public constructor
@@ -51,6 +63,7 @@ public class ReadingsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         doctors = new ArrayList<>();
     }
 
@@ -87,7 +100,7 @@ public class ReadingsFragment extends Fragment {
                     String uid = FirebaseAuth.getInstance().getUid();
                     Reading r = new Reading(uid, strReading, strDate, strSuggestion);
                     String[] fom = strDate.split("/");
-                    FirebaseDatabase.getInstance().getReference("readings/" + uid+"/records/"+fom[0]+"-"+fom[1]+"-"+fom[2])
+                    FirebaseDatabase.getInstance().getReference("readings/" + uid + "/records/" + fom[0] + "-" + fom[1] + "-" + fom[2])
                             .setValue(r)
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
@@ -135,7 +148,25 @@ public class ReadingsFragment extends Fragment {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful() && task.isComplete()) {
                                 Toast.makeText(requireContext(), "Sent notification to doctor", Toast.LENGTH_SHORT).show();
-                                //todo:send request notification to doctor
+                                User user = getUser(uid);
+                                Data data = new Data(from, "Patient Request", "Health Living", uid, R.drawable.ic_launcher_foreground);
+                                Sender sender = new Sender(data, user.getDeviceToken());
+                                apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                                    @Override
+                                    public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
+                                        if (response.isSuccessful()) {
+                                            assert response.body() != null;
+                                            if (response.body().success != 1) {
+                                                Toast.makeText(requireContext(), "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
+                                        Toast.makeText(requireContext(), "Something went wrong....", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         });
                 return true;
@@ -145,6 +176,32 @@ public class ReadingsFragment extends Fragment {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private User getUser(String uid) {
+        FirebaseDatabase.getInstance().getReference("users")
+                .addValueEventListener(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        snapshot.getChildren().forEach(user -> {
+                            User u = user.getValue(User.class);
+                            if (u != null) {
+                                if (u.getUid().equals(uid)) {
+                                    mUser = u;
+                                }
+                            } else {
+                                Log.i(TAG, "onDataChange: Null user");
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.i(TAG, "onCancelled: error -> " + error.getMessage());
+                    }
+                });
+        return mUser;
     }
 
     List<AssociatedHospital> getDoctors() {

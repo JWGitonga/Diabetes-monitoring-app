@@ -38,6 +38,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -193,7 +194,8 @@ public class Registration extends AppCompatActivity {
                                 .addOnSuccessListener(uri -> {
                                     imageUri = uri.toString();
                                     Log.i(TAG, "addImageToStorage: " + imageUri);
-                                    User user = new User(FirebaseAuth.getInstance().getUid(), name, email, phone, imageUri, role);
+                                    String token = FirebaseInstanceId.getInstance().getToken();
+                                    User user = new User(FirebaseAuth.getInstance().getUid(), name, email, phone, imageUri, role,token);
                                     addUserToDb(user);
                                 });
                     }

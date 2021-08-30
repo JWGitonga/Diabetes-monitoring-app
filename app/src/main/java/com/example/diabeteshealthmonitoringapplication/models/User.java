@@ -1,23 +1,24 @@
 package com.example.diabeteshealthmonitoringapplication.models;
 
 public class User {
-    private String uid,username,email,phone,imageUrl,role;
+    private String uid,username,email,phone,imageUrl,role,deviceToken;
 
     /***
      * Default empty constructor for firebase
-     * with uid @param.uid
+     * with uid @Param - Firebase Assign userId
      */
     public User() {
 
     }
 
-    public User(String uid, String username, String email, String phone,String imageUrl,String role) {
+    public User(String uid, String username, String email, String phone,String imageUrl,String role,String deviceToken) {
         this.uid = uid;
         this.username = username;
         this.email = email;
         this.phone = phone;
         this.imageUrl = imageUrl;
         this.role = role;
+        this.deviceToken = deviceToken;
     }
 
     public String getUid() {
@@ -66,5 +67,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }
