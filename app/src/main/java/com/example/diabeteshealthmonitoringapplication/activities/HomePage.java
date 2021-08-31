@@ -40,9 +40,9 @@ public class HomePage extends AppCompatActivity {
                             inflateContainer(new HospitalFragment());
                             break;
                         default:
-                            return false;
+                            return true;
                     }
-                    return false;
+                    return true;
                 });
     }
 

@@ -24,7 +24,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.Registration;
+import com.example.diabeteshealthmonitoringapplication.activities.Registration;
 import com.example.diabeteshealthmonitoringapplication.models.Appointment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -34,34 +34,10 @@ public class HospitalFragment extends Fragment implements AdapterView.OnItemSele
     private EditText date, time;
     private String strDate, strTime, strHospital;
 
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-
-//    private String mParam1;
-//    private String mParam2;
-
     public HospitalFragment() {
         // Required empty public constructor
     }
 
-
-//    public static HospitalFragment newInstance(String param1, String param2) {
-//        HospitalFragment fragment = new HospitalFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override

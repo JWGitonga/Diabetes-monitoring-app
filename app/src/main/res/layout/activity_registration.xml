@@ -1,101 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="30dp"
-    android:layout_height="wrap_content"
     tools:context=".activities.Registration">
-
-
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/image_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/outline_account_circle_24"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="1dp" />
-
-
-    <EditText
-        android:id="@+id/username_register"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:hint="@string/username"
-        android:inputType="textPersonName"
-        android:paddingStart="10dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingEnd="10dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/email_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/email"
-        android:ems="10"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:inputType="textEmailAddress"
-        android:paddingStart="10dp"
-        android:layout_marginTop="20dp"
-        android:paddingEnd="10dp" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/outline_account_circle_24"
+            app:civ_border_color="@color/black"
+            app:civ_border_width="1dp" />
 
-    <EditText
-        android:id="@+id/phone_no_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="@string/phone"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:inputType="phone" />
 
-    <EditText
-        android:id="@+id/password_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:ems="10"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:inputType="textPassword"
-        android:paddingStart="10dp"
-        android:layout_marginTop="20dp"
-        android:paddingEnd="10dp" />
+        <EditText
+            android:id="@+id/username_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:autofillHints="username" />
 
-    <EditText
-        android:id="@+id/confirm_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/confirm_password"
-        android:ems="10"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:inputType="textPassword"
-        android:paddingStart="10dp"
-        android:layout_marginTop="20dp"
-        android:paddingEnd="10dp" />
+        <EditText
+            android:id="@+id/email_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:autofillHints="emailAddress" />
 
-    <Button
-        android:id="@+id/register_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:background="@drawable/round_button"
-        android:text="@string/Register"
-        android:textColor="@color/white" />
+        <EditText
+            android:id="@+id/phone_no_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:hint="@string/phone"
+            android:inputType="phone"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:autofillHints="phone" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/password_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:autofillHints="password" />
+
+        <EditText
+            android:id="@+id/confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:autofillHints="password" />
+
+        <RadioGroup
+            android:id="@+id/role_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingEnd="80dp"
+            tools:ignore="RtlSymmetry">
+
+            <RadioButton
+                android:id="@+id/doctor_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/doctor" />
+
+            <RadioButton
+                android:id="@+id/patient_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/patient" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/register_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/round_button"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/Register"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</ScrollView>

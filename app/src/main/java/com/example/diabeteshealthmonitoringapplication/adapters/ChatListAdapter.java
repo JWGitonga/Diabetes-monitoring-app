@@ -16,7 +16,9 @@ import com.example.diabeteshealthmonitoringapplication.adapters.ChatListAdapter.
 import com.example.diabeteshealthmonitoringapplication.models.ChatListItem;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -83,9 +85,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListViewHolder> {
         }
 
         protected void bind(ChatListItem item, int lastPosition) {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault());
             nameTv.setText(item.getFromName());
             messageTv.setText(item.getChats().get(lastPosition).getMessage());
-            timeTv.setText(item.getChats().get(lastPosition).getTime());
+            timeTv.setText(format.format(item.getChats().get(lastPosition).getTime()));
             Picasso.get().load(item.getFromImageUrl())
                     .placeholder(Objects.requireNonNull(
                             ResourcesCompat.getDrawable(Resources.getSystem(),

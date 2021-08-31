@@ -1,4 +1,4 @@
-package com.example.diabeteshealthmonitoringapplication;
+package com.example.diabeteshealthmonitoringapplication.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.diabeteshealthmonitoringapplication.activities.HomePage;
+import com.example.diabeteshealthmonitoringapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 
@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (FirebaseAuth.getInstance().getUid()!=null){
             startActivity(new Intent(this, HomePage.class));
             finish();
@@ -56,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         progressDialog.dismiss();
                                         startActivity(new Intent(LoginActivity.this, HomePage.class));
+                                        finish();
                                     }
                                 }).addOnFailureListener(e -> {
                             if (e instanceof FirebaseAuthInvalidCredentialsException) {

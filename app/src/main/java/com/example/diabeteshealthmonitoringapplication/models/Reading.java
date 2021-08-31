@@ -16,10 +16,10 @@ public class Reading {
 
     /**
      * All Args Constructor
-     * @param from
-     * @param reading
-     * @param date
-     * @param suggestion
+     * @param from FromUId
+     * @param reading Reading of that day
+     * @param date Date of that day
+     * @param suggestion Patient comments
      */
     public Reading(String from, String reading, String date, @Nullable String suggestion) {
         this.from = from;
