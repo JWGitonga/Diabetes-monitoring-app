@@ -6,6 +6,9 @@ public class FragmentComponent {
     private Fragment fragment;
     private String title;
 
+    public FragmentComponent() {
+    }
+
     public FragmentComponent(Fragment fragment, String title) {
         this.fragment = fragment;
         this.title = title;

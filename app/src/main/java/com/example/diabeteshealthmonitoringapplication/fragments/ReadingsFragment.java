@@ -133,13 +133,14 @@ public class ReadingsFragment extends Fragment {
             return true;
         } else if (item.getItemId() == R.id.register_with_doctor) {
             List<AssociatedHospital> docs = getDoctors();
-            PopupMenu popupMenu = new PopupMenu(requireContext(), view);
-            docs.forEach(doctor -> popupMenu.getMenu().add(doctor.getName() + " - " + doctor.getHospital() + " -" + doctor.getUid()));
+            PopupMenu popupMenu = new PopupMenu(requireContext(), reading);
+            docs.forEach(doctor -> popupMenu.getMenu().add(doctor.getName() + " - " + doctor.getHospital() + " - " + doctor.getUid()));
             popupMenu.setOnMenuItemClickListener(item1 -> {
                 String s = item1.toString();
                 String[] chars = s.split(" - ");
                 String uid = chars[2];
                 String from = FirebaseAuth.getInstance().getUid();
+                getUser(uid);
                 Map<String, String> request = new HashMap<>();
                 request.put("from", from);
                 request.put("response", "request");
@@ -148,9 +149,8 @@ public class ReadingsFragment extends Fragment {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful() && task.isComplete()) {
                                 Toast.makeText(requireContext(), "Sent notification to doctor", Toast.LENGTH_SHORT).show();
-                                User user = getUser(uid);
                                 Data data = new Data(from, "Patient Request", "Health Living", uid, R.drawable.ic_launcher_foreground);
-                                Sender sender = new Sender(data, user.getDeviceToken());
+                                Sender sender = new Sender(data, mUser.getDeviceToken());
                                 apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
                                     @Override
                                     public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
@@ -178,7 +178,7 @@ public class ReadingsFragment extends Fragment {
         }
     }
 
-    private User getUser(String uid) {
+    private void getUser(String uid) {
         FirebaseDatabase.getInstance().getReference("users")
                 .addValueEventListener(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -201,7 +201,6 @@ public class ReadingsFragment extends Fragment {
                         Log.i(TAG, "onCancelled: error -> " + error.getMessage());
                     }
                 });
-        return mUser;
     }
 
     List<AssociatedHospital> getDoctors() {

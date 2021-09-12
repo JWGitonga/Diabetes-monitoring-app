@@ -3,7 +3,10 @@ package com.example.diabeteshealthmonitoringapplication.models;
 public class AssociatedHospital {
     private String uid,name,hospital;
 
-    public AssociatedHospital(String uid, String name,String hospital) {
+    public AssociatedHospital() {
+    }
+
+    public AssociatedHospital(String uid, String name, String hospital) {
         this.uid = uid;
         this.name = name;
         this.hospital = hospital;

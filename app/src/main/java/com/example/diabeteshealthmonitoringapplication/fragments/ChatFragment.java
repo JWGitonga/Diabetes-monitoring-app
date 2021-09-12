@@ -49,10 +49,10 @@ public class ChatFragment extends Fragment {
         ListView recyclerView = view.findViewById(R.id.chat_list);
         ImageView noChatIV = view.findViewById(R.id.no_chat_iv);
         TextView noChatTV = view.findViewById(R.id.no_chat_tv);
+        getDoctors(FirebaseAuth.getInstance().getUid());
         recyclerView.setClipToPadding(false);
         recyclerView.setAdapter(adapter);
-        List<User> listItems = getDoctors(FirebaseAuth.getInstance().getUid());
-        if (listItems.isEmpty()) {
+        if (doctors.isEmpty()) {
             noChatIV.setVisibility(View.VISIBLE);
             noChatTV.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
@@ -68,7 +68,7 @@ public class ChatFragment extends Fragment {
                         .replace(R.id.fragment_container,
                                 InteractionFragment
                                         .newInstance(FirebaseAuth.getInstance().getUid(),
-                                                listItems.get(position)
+                                                doctors.get(position)
                                                         .getUid()));
             });
         }
@@ -78,7 +78,7 @@ public class ChatFragment extends Fragment {
     }
 
     private List<User> getDoctors(String uid) {
-        FirebaseDatabase.getInstance().getReference(uid + "/doctors/")
+        FirebaseDatabase.getInstance().getReference(uid + "")
                 .addValueEventListener(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
