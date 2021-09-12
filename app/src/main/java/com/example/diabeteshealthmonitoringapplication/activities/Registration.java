@@ -91,7 +91,7 @@ public class Registration extends AppCompatActivity {
             cPassword = confirmPasswordEt.getText().toString().trim();
             int checkId = radioGroup.getCheckedRadioButtonId();
             if (checkId == R.id.patient_radio_button) role = "Patient";
-            else if (checkId == R.id.doctor_radio_button) role = "Doctor";
+            else if (checkId == R.id.doctor_radio_button) role = "Health worker";
             else return;
             if (name.isEmpty()) {
                 nameEt.setError("Cannot be empty");

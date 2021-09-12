@@ -209,6 +209,7 @@ public class ReadingsFragment extends Fragment {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        doctors.clear();
                         snapshot.getChildren().forEach(associatedHospDoc -> {
                             AssociatedHospital doc = associatedHospDoc.getValue(AssociatedHospital.class);
                             doctors.add(doc);

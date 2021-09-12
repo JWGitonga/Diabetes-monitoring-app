@@ -79,7 +79,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void getDoctors(String uid) {
-        FirebaseDatabase.getInstance().getReference(uid + "")
+        FirebaseDatabase.getInstance().getReference(uid + "/doctors")
                 .addValueEventListener(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
