@@ -109,7 +109,7 @@
 
             <RadioButton
                 android:id="@+id/patient_radio_button"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="@string/patient" />
         </RadioGroup>

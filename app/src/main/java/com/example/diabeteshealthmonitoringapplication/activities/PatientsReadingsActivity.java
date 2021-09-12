@@ -10,7 +10,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.diabeteshealthmonitoringapplication.R;
+import com.example.diabeteshealthmonitoringapplication.adapters.PatientReadingsAdapter;
+import com.example.diabeteshealthmonitoringapplication.models.Reading;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
 import java.util.Objects;
 
 public class PatientsReadingsActivity extends AppCompatActivity {
@@ -22,9 +26,19 @@ public class PatientsReadingsActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        intent.getStringArrayListExtra("patientReadings");
+        List<Reading> readingList=intent.getParcelableArrayListExtra("patientReadings");
         RecyclerView recyclerView = findViewById(R.id.patient_readings_recycler);
         recyclerView.setHasFixedSize(true);
+        PatientReadingsAdapter adapter = new PatientReadingsAdapter(readingList,this);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,VERTICAL));
+        adapter.setOnItemClickListener(new PatientReadingsAdapter.OnItemClick() {
+            @Override
+            public void onItemClick(int position) {
+                Snackbar.make(recyclerView,"Item position "+position+" clicked...",Snackbar.LENGTH_LONG)
+                        .setAnimationMode(Snackbar.ANIMATION_MODE_FADE).show();
+            }
+        });
     }
+
 }

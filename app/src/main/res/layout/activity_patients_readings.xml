@@ -11,9 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingStart="10dp"
+        android:paddingStart="20dp"
         tools:listitem="@layout/patient_reading_item"
         android:paddingEnd="10dp"
+        app:spanCount="2"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

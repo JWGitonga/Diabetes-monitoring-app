@@ -1,8 +1,11 @@
 package com.example.diabeteshealthmonitoringapplication.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.Nullable;
 
-public class Reading {
+public class Reading implements Parcelable {
     private String from,reading,date;
     @Nullable
     private String suggestion;
@@ -27,6 +30,25 @@ public class Reading {
         this.date = date;
         this.suggestion = suggestion;
     }
+
+    protected Reading(Parcel in) {
+        from = in.readString();
+        reading = in.readString();
+        date = in.readString();
+        suggestion = in.readString();
+    }
+
+    public static final Creator<Reading> CREATOR = new Creator<Reading>() {
+        @Override
+        public Reading createFromParcel(Parcel in) {
+            return new Reading(in);
+        }
+
+        @Override
+        public Reading[] newArray(int size) {
+            return new Reading[size];
+        }
+    };
 
     public String getFrom() {
         return from;
@@ -59,5 +81,18 @@ public class Reading {
 
     public void setSuggestion(@Nullable String suggestion) {
         this.suggestion = suggestion;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(from);
+        dest.writeString(reading);
+        dest.writeString(date);
+        dest.writeString(suggestion);
     }
 }

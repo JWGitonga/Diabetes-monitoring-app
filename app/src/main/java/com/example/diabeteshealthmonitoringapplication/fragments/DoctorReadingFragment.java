@@ -51,7 +51,7 @@ public class DoctorReadingFragment extends Fragment {
         ListView listView = view.findViewById(R.id.reading_list);
         listView.setAdapter(adapter);
         adapter.setOnItemClickListener(position ->
-                requireActivity().startActivity(new Intent(requireContext(), PatientsReadingsActivity.class).putExtra("patientReadings", (Parcelable) readings)));
+                startActivity(new Intent(requireContext(), PatientsReadingsActivity.class).putExtra("patientReadings", (Parcelable) readings)));
         return view;
     }
     List<Reading> getPatients(){

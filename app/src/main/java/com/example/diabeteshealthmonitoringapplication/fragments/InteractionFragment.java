@@ -55,6 +55,7 @@ public class InteractionFragment extends Fragment {
     private APIService apiService;
     private User him;
     private User me;
+    private User mUser;
 
     public InteractionFragment() {
         // Required empty public constructor
@@ -181,7 +182,7 @@ public class InteractionFragment extends Fragment {
     }
 
     private User getNames(String uid) {
-        final User[] mUser = {null};
+
         FirebaseDatabase.getInstance().getReference("users")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -189,7 +190,7 @@ public class InteractionFragment extends Fragment {
                 User user = snapshot.getValue(User.class);
                 assert user != null;
                 if (user.getUid().equals(uid)) {
-                    mUser[0] = user;
+                    mUser = user;
                 }
             }
 
@@ -198,8 +199,9 @@ public class InteractionFragment extends Fragment {
                 Log.i(TAG, "onCancelled: "+error.getMessage());
             }
         });
-        return mUser[0];
+        return mUser;
     }
+
 
     @SuppressLint("NonConstantResourceId")
     @Override

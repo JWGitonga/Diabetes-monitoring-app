@@ -43,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Registration extends AppCompatActivity {
@@ -114,7 +115,7 @@ public class Registration extends AppCompatActivity {
                                         passwordEt.setError("Passwords does not match");
                                         confirmPasswordEt.setError("Passwords does not match");
                                     } else {
-                                        if (imageUri.isEmpty()) {
+                                        if (imageUrl.getPath().isEmpty()) {
                                             Toast.makeText(getApplicationContext(), "Please select a profile picture", Toast.LENGTH_SHORT).show();
                                         } else {
                                             if (role.isEmpty()) {
@@ -136,7 +137,8 @@ public class Registration extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 200 && grantResults[0] == Activity.RESULT_OK) {
+        if (requestCode == 200 && Arrays.equals(permissions,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE})
+                && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityIfNeeded(intent, 200);
