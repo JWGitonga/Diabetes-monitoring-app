@@ -40,7 +40,8 @@ public class ChatFragment extends Fragment {
     public void onStart() {
         super.onStart();
         doctors = new ArrayList<>();
-        adapter = new ChatsListAdapterDoctor(requireContext(), R.layout.chat_list_item, getDoctors(FirebaseAuth.getInstance().getUid()));
+        getDoctors(FirebaseAuth.getInstance().getUid());
+        adapter = new ChatsListAdapterDoctor(requireContext(), R.layout.chat_list_item,doctors);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
-    private List<User> getDoctors(String uid) {
+    private void getDoctors(String uid) {
         FirebaseDatabase.getInstance().getReference(uid + "")
                 .addValueEventListener(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -94,7 +95,6 @@ public class ChatFragment extends Fragment {
                         Log.i(TAG, "onCancelled: " + error.getMessage());
                     }
                 });
-        return doctors;
     }
 
 }
