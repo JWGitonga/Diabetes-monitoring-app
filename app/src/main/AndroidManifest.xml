@@ -12,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DiabetesHealthMonitoringApplication">
+        <activity android:name=".activities.IntermediateActivity"
+            android:theme="@style/Theme.DiabetesHealthMonitoringApplicationNoActionBar"></activity>
+
         <service
             android:name=".notification.InstanceIdService"
             android:enabled="true"
@@ -24,6 +27,7 @@
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
+
         <activity
             android:name=".activities.PatientsReadingsActivity"
             android:exported="true" />
