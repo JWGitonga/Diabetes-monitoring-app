@@ -187,7 +187,7 @@ public class Registration extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void addImageToStorage(String name, String email, String phone, String role) {
         StorageReference reference = FirebaseStorage.getInstance()
-                .getReference("user_images").child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                .getReference("user_images/"+FirebaseAuth.getInstance().getUid());
         reference.putFile(imageUrl)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
