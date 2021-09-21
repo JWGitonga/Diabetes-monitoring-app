@@ -30,7 +30,14 @@ import java.util.List;
 public class ChatFragment extends Fragment {
     private static final String TAG = "ChatFragment";
     private ChatsListAdapterDoctor adapter;
-    private List<User> doctors;
+    private List<User> myDoctors = new ArrayList<>();
+    private List<User> doctors = new ArrayList<>();
+    private ListView recyclerView;
+    private ImageView noChatIV;
+    private TextView noChatTV;
+    private ListView recyclerView1;
+    private ImageView noChatIV1;
+    private TextView noChatTV1;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -39,21 +46,20 @@ public class ChatFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        doctors = new ArrayList<>();
-        getDoctors(FirebaseAuth.getInstance().getUid());
-        adapter = new ChatsListAdapterDoctor(requireContext(), R.layout.chat_list_item,doctors);
+        getMyDoctors(FirebaseAuth.getInstance().getUid());
+        adapter = new ChatsListAdapterDoctor(requireContext(), R.layout.chat_list_item, myDoctors);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
-        ListView recyclerView = view.findViewById(R.id.chat_list);
-        ImageView noChatIV = view.findViewById(R.id.no_chat_iv);
-        TextView noChatTV = view.findViewById(R.id.no_chat_tv);
-        getDoctors(FirebaseAuth.getInstance().getUid());
+        recyclerView = view.findViewById(R.id.chat_list);
+        noChatIV = view.findViewById(R.id.no_chat_iv);
+        noChatTV = view.findViewById(R.id.no_chat_tv);
+        getMyDoctors(FirebaseAuth.getInstance().getUid());
         recyclerView.setClipToPadding(false);
         recyclerView.setAdapter(adapter);
-        if (doctors.isEmpty()) {
+        if (myDoctors.isEmpty()) {
             noChatIV.setVisibility(View.VISIBLE);
             noChatTV.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
@@ -69,7 +75,7 @@ public class ChatFragment extends Fragment {
                         .replace(R.id.fragment_container,
                                 InteractionFragment
                                         .newInstance(FirebaseAuth.getInstance().getUid(),
-                                                doctors.get(position)
+                                                myDoctors.get(position)
                                                         .getUid()));
             });
         }
@@ -78,7 +84,26 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
-    private void getDoctors(String uid) {
+    public void getAllDoctors() {
+        FirebaseDatabase.getInstance().getReference("users")
+                .addValueEventListener(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        snapshot.getChildren().forEach(doc -> {
+                            User user = doc.getValue(User.class);
+                            myDoctors.add(user);
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.i(TAG, "onCancelled: " + error.getMessage());
+                    }
+                });
+    }
+
+    private void getMyDoctors(String uid) {
         FirebaseDatabase.getInstance().getReference(uid + "/doctors")
                 .addValueEventListener(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -86,7 +111,7 @@ public class ChatFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         snapshot.getChildren().forEach(doc -> {
                             User user = doc.getValue(User.class);
-                            doctors.add(user);
+                            myDoctors.add(user);
                         });
                     }
 

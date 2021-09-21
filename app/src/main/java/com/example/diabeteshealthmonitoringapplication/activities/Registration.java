@@ -206,7 +206,7 @@ public class Registration extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void addUserToDb(User user) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid());
         ref.setValue(user)
                 .addOnSuccessListener(task -> {
                     if (user.getRole().equals("Doctor")) {
@@ -250,7 +250,7 @@ public class Registration extends AppCompatActivity {
                         alertDialog.show();
                     } else {
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, HomePage.class));
+                        startActivity(new Intent(this, IntermediateActivity.class));
                         finish();
                     }
                 });

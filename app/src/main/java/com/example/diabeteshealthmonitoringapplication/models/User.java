@@ -1,6 +1,9 @@
 package com.example.diabeteshealthmonitoringapplication.models;
 
-public class User {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User implements Parcelable {
     private String uid,username,email,phone,imageUrl,role,deviceToken;
 
     /***
@@ -20,6 +23,44 @@ public class User {
         this.role = role;
         this.deviceToken = deviceToken;
     }
+
+    protected User(Parcel in) {
+        uid = in.readString();
+        username = in.readString();
+        email = in.readString();
+        phone = in.readString();
+        imageUrl = in.readString();
+        role = in.readString();
+        deviceToken = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(uid);
+        dest.writeString(username);
+        dest.writeString(email);
+        dest.writeString(phone);
+        dest.writeString(imageUrl);
+        dest.writeString(role);
+        dest.writeString(deviceToken);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getUid() {
         return uid;
