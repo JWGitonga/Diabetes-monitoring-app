@@ -49,13 +49,14 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:id="@+id/all_docs_recycler"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_weight="1" >
-
-    </ListView>
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_weight="1"/>
 
     <ImageView
         android:id="@+id/no_docs_iv"
