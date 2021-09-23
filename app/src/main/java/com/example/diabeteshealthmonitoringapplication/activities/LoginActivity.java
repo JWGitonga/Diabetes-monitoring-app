@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (FirebaseAuth.getInstance().getUid()!=null){
+        if (FirebaseAuth.getInstance().getUid() != null) {
             startActivity(new Intent(this, HomePage.class));
             finish();
         }
@@ -43,12 +43,15 @@ public class LoginActivity extends AppCompatActivity {
             this.password = pass.getText().toString().trim();
             if (email.isEmpty()) {
                 mEmail.setError("Cannot be empty");
+                progressDialog.dismiss();
             } else {
                 if (password.isEmpty()) {
                     pass.setError("Cannot be empty");
+                    progressDialog.dismiss();
                 } else {
                     if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                         mEmail.setError("Invalid email address");
+                        progressDialog.dismiss();
                     } else {
                         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(task -> {
@@ -92,9 +95,9 @@ public class LoginActivity extends AppCompatActivity {
             AlertDialog alert = alertDialog.create();
             alert.show();
         });
-        registration.setOnClickListener(v ->{
+        registration.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, Registration.class));
             finish();
-        } );
+        });
     }
 }

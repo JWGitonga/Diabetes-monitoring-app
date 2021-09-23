@@ -95,31 +95,40 @@ public class Registration extends AppCompatActivity {
             else return;
             if (name.isEmpty()) {
                 nameEt.setError("Cannot be empty");
+                progressDialog.dismiss();
             } else {
                 if (email.isEmpty()) {
                     emailEt.setError("Cannot be empty");
+                    progressDialog.dismiss();
                 } else {
                     if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                         emailEt.setError("Invalid email address");
+                        progressDialog.dismiss();
                     } else {
                         if (phone.isEmpty()) {
                             phoneEt.setError("Cannot be empty");
+                            progressDialog.dismiss();
                         } else {
                             if (password.isEmpty()) {
                                 passwordEt.setError("Cannot be empty");
+                                progressDialog.dismiss();
                             } else {
                                 if (cPassword.isEmpty()) {
                                     confirmPasswordEt.setError("Cannot be empty");
+                                    progressDialog.dismiss();
                                 } else {
                                     if (!password.equals(cPassword)) {
                                         passwordEt.setError("Passwords does not match");
                                         confirmPasswordEt.setError("Passwords does not match");
+                                        progressDialog.dismiss();
                                     } else {
-                                        if (imageUrl.getPath().isEmpty()) {
+                                        if (imageUrl == null) {
                                             Toast.makeText(getApplicationContext(), "Please select a profile picture", Toast.LENGTH_SHORT).show();
+                                            progressDialog.dismiss();
                                         } else {
                                             if (role.isEmpty()) {
                                                 Toast.makeText(getApplicationContext(), "Please select a role", Toast.LENGTH_SHORT).show();
+                                                progressDialog.dismiss();
                                             } else {
                                                 register(name, email, phone, password, role);
                                             }
@@ -137,8 +146,8 @@ public class Registration extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 200 && Arrays.equals(permissions,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE})
-                && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 200 && Arrays.equals(permissions, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE})
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityIfNeeded(intent, 200);
@@ -187,7 +196,7 @@ public class Registration extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void addImageToStorage(String name, String email, String phone, String role) {
         StorageReference reference = FirebaseStorage.getInstance()
-                .getReference("user_images/"+FirebaseAuth.getInstance().getUid());
+                .getReference("user_images/" + FirebaseAuth.getInstance().getUid());
         reference.putFile(imageUrl)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -197,7 +206,7 @@ public class Registration extends AppCompatActivity {
                                     imageUri = uri.toString();
                                     Log.i(TAG, "addImageToStorage: " + imageUri);
                                     String token = FirebaseInstanceId.getInstance().getToken();
-                                    User user = new User(FirebaseAuth.getInstance().getUid(), name, email, phone, imageUri, role,token);
+                                    User user = new User(FirebaseAuth.getInstance().getUid(), name, email, phone, imageUri, role, token);
                                     addUserToDb(user);
                                 });
                     }
@@ -206,10 +215,10 @@ public class Registration extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void addUserToDb(User user) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid());
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid());
         ref.setValue(user)
                 .addOnSuccessListener(task -> {
-                    if (user.getRole().equals("Doctor")) {
+                    if (user.getRole().equals("Health worker")) {
                         View view = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null, false);
                         Spinner spinner = view.findViewById(R.id.hospital_spinner);
                         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.hospitals, android.R.layout.simple_dropdown_item_1line);
@@ -234,13 +243,13 @@ public class Registration extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Please select a hospital", Toast.LENGTH_SHORT).show();
                                     } else {
                                         String uid = FirebaseAuth.getInstance().getUid();
-                                        AssociatedHospital associatedHospital = new AssociatedHospital(uid, name,hospital);
+                                        AssociatedHospital associatedHospital = new AssociatedHospital(uid, name, hospital);
                                         FirebaseDatabase.getInstance().getReference("doc_hospital/" + uid)
                                                 .setValue(associatedHospital)
                                                 .addOnCompleteListener(task1 -> {
                                                     if (task1.isSuccessful() && task1.isComplete()) {
                                                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                                                        startActivity(new Intent(this, DoctorLandingActivity.class));
+                                                        startActivity(new Intent(this, LoginActivity.class));
                                                         finish();
                                                     }
                                                 });
@@ -250,7 +259,7 @@ public class Registration extends AppCompatActivity {
                         alertDialog.show();
                     } else {
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, IntermediateActivity.class));
+                        startActivity(new Intent(this, LoginActivity.class));
                         finish();
                     }
                 });

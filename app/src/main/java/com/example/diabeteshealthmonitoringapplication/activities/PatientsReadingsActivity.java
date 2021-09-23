@@ -32,13 +32,8 @@ public class PatientsReadingsActivity extends AppCompatActivity {
         PatientReadingsAdapter adapter = new PatientReadingsAdapter(readingList,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,VERTICAL));
-        adapter.setOnItemClickListener(new PatientReadingsAdapter.OnItemClick() {
-            @Override
-            public void onItemClick(int position) {
-                Snackbar.make(recyclerView,"Item position "+position+" clicked...",Snackbar.LENGTH_LONG)
-                        .setAnimationMode(Snackbar.ANIMATION_MODE_FADE).show();
-            }
-        });
+        adapter.setOnItemClickListener(position -> Snackbar.make(recyclerView,"Item position "+position+" clicked...",Snackbar.LENGTH_LONG)
+                .setAnimationMode(Snackbar.ANIMATION_MODE_FADE).show());
     }
 
 }

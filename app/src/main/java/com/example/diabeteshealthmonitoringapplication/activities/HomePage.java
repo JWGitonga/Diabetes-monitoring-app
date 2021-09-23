@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class HomePage extends AppCompatActivity {
     private static final String TAG = "HomePage";
     BottomNavigationView bottomNavigationView;
@@ -50,12 +52,15 @@ public class HomePage extends AppCompatActivity {
                         case R.id.message:
                             if (type.equals("Health worker")) {
                                 inflateContainer(new PatientsFragment());
+                                Objects.requireNonNull(getSupportActionBar()).setTitle("Patients");
                             } else {
                                 inflateContainer(new ChatFragment());
+                                Objects.requireNonNull(getSupportActionBar()).setTitle("Chats");
                             }
                             break;
                         case R.id.hospital:
                             inflateContainer(new HospitalFragment());
+                            Objects.requireNonNull(getSupportActionBar()).setTitle("Hospital");
                             break;
                         default:
                             return true;

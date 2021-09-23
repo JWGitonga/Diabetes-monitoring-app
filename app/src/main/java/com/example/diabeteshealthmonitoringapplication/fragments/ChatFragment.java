@@ -74,7 +74,6 @@ public class ChatFragment extends Fragment {
         noChatIV1 = view.findViewById(R.id.no_docs_iv);
         noChatTV1 = view.findViewById(R.id.no_docs_tv);
         getUser();
-        getUser();
         getMyDoctors(FirebaseAuth.getInstance().getUid());
         getAllDoctors();
         return view;
@@ -110,17 +109,17 @@ public class ChatFragment extends Fragment {
                                 Sender sender = new Sender(data, me1.getDeviceToken());
                                 apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
                                     @Override
-                                    public void onResponse(@NonNull Call<MyResponse> call,@NonNull Response<MyResponse> response) {
-                                        if (response.isSuccessful() || response.code()==200){
-                                            if (response.body()!=null)
-                                            if (response.body().success!=1){
-                                                Snackbar.make(recyclerView1,"Something went wrong try again...",Snackbar.LENGTH_LONG).setAnimationMode(Snackbar.ANIMATION_MODE_FADE).show();
-                                            }
+                                    public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
+                                        if (response.isSuccessful() || response.code() == 200) {
+                                            if (response.body() != null)
+                                                if (response.body().success != 1) {
+                                                    Snackbar.make(recyclerView1, "Something went wrong try again...", Snackbar.LENGTH_LONG).setAnimationMode(Snackbar.ANIMATION_MODE_FADE).show();
+                                                }
                                         }
                                     }
 
                                     @Override
-                                    public void onFailure(@NonNull Call<MyResponse> call,@NonNull Throwable t) {
+                                    public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
                                         Log.e(TAG, "onFailure: -> " + t.getMessage());
                                     }
                                 });
@@ -136,7 +135,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void getUser() {
-        FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("users").addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

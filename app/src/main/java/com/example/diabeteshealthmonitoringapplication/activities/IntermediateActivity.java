@@ -24,7 +24,7 @@ public class IntermediateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inter_mediatectivity);
-        FirebaseDatabase.getInstance().getReference("uses")
+        FirebaseDatabase.getInstance().getReference("users")
                 .addValueEventListener(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
@@ -38,6 +38,7 @@ public class IntermediateActivity extends AppCompatActivity {
                                     } else {
                                         startActivity(new Intent(IntermediateActivity.this, PatientsReadingsActivity.class).putExtra("user", user));
                                     }
+                                    finish();
                                 }
                             }
                         });
