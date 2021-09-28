@@ -1,6 +1,7 @@
 package com.example.diabeteshealthmonitoringapplication.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,9 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
-public class HomePage extends AppCompatActivity {
+public class PatientLandingActivity extends AppCompatActivity {
     private static final String TAG = "HomePage";
     BottomNavigationView bottomNavigationView;
+    private User user;
     private String name, mUid, imageUrl, email, phone, deviceToken, type;
 
     @SuppressLint("NonConstantResourceId")
@@ -36,6 +38,9 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+        Intent intent = getIntent();
+        user = intent.getParcelableExtra("user");
+        type = user.getRole();
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         getTypeOfUser(FirebaseAuth.getInstance().getUid());
         getSupportFragmentManager()
@@ -47,21 +52,25 @@ public class HomePage extends AppCompatActivity {
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.reading:
+                            Objects.requireNonNull(getSupportActionBar()).setTitle("Reading");
                             inflateContainer(new ReadingsFragment());
                             break;
                         case R.id.message:
                             if (type.equals("Health worker")) {
-                                inflateContainer(new PatientsFragment());
                                 Objects.requireNonNull(getSupportActionBar()).setTitle("Patients");
+                                inflateContainer(new PatientsFragment());
                             } else {
-                                inflateContainer(new ChatFragment());
                                 Objects.requireNonNull(getSupportActionBar()).setTitle("Chats");
+                                inflateContainer(new ChatFragment());
                             }
                             break;
                         case R.id.hospital:
-                            inflateContainer(new HospitalFragment());
                             Objects.requireNonNull(getSupportActionBar()).setTitle("Hospital");
+                            inflateContainer(new HospitalFragment());
                             break;
+                        case R.id.reading_list:
+                            Objects.requireNonNull(getSupportActionBar()).setTitle("Readings List");
+                            inflateContainer(new ReadingsFragment());
                         default:
                             return true;
                     }

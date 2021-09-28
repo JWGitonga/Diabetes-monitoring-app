@@ -35,7 +35,7 @@
         <activity
             android:name=".activities.DoctorLandingActivity"
             android:exported="true" />
-        <activity android:name=".activities.HomePage" />
+        <activity android:name=".activities.PatientLandingActivity" />
         <activity android:name=".activities.Registration" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>

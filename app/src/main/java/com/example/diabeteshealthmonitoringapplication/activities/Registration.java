@@ -63,6 +63,7 @@ public class Registration extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Registration");
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait");
         imageView = findViewById(R.id.image_view);

@@ -15,7 +15,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.example.diabeteshealthmonitoringapplication.activities.HomePage;
+import com.example.diabeteshealthmonitoringapplication.activities.PatientLandingActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -77,7 +77,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String body = remoteMessage.getData().get("body");
 
         int j = Integer.parseInt(user.replaceAll("[\\D]", ""));
-        Intent intent = new Intent(this, HomePage.class);
+        Intent intent = new Intent(this, PatientLandingActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("userid", user);
         intent.putExtras(bundle);
@@ -106,7 +106,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         int j = Integer.parseInt(user.replaceAll("[\\D]", ""));
-        Intent intent = new Intent(this, HomePage.class);
+        Intent intent = new Intent(this, PatientLandingActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("userId", user);
         intent.putExtras(bundle);

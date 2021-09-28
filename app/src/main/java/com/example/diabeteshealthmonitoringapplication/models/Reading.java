@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.Nullable;
 
 public class Reading implements Parcelable {
-    private String from,reading,date;
+    private String from,reading,time,date;
     @Nullable
     private String suggestion;
 
@@ -24,10 +24,11 @@ public class Reading implements Parcelable {
      * @param date Date of that day
      * @param suggestion Patient comments
      */
-    public Reading(String from, String reading, String date, @Nullable String suggestion) {
+    public Reading(String from, String reading, String date,String time ,@Nullable String suggestion) {
         this.from = from;
         this.reading = reading;
         this.date = date;
+        this.time = time;
         this.suggestion = suggestion;
     }
 
@@ -68,6 +69,14 @@ public class Reading implements Parcelable {
 
     public String getDate() {
         return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public void setDate(String date) {

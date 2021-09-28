@@ -103,8 +103,8 @@ public class ChatFragment extends Fragment {
                             adapter.setOnItemClickListener(position -> {
                                 Toast.makeText(requireContext(), position + " clicked", Toast.LENGTH_SHORT).show();
                                 Data data = new Data(FirebaseAuth.getInstance().getUid(),
-                                        me1.getUsername() + " wants to be your patient...p",
-                                        "Autobot",
+                                        me1.getUsername() + " wants to be your patient...",
+                                        "Healthy Living",
                                         doctors.get(position).getUid(), R.drawable.ic_launcher_foreground);
                                 Sender sender = new Sender(data, me1.getDeviceToken());
                                 apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {

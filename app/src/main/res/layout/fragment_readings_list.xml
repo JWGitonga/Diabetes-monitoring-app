@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.ReadingsListFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reading_recycler"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        tools:listitem="@layout/patient_reading_item"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        android:paddingStart="25dp"
+        android:clipToPadding="false"
+        android:paddingEnd="20dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         />
+
+</FrameLayout>

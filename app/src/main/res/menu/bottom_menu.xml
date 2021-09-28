@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/reading"
         android:icon="@drawable/read"
@@ -11,6 +12,10 @@
     <item
         android:id="@+id/hospital"
         android:icon="@drawable/outline_local_hospital_24"
+        android:title="Hospital" />
+    <item
+        android:id="@+id/readings"
+        android:icon="@drawable/readings_list"
         android:title="Hospital" />
 
 </menu>

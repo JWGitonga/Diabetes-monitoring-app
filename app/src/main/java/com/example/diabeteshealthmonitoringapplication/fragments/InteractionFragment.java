@@ -182,7 +182,6 @@ public class InteractionFragment extends Fragment {
     }
 
     private User getNames(String uid) {
-
         FirebaseDatabase.getInstance().getReference("users")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

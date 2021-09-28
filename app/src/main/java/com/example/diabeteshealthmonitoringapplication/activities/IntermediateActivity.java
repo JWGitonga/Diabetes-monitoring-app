@@ -36,7 +36,7 @@ public class IntermediateActivity extends AppCompatActivity {
                                     if (user.getRole().equals("Health worker")) {
                                         startActivity(new Intent(IntermediateActivity.this, DoctorLandingActivity.class).putExtra("user", user));
                                     } else {
-                                        startActivity(new Intent(IntermediateActivity.this, PatientsReadingsActivity.class).putExtra("user", user));
+                                        startActivity(new Intent(IntermediateActivity.this, PatientLandingActivity.class).putExtra("user", user));
                                     }
                                     finish();
                                 }

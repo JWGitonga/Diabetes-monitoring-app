@@ -19,6 +19,7 @@
     <string name="this_is_the_text_line">This is the text line</string>
     <string name="online">Online</string>
     <string name="reading">Reading</string>
+    <string name="time">Time</string>
     <array name="hospitals">
         <item>Coptic Hospital, Nairobi</item>
         <item>Kenyatta National Hospital, Nairobi</item>

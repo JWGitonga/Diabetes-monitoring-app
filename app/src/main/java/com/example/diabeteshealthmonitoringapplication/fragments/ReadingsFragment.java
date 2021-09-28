@@ -1,7 +1,9 @@
 package com.example.diabeteshealthmonitoringapplication.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,12 +53,13 @@ import retrofit2.Response;
 
 public class ReadingsFragment extends Fragment {
     private static final String TAG = "ReadingsFragment";
-    private TextView reading, date, suggestion;
-    private String strReading, strDate, strSuggestion;
+    private EditText reading, time, date, suggestion;
+    private String strReading, strDate, strSuggestion, strTime;
     private List<AssociatedHospital> doctors;
     private View view;
     private User mUser;
     private APIService apiService;
+    List<AssociatedHospital> docs;
 
     public ReadingsFragment() {
         // Required empty public constructor
@@ -73,9 +78,10 @@ public class ReadingsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_readings, container, false);
         reading = view.findViewById(R.id.reading_et);
         date = view.findViewById(R.id.date_et);
+        time = view.findViewById(R.id.time_et);
         FloatingActionButton upload = view.findViewById(R.id.fab_upload);
         suggestion = view.findViewById(R.id.suggestion);
-
+        docs = getDoctors();
         date.setOnFocusChangeListener((v, hasFocus) -> {
             if (v.getId() == R.id.date_et && hasFocus) {
                 DatePickerDialog datePicker = new DatePickerDialog(requireContext());
@@ -85,6 +91,18 @@ public class ReadingsFragment extends Fragment {
                 });
                 datePicker.create();
                 datePicker.show();
+            }
+        });
+        time.setOnFocusChangeListener((v, hasFocus) -> {
+            int hour = Calendar.HOUR_OF_DAY;
+            int minute = Calendar.MINUTE;
+            if (v.getId() == R.id.time_et && hasFocus) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (view, hourOfDay, minute1) -> {
+                    strTime = hourOfDay + " : " + minute1;
+                    time.setText(strTime);
+                }, hour, minute, true);
+                timePickerDialog.create();
+                timePickerDialog.show();
             }
         });
 
@@ -98,7 +116,7 @@ public class ReadingsFragment extends Fragment {
                     reading.setError("Cannot be empty");
                 } else {
                     String uid = FirebaseAuth.getInstance().getUid();
-                    Reading r = new Reading(uid, strReading, strDate, strSuggestion);
+                    Reading r = new Reading(uid, strReading, strDate, strTime, strSuggestion);
                     String[] fom = strDate.split("/");
                     FirebaseDatabase.getInstance().getReference("readings/" + uid + "/records/" + fom[0] + "-" + fom[1] + "-" + fom[2])
                             .setValue(r)
@@ -107,7 +125,11 @@ public class ReadingsFragment extends Fragment {
                                     Toast.makeText(requireContext(), "Successfully uploaded reading...", Toast.LENGTH_SHORT).show();
                                     reading.setText("");
                                     date.setText("");
+                                    time.setText("");
                                     suggestion.setText("");
+                                    requireActivity().getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.fragment_container, new ReadingsListFragment())
+                                            .commit();
                                 }
                             }).addOnFailureListener(e -> Toast.makeText(requireContext(), "An error occurred try again", Toast.LENGTH_SHORT).show());
                 }
@@ -132,7 +154,6 @@ public class ReadingsFragment extends Fragment {
             requireActivity().finish();
             return true;
         } else if (item.getItemId() == R.id.register_with_doctor) {
-            List<AssociatedHospital> docs = getDoctors();
             PopupMenu popupMenu = new PopupMenu(requireContext(), reading);
             docs.forEach(doctor -> popupMenu.getMenu().add(doctor.getName() + " - " + doctor.getHospital() + " - " + doctor.getUid()));
             popupMenu.setOnMenuItemClickListener(item1 -> {
