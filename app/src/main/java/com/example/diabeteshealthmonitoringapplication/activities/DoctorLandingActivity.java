@@ -33,11 +33,14 @@ public class DoctorLandingActivity extends AppCompatActivity {
         List<FragmentComponent> fragmentComponents = new ArrayList<>();
         ViewPager viewPager = findViewById(R.id.frag_view_pager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
+        Objects.requireNonNull(tabLayout.getTabAt(0)).setText("Chats").setIcon(R.drawable.chat);
+        Objects.requireNonNull(tabLayout.getTabAt(1)).setText("Readings").setIcon(R.drawable.reading);
+        Objects.requireNonNull(tabLayout.getTabAt(2)).setText("Patients").setIcon(R.drawable.patients);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         fragmentComponents.add(new FragmentComponent(new ChatFragment(), "Chats"));
         fragmentComponents.add(new FragmentComponent(new DoctorReadingFragment(), "Readings"));
         fragmentComponents.add(new FragmentComponent(new PatientsFragment(), "Patients"));
-        adapter.addFragment(fragmentComponents);
+        adapter.addFragments(fragmentComponents);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

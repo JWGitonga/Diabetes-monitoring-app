@@ -1,6 +1,7 @@
 package com.example.diabeteshealthmonitoringapplication.adapters;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -29,8 +30,14 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return fragmentComponents.size();
     }
 
-    public void addFragment(List<FragmentComponent> fragmentComponents) {
+    public void addFragments(List<FragmentComponent> fragmentComponents) {
         this.fragmentComponents = fragmentComponents;
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return fragmentComponents.get(position).getTitle();
     }
 
 }

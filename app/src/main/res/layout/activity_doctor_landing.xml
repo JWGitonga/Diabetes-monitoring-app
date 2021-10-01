@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:icon="@drawable/patients" />
     </com.google.android.material.tabs.TabLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/frag_view_pager"
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout"
         app:layout_constraintVertical_weight="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
