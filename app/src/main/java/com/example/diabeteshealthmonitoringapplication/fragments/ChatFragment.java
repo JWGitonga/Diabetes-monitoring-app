@@ -87,19 +87,25 @@ public class ChatFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         snapshot.getChildren().forEach(doc -> {
                             User user = doc.getValue(User.class);
-                            doctors.add(user);
+                            if (user!=null){
+                                if (user.getRole().equals("Health worker")){
+                                    doctors.add(user);
+                                    Log.i(TAG, "onDataChange: user -> "+user.getUsername());
+                                }
+                            }
                         });
-                        recyclerView.setClipToPadding(false);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setAdapter(adapter);
                         if (myDoctors.isEmpty()) {
                             noChatIV.setVisibility(View.VISIBLE);
                             noChatTV.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.INVISIBLE);
+                            recyclerView1.setVisibility(View.GONE);
                         } else {
-                            noChatIV1.setVisibility(View.INVISIBLE);
-                            noChatTV1.setVisibility(View.INVISIBLE);
+                            noChatIV1.setVisibility(View.GONE);
+                            noChatTV1.setVisibility(View.GONE);
                             recyclerView1.setVisibility(View.VISIBLE);
+                            adapter1 = new ChatsListAdapterDocs(requireContext(),R.layout.doctor_list_item,doctors);
+                            recyclerView1.setClipToPadding(false);
+                            recyclerView1.setAdapter(adapter1);
+                            recyclerView1.setAdapter(adapter1);
                             adapter.setOnItemClickListener(position -> {
                                 Toast.makeText(requireContext(), position + " clicked", Toast.LENGTH_SHORT).show();
                                 Data data = new Data(FirebaseAuth.getInstance().getUid(),
