@@ -41,8 +41,13 @@ public class PatientLandingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user = intent.getParcelableExtra("user");
         type = user.getRole();
+        name = user.getUsername();
+        mUid = user.getUid();
+        imageUrl = user.getImageUrl();
+        email = user.getEmail();
+        phone= user.getPhone();
+        deviceToken = user.getDeviceToken();
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-        getTypeOfUser(FirebaseAuth.getInstance().getUid());
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container,
@@ -84,34 +89,5 @@ public class PatientLandingActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container,
                         fm)
                 .commit();
-    }
-
-    public void getTypeOfUser(String uid) {
-        FirebaseDatabase.getInstance().getReference("users")
-                .addValueEventListener(new ValueEventListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        snapshot.getChildren().forEach(user -> {
-                            User user1 = user.getValue(User.class);
-                            if (user1 != null) {
-                                if (user1.getUid().equals(uid)) {
-                                    name = user1.getUsername();
-                                    email = user1.getEmail();
-                                    mUid = user1.getUid();
-                                    imageUrl = user1.getImageUrl();
-                                    phone = user1.getPhone();
-                                    type = user1.getRole();
-                                    deviceToken = user1.getDeviceToken();
-                                }
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.i(TAG, "onCancelled: -> " + error.getMessage());
-                    }
-                });
     }
 }

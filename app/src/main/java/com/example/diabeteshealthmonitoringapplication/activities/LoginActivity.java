@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                                     .addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
                                             progressDialog.dismiss();
-                                            startActivity(new Intent(LoginActivity.this, PatientLandingActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, IntermediateActivity.class));
                                             finish();
                                         }
                                     }).addOnFailureListener(e -> {
