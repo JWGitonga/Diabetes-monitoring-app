@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.example.diabeteshealthmonitoringapplication.DoctorLandingViewModel;
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel;
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.adapters.PatientReadingsAdapter;
 import com.google.android.material.snackbar.Snackbar;

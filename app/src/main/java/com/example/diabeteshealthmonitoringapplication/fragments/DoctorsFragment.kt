@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.diabeteshealthmonitoringapplication.DoctorLandingViewModel
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel
 import com.example.diabeteshealthmonitoringapplication.R
 import com.example.diabeteshealthmonitoringapplication.adapters.DoctorsAdapter
 import com.example.diabeteshealthmonitoringapplication.models.User

@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.diabeteshealthmonitoringapplication.DoctorLandingViewModel;
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel;
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.adapters.PatientListAdapter;
 import com.google.firebase.auth.FirebaseAuth;

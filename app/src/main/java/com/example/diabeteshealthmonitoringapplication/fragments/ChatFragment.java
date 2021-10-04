@@ -1,8 +1,6 @@
 package com.example.diabeteshealthmonitoringapplication.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +9,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.diabeteshealthmonitoringapplication.DoctorLandingViewModel;
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel;
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.adapters.DoctorsAdapter;
 import com.example.diabeteshealthmonitoringapplication.adapters.ChatsListAdapterDoctor;
@@ -24,10 +20,6 @@ import com.example.diabeteshealthmonitoringapplication.models.User;
 import com.example.diabeteshealthmonitoringapplication.notification.APIService;
 import com.example.diabeteshealthmonitoringapplication.notification.Client;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
