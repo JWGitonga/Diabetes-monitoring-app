@@ -2,7 +2,10 @@ package com.example.diabeteshealthmonitoringapplication.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -14,6 +17,7 @@ import com.example.diabeteshealthmonitoringapplication.fragments.PatientsFragmen
 import com.example.diabeteshealthmonitoringapplication.models.FragmentComponent;
 import com.example.diabeteshealthmonitoringapplication.models.User;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,5 +112,21 @@ public class DoctorLandingActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.doctor_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()==R.id.exit_doc){
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this,Registration.class));
+            finish();
+        }
+        return true;
     }
 }
