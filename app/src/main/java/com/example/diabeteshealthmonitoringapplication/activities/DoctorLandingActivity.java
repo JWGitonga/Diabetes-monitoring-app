@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class DoctorLandingActivity extends AppCompatActivity {
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,7 @@ public class DoctorLandingActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         Intent intent = getIntent();
-        user = intent.getParcelableExtra("user");
+        User user = intent.getParcelableExtra("user");
         List<FragmentComponent> fragmentComponents = new ArrayList<>();
         ViewPager viewPager = findViewById(R.id.frag_view_pager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);

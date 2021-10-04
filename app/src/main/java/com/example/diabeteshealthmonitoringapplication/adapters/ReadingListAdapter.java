@@ -1,6 +1,8 @@
 package com.example.diabeteshealthmonitoringapplication.adapters;
 
 import android.content.Context;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +14,27 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.models.Reading;
+import com.example.diabeteshealthmonitoringapplication.ReadingNode;
+import com.example.diabeteshealthmonitoringapplication.models.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ReadingListAdapter extends ArrayAdapter<Reading> {
+public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
+    private static final String TAG = "ReadingListAdapter";
     private final Context context;
     private final int resource;
-    private final List<Reading> userList;
+    private final List<ReadingNode> userList;
     private int lastPosition = -1;
     private OnItemClick listener;
+    private User me;
 
     public interface OnItemClick{
         void onItemClick(int position);
@@ -34,7 +44,7 @@ public class ReadingListAdapter extends ArrayAdapter<Reading> {
         this.listener = listener;
     }
 
-    public ReadingListAdapter(@NonNull Context context, int resource, @NonNull List<Reading> userList) {
+    public ReadingListAdapter(@NonNull Context context, int resource, @NonNull List<ReadingNode> userList) {
         super(context, resource, userList);
         this.context = context;
         this.resource = resource;
@@ -44,6 +54,7 @@ public class ReadingListAdapter extends ArrayAdapter<Reading> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        getUser(userList.get(position).getUid());
         LayoutInflater inflater = LayoutInflater.from(context);
         ViewHolder viewHolder = new ViewHolder();
         View result;
@@ -58,10 +69,9 @@ public class ReadingListAdapter extends ArrayAdapter<Reading> {
             viewHolder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
-
-        Picasso.get().load(userList.get(position).getFrom()).placeholder(R.drawable.outline_account_circle_24).into(viewHolder.imageView);
-        viewHolder.name.setText(userList.get(position).getFrom());
-        viewHolder.lastReading.setText(userList.get(position).getReading());
+        Picasso.get().load(me.getImageUrl()).placeholder(R.drawable.outline_account_circle_24).into(viewHolder.imageView);
+        viewHolder.name.setText(me.getUsername());
+        viewHolder.lastReading.setText(userList.get(position).getReadings().get(1).getReading());
         Animation animation = AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
@@ -72,5 +82,28 @@ public class ReadingListAdapter extends ArrayAdapter<Reading> {
     static class ViewHolder {
         ImageView imageView;
         TextView name, lastReading;
+    }
+
+    private void getUser(String uid){
+        FirebaseDatabase.getInstance().getReference("user")
+                .addValueEventListener(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        snapshot.getChildren().forEach(user->{
+                            User u = user.getValue(User.class);
+                            if (u!=null){
+                                if (u.getUid().equals(uid)){
+                                  me = u;
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e(TAG, "onCancelled: -> "+error.getMessage());
+                    }
+                });
     }
 }

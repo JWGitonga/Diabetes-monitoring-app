@@ -27,7 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ChatsListAdapterDocs extends ArrayAdapter<User> {
+public class DoctorsAdapter extends ArrayAdapter<User> {
     private static final String TAG = "ChatsListAdapterDoctor";
     private final Context context;
     private final int resource;
@@ -46,7 +46,7 @@ public class ChatsListAdapterDocs extends ArrayAdapter<User> {
     }
 
 
-    public ChatsListAdapterDocs(@NonNull Context context, int resource, @NonNull List<User> chatListItems) {
+    public DoctorsAdapter(@NonNull Context context, int resource, @NonNull List<User> chatListItems) {
         super(context,resource,chatListItems);
         this.context = context;
         this.resource = resource;

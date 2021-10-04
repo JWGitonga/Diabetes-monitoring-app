@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.fragments.ChatFragment;
+import com.example.diabeteshealthmonitoringapplication.fragments.DoctorsFragment;
 import com.example.diabeteshealthmonitoringapplication.fragments.HospitalFragment;
 import com.example.diabeteshealthmonitoringapplication.fragments.PatientsFragment;
 import com.example.diabeteshealthmonitoringapplication.fragments.ReadingsFragment;
@@ -45,7 +46,7 @@ public class PatientLandingActivity extends AppCompatActivity {
         mUid = user.getUid();
         imageUrl = user.getImageUrl();
         email = user.getEmail();
-        phone= user.getPhone();
+        phone = user.getPhone();
         deviceToken = user.getDeviceToken();
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         getSupportFragmentManager()
@@ -61,13 +62,12 @@ public class PatientLandingActivity extends AppCompatActivity {
                             inflateContainer(new ReadingsFragment());
                             break;
                         case R.id.message:
-                            if (type.equals("Health worker")) {
-                                Objects.requireNonNull(getSupportActionBar()).setTitle("Patients");
-                                inflateContainer(new PatientsFragment());
-                            } else {
-                                Objects.requireNonNull(getSupportActionBar()).setTitle("Chats");
-                                inflateContainer(new ChatFragment());
-                            }
+                            Objects.requireNonNull(getSupportActionBar()).setTitle("Chats");
+                            inflateContainer(new ChatFragment());
+                            break;
+                        case R.id.doctors:
+                            Objects.requireNonNull(getSupportActionBar()).setTitle("Doctors");
+                            inflateContainer(new DoctorsFragment());
                             break;
                         case R.id.hospital:
                             Objects.requireNonNull(getSupportActionBar()).setTitle("Hospital");

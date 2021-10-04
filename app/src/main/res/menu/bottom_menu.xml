@@ -4,11 +4,15 @@
     <item
         android:id="@+id/reading"
         android:icon="@drawable/read"
-        android:title="Reading" />
+        android:title="Upload Reading" />
     <item
         android:id="@+id/message"
         android:icon="@drawable/message"
         android:title="Interaction" />
+    <item
+        android:id="@+id/doctors"
+        android:icon="@drawable/doctor_list"
+        android:title="Doctors" />
     <item
         android:id="@+id/hospital"
         android:icon="@drawable/outline_local_hospital_24"
@@ -16,6 +20,6 @@
     <item
         android:id="@+id/readings"
         android:icon="@drawable/readings_list"
-        android:title="Hospital" />
+        android:title="Readings" />
 
 </menu>

@@ -118,7 +118,7 @@ public class ReadingsFragment extends Fragment {
                     String uid = FirebaseAuth.getInstance().getUid();
                     Reading r = new Reading(uid, strReading, strDate, strTime, strSuggestion);
                     String[] fom = strDate.split("/");
-                    FirebaseDatabase.getInstance().getReference("readings/" + uid + "/records/" + fom[0] + "-" + fom[1] + "-" + fom[2])
+                    FirebaseDatabase.getInstance().getReference("readings/" + uid +"/readings/"+ fom[0] + "-" + fom[1] + "-" + fom[2])
                             .setValue(r)
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
