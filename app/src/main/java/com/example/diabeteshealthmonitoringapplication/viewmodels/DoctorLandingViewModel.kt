@@ -1,4 +1,4 @@
-package com.example.diabeteshealthmonitoringapplication
+package com.example.diabeteshealthmonitoringapplication.viewmodels
 
 import android.app.Application
 import android.util.Log
@@ -51,22 +51,24 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun getMyDoctors(uid: String): LiveData<List<User>> {
-        FirebaseDatabase.getInstance().getReference("$uid/doctors/")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.children.forEach {
-                        val doc = it.getValue(User::class.java)
-                        if (doc != null) {
-                            myDoctorsList.add(doc)
+        if (myDoctors == null) {
+            FirebaseDatabase.getInstance().getReference("doctors/$uid")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        snapshot.children.forEach {
+                            val doc = it.getValue(User::class.java)
+                            if (doc != null) {
+                                myDoctorsList.add(doc)
+                            }
                         }
+                        myDoctors.postValue(myDoctorsList)
                     }
-                    myDoctors.postValue(myDoctorsList)
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e(TAG, "onCancelled: ${error.message}")
-                }
-            })
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e(TAG, "onCancelled: ${error.message}")
+                    }
+                })
+        }
         return myDoctors
     }
 

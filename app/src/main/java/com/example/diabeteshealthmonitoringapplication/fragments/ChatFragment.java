@@ -1,6 +1,5 @@
 package com.example.diabeteshealthmonitoringapplication.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,37 +10,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.diabeteshealthmonitoringapplication.DoctorLandingViewModel;
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel;
 import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.adapters.DoctorsAdapter;
 import com.example.diabeteshealthmonitoringapplication.adapters.ChatsListAdapterDoctor;
 import com.example.diabeteshealthmonitoringapplication.models.User;
 import com.example.diabeteshealthmonitoringapplication.notification.APIService;
 import com.example.diabeteshealthmonitoringapplication.notification.Client;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
 public class ChatFragment extends Fragment {
     private static final String TAG = "ChatFragment";
     private ChatsListAdapterDoctor adapter;
-    private DoctorsAdapter adapter1;
     private DoctorLandingViewModel doctorLandingViewModel;
     private ListView recyclerView;
     private ImageView noChatIV;
     private TextView noChatTV;
-    private ListView recyclerView1;
-    private ImageView noChatIV1;
-    private TextView noChatTV1;
     private APIService apiService;
     private User me2;
 
@@ -62,17 +50,18 @@ public class ChatFragment extends Fragment {
         recyclerView = view.findViewById(R.id.chat_list);
         noChatIV = view.findViewById(R.id.no_chat_iv);
         noChatTV = view.findViewById(R.id.no_chat_tv);
-
-        doctorLandingViewModel.getMyDoctors(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
+        String uid = FirebaseAuth.getInstance().getUid();
+        Log.e(TAG, "onCreateView: uid -> "+uid );
+        doctorLandingViewModel.getMyDoctors(uid)
                 .observe(getViewLifecycleOwner(), doctors -> {
-                    adapter = new ChatsListAdapterDoctor(requireContext(), R.layout.chat_list_item, doctors);
-                    recyclerView.setClipToPadding(false);
-                    recyclerView.setAdapter(adapter);
                     if (doctors.isEmpty()) {
                         noChatIV.setVisibility(View.VISIBLE);
                         noChatTV.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.INVISIBLE);
                     } else {
+                        adapter = new ChatsListAdapterDoctor(requireContext(), R.layout.chat_list_item, doctors);
+                        recyclerView.setClipToPadding(false);
+                        recyclerView.setAdapter(adapter);
                         noChatIV.setVisibility(View.INVISIBLE);
                         noChatTV.setVisibility(View.INVISIBLE);
                         recyclerView.setVisibility(View.VISIBLE);
@@ -91,8 +80,4 @@ public class ChatFragment extends Fragment {
                 });
         return view;
     }
-
-
-
-
 }

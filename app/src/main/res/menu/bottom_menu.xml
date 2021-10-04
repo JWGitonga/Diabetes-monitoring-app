@@ -18,7 +18,7 @@
         android:icon="@drawable/outline_local_hospital_24"
         android:title="Hospital" />
     <item
-        android:id="@+id/readings"
+        android:id="@+id/readings_patient"
         android:icon="@drawable/readings_list"
         android:title="Readings" />
 

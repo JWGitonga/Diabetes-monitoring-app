@@ -73,7 +73,8 @@ public class PatientLandingActivity extends AppCompatActivity {
                             Objects.requireNonNull(getSupportActionBar()).setTitle("Hospital");
                             inflateContainer(new HospitalFragment());
                             break;
-                        case R.id.reading_list:
+                        case R.id.readings_patient:
+                            // This should not be here either make it a fragment or create entry action.
                             Objects.requireNonNull(getSupportActionBar()).setTitle("Readings List");
                             inflateContainer(new ReadingsFragment());
                         default:

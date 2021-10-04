@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.diabeteshealthmonitoringapplication.DoctorLandingViewModel
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel
 import com.example.diabeteshealthmonitoringapplication.R
 import com.example.diabeteshealthmonitoringapplication.adapters.DoctorsAdapter
 import com.example.diabeteshealthmonitoringapplication.models.User
@@ -80,9 +80,10 @@ class DoctorsFragment : Fragment() {
                 doctorsAdapter.setOnItemClickListener { position: Int ->
                     Toast.makeText(requireContext(), "$position clicked", Toast.LENGTH_SHORT)
                         .show()
-                    FirebaseDatabase.getInstance().getReference("requests/${it[position].uid}/${me1.uid}").setValue(me1)
-                        .addOnCompleteListener { task->
-                            if (task.isSuccessful && task.isComplete){
+                    FirebaseDatabase.getInstance()
+                        .getReference("requests/${it[position].uid}/${me1.uid}").setValue(me1)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful && task.isComplete) {
                                 val data =
                                     Data(
                                         FirebaseAuth.getInstance().uid,
@@ -91,26 +92,31 @@ class DoctorsFragment : Fragment() {
                                         it[position].uid, R.drawable.ic_launcher_foreground
                                     )
                                 val sender = Sender(data, me1.deviceToken)
-                                apiService.sendNotification(sender).enqueue(object : Callback<MyResponse?> {
-                                    override fun onResponse(
-                                        call: Call<MyResponse?>,
-                                        response: Response<MyResponse?>
-                                    ) {
-                                        if (response.isSuccessful || response.code() == 200) {
-                                            if (response.body() != null) if (response.body()!!.success != 1) {
-                                                Snackbar.make(
-                                                    listView,
-                                                    "Something went wrong try again...",
-                                                    Snackbar.LENGTH_LONG
-                                                ).setAnimationMode(Snackbar.ANIMATION_MODE_FADE).show()
+                                apiService.sendNotification(sender)
+                                    .enqueue(object : Callback<MyResponse?> {
+                                        override fun onResponse(
+                                            call: Call<MyResponse?>,
+                                            response: Response<MyResponse?>
+                                        ) {
+                                            if (response.isSuccessful || response.code() == 200) {
+                                                if (response.body() != null) if (response.body()!!.success != 1) {
+                                                    Snackbar.make(
+                                                        listView,
+                                                        "Something went wrong try again...",
+                                                        Snackbar.LENGTH_LONG
+                                                    ).setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
+                                                        .show()
+                                                }
                                             }
                                         }
-                                    }
 
-                                    override fun onFailure(call: Call<MyResponse?>, t: Throwable) {
-                                        Log.e(TAG, "onFailure: -> " + t.message)
-                                    }
-                                })
+                                        override fun onFailure(
+                                            call: Call<MyResponse?>,
+                                            t: Throwable
+                                        ) {
+                                            Log.e(TAG, "onFailure: -> ${t.message}")
+                                        }
+                                    })
                             }
                         }
                 }

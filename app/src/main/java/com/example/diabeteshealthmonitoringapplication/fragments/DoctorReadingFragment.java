@@ -1,35 +1,20 @@
 package com.example.diabeteshealthmonitoringapplication.fragments;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.diabeteshealthmonitoringapplication.DoctorLandingViewModel;
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel;
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.activities.PatientsReadingsActivity;
 import com.example.diabeteshealthmonitoringapplication.adapters.ReadingListAdapter;
-import com.example.diabeteshealthmonitoringapplication.models.Reading;
-import com.example.diabeteshealthmonitoringapplication.models.User;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DoctorReadingFragment extends Fragment {
     private static final String TAG = "DoctorReadingFragment";

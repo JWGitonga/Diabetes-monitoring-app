@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.diabeteshealthmonitoringapplication.DoctorLandingViewModel
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel
 import com.example.diabeteshealthmonitoringapplication.R
 import com.example.diabeteshealthmonitoringapplication.adapters.PatientReadingsAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -19,7 +19,7 @@ private const val ARG_PARAM2 = "param2"
 class ReadingsListFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var docViewModel:DoctorLandingViewModel
+    private lateinit var docViewModel: DoctorLandingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
