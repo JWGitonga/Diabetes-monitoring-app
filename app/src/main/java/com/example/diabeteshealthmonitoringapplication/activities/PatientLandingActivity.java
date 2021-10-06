@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -73,16 +76,40 @@ public class PatientLandingActivity extends AppCompatActivity {
                             Objects.requireNonNull(getSupportActionBar()).setTitle("Hospital");
                             inflateContainer(new HospitalFragment());
                             break;
-                        case R.id.readings_patient:
                             // This should not be here either make it a fragment or create entry action.
                             // Make options menu universal
-                            Objects.requireNonNull(getSupportActionBar()).setTitle("Readings List");
-                            inflateContainer(new ReadingsFragment());
                         default:
                             return true;
                     }
                     return true;
                 });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.exit) {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, Registration.class));
+            return true;
+        } else if (item.getItemId() == R.id.register_with_doctor) {
+            Toast.makeText(this, "Register clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (item.getItemId() == R.id.readings_patient) {
+            startActivity(new Intent(this,PatientsReadingsActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.booking_patient) {
+            startActivity(new Intent(this,BookingActivity.class));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     private void inflateContainer(Fragment fm) {

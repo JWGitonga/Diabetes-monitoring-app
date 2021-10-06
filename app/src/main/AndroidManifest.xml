@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DiabetesHealthMonitoringApplication">
         <activity
+            android:name=".activities.BookingActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.IntermediateActivity"
-            android:theme="@style/Theme.DiabetesHealthMonitoringApplication"/>
+            android:theme="@style/Theme.DiabetesHealthMonitoringApplication" />
 
         <service
             android:name=".notification.InstanceIdService"
@@ -37,7 +40,8 @@
             android:exported="true" />
         <activity android:name=".activities.PatientLandingActivity" />
         <activity android:name=".activities.Registration" />
-        <activity android:name=".activities.LoginActivity"
+        <activity
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -10,4 +10,12 @@
         android:icon="@drawable/register_with_doctor"
         app:showAsAction="always"
         android:title="@string/register_with_doctor" />
+    <item
+        android:id="@+id/readings_patient"
+        android:icon="@drawable/readings_list"
+        android:title="@string/readings" />
+    <item
+        android:id="@+id/booking_patient"
+        android:icon="@drawable/readings_list"
+        android:title="@string/bookings" />
 </menu>

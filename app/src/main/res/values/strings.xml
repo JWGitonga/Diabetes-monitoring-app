@@ -20,6 +20,8 @@
     <string name="online">Online</string>
     <string name="reading">Reading</string>
     <string name="time">Time</string>
+    <string name="readings">Readings</string>
+    <string name="bookings">Bookings</string>
     <array name="hospitals">
         <item>Coptic Hospital, Nairobi</item>
         <item>Kenyatta National Hospital, Nairobi</item>

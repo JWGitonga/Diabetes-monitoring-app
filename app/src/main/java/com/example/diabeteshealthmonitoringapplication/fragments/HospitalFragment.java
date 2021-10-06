@@ -103,27 +103,9 @@ public class HospitalFragment extends Fragment implements AdapterView.OnItemSele
                 }
             }
         });
-        setHasOptionsMenu(true);
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.exit) {
-            FirebaseAuth.getInstance().signOut();
-            requireContext().startActivity(new Intent(requireContext(), Registration.class));
-            requireActivity().finish();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
