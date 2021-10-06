@@ -75,6 +75,7 @@ public class PatientLandingActivity extends AppCompatActivity {
                             break;
                         case R.id.readings_patient:
                             // This should not be here either make it a fragment or create entry action.
+                            // Make options menu universal
                             Objects.requireNonNull(getSupportActionBar()).setTitle("Readings List");
                             inflateContainer(new ReadingsFragment());
                         default:
