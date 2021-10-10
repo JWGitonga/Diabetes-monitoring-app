@@ -116,15 +116,15 @@ public class DoctorLandingActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.doctor_menu,menu);
+        getMenuInflater().inflate(R.menu.doctor_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId()==R.id.exit_doc){
+        if (item.getItemId() == R.id.exit_doc) {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this,Registration.class));
+            startActivity(new Intent(this, Registration.class));
             finish();
         }
         return true;

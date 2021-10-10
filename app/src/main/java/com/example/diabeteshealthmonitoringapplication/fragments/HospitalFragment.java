@@ -24,6 +24,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.diabeteshealthmonitoringapplication.R;
+import com.example.diabeteshealthmonitoringapplication.activities.BookingActivity;
 import com.example.diabeteshealthmonitoringapplication.activities.Registration;
 import com.example.diabeteshealthmonitoringapplication.models.Appointment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -90,13 +91,14 @@ public class HospitalFragment extends Fragment implements AdapterView.OnItemSele
                         String uid = FirebaseAuth.getInstance().getUid();
                         Appointment appointment = new Appointment(uid, strDate, strTime, strHospital);
                         String[] fom = strDate.split("/");
-                        FirebaseDatabase.getInstance().getReference("appointments/" + uid + ":" + fom[0]+"-"+fom[1]+"-"+fom[2])
+                        FirebaseDatabase.getInstance().getReference("appointments/" + uid + "/" + fom[0]+"-"+fom[1]+"-"+fom[2]+" -> "+strTime)
                                 .setValue(appointment)
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(requireContext(), "Appointment booked", Toast.LENGTH_SHORT).show();
                                         date.setText("");
                                         time.setText("");
+                                        startActivity(new Intent(requireContext(), BookingActivity.class));
                                     }
                                 }).addOnFailureListener(e -> Toast.makeText(requireContext(), "Fatal error", Toast.LENGTH_SHORT).show());
                     }

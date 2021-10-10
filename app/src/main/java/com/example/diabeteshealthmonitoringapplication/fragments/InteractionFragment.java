@@ -46,10 +46,10 @@ import retrofit2.Response;
 
 public class InteractionFragment extends Fragment {
     private static final String TAG = "InteractionFragment";
-    private RecyclerView chatsRecycler;
-    private EditText messageET;
     private static final String FROM_UID = "fromUid";
     private static final String TO_UID = "toUid";
+    private RecyclerView chatsRecycler;
+    private EditText messageET;
     private String fromUid;
     private String toUid;
     private APIService apiService;
@@ -129,14 +129,14 @@ public class InteractionFragment extends Fragment {
                             myTime.setText(simpleDateFormat.format(date));
                             sent.setVisibility(View.VISIBLE);
                             chatsRecycler.addView(myChatView);
-                            Data data = new Data(me.getUid(),"New message "+text,"Health Living",him.getUid(),R.drawable.ic_launcher_foreground);
+                            Data data = new Data(me.getUid(), "New message " + text, "Health Living", him.getUid(), R.drawable.ic_launcher_foreground);
                             Sender sender = new Sender(data, him.getDeviceToken());
                             apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
                                 @Override
                                 public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
-                                    if (response.isSuccessful()){
+                                    if (response.isSuccessful()) {
                                         if (response.body() != null) {
-                                            if (response.body().success!=1){
+                                            if (response.body().success != 1) {
                                                 Toast.makeText(requireContext(), "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
                                             }
                                         }
@@ -145,7 +145,7 @@ public class InteractionFragment extends Fragment {
 
                                 @Override
                                 public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
-                                    Log.i(TAG, "onFailure: error -> "+t.getMessage());
+                                    Log.i(TAG, "onFailure: error -> " + t.getMessage());
                                 }
                             });
                         }
@@ -184,20 +184,20 @@ public class InteractionFragment extends Fragment {
     private User getNames(String uid) {
         FirebaseDatabase.getInstance().getReference("users")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                assert user != null;
-                if (user.getUid().equals(uid)) {
-                    mUser = user;
-                }
-            }
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        assert user != null;
+                        if (user.getUid().equals(uid)) {
+                            mUser = user;
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.i(TAG, "onCancelled: "+error.getMessage());
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.i(TAG, "onCancelled: " + error.getMessage());
+                    }
+                });
         return mUser;
     }
 

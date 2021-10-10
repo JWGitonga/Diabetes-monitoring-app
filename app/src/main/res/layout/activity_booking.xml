@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".activities.BookingActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/appointment_recyclerview"
+        android:clipToPadding="false"
+        tools:listitem="@layout/booking_item"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="1dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,7 +36,6 @@ public class ChatsListAdapterDoctor extends ArrayAdapter<User> {
     private int lastPosition = -1;
     private User required;
 
-
     public interface OnItemClick {
         void onItemClickListener(int position);
     }
@@ -45,9 +44,8 @@ public class ChatsListAdapterDoctor extends ArrayAdapter<User> {
         this.listener = listener;
     }
 
-
     public ChatsListAdapterDoctor(@NonNull Context context, int resource, @NonNull List<User> chatListItems) {
-        super(context,resource,chatListItems);
+        super(context, resource, chatListItems);
         this.context = context;
         this.resource = resource;
         this.chatListItems = chatListItems;
@@ -89,25 +87,25 @@ public class ChatsListAdapterDoctor extends ArrayAdapter<User> {
 
     User getUserDetails(String uid) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-                reference.addValueEventListener(new ValueEventListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        snapshot.getChildren().forEach(node -> {
-                            User user = node.getValue(User.class);
-                            if (user != null) {
-                                if (user.getUid().equals(uid)) {
-                                    required = user;
-                                }
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.i(TAG, "onCancelled: "+error.getMessage());
+        reference.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getChildren().forEach(node -> {
+                    User user = node.getValue(User.class);
+                    if (user != null) {
+                        if (user.getUid().equals(uid)) {
+                            required = user;
+                        }
                     }
                 });
-                return required;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i(TAG, "onCancelled: " + error.getMessage());
+            }
+        });
+        return required;
     }
 }

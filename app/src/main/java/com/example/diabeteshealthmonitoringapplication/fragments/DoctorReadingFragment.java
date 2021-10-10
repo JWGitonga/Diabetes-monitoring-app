@@ -11,10 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel;
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.activities.PatientsReadingsActivity;
 import com.example.diabeteshealthmonitoringapplication.adapters.ReadingListAdapter;
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel;
 
 public class DoctorReadingFragment extends Fragment {
     private static final String TAG = "DoctorReadingFragment";
@@ -33,15 +33,14 @@ public class DoctorReadingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_doctor_reading, container, false);
+        View view = inflater.inflate(R.layout.fragment_doctor_reading, container, false);
         ListView listView = view.findViewById(R.id.reading_list);
-        viewModel.getMyPatientsReadings().observe(getViewLifecycleOwner(),readingNodes -> {
-            adapter = new ReadingListAdapter(requireContext(),R.layout.doctor_reading_item,readingNodes);
+        viewModel.getMyPatientsReadings().observe(getViewLifecycleOwner(), readingNodes -> {
+            adapter = new ReadingListAdapter(requireContext(), R.layout.doctor_reading_item, readingNodes);
             listView.setAdapter(adapter);
             adapter.setOnItemClickListener(position ->
-                    startActivity(new Intent(requireContext(), PatientsReadingsActivity.class).putExtra("uid",readingNodes.get(position).getUid())));
+                    startActivity(new Intent(requireContext(), PatientsReadingsActivity.class).putExtra("uid", readingNodes.get(position).getUid())));
         });
-
         return view;
     }
 }

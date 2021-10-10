@@ -14,8 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,7 +54,6 @@ public class ReadingsFragment extends Fragment {
     private EditText reading, time, date, suggestion;
     private String strReading, strDate, strSuggestion, strTime;
     private List<AssociatedHospital> doctors;
-    private View view;
     private User mUser;
     private APIService apiService;
     List<AssociatedHospital> docs;
@@ -75,7 +72,7 @@ public class ReadingsFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_readings, container, false);
+        View view = inflater.inflate(R.layout.fragment_readings, container, false);
         reading = view.findViewById(R.id.reading_et);
         date = view.findViewById(R.id.date_et);
         time = view.findViewById(R.id.time_et);
@@ -97,7 +94,7 @@ public class ReadingsFragment extends Fragment {
             int hour = Calendar.HOUR_OF_DAY;
             int minute = Calendar.MINUTE;
             if (v.getId() == R.id.time_et && hasFocus) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (view, hourOfDay, minute1) -> {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (view1, hourOfDay, minute1) -> {
                     strTime = hourOfDay + " : " + minute1;
                     time.setText(strTime);
                 }, hour, minute, true);
@@ -118,7 +115,7 @@ public class ReadingsFragment extends Fragment {
                     String uid = FirebaseAuth.getInstance().getUid();
                     Reading r = new Reading(uid, strReading, strDate, strTime, strSuggestion);
                     String[] fom = strDate.split("/");
-                    FirebaseDatabase.getInstance().getReference("readings/" + uid +"/readings/"+ fom[0] + "-" + fom[1] + "-" + fom[2])
+                    FirebaseDatabase.getInstance().getReference("readings/" + uid + "/" + fom[0] + "-" + fom[1] + "-" + fom[2] + " -> " + strTime)
                             .setValue(r)
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {

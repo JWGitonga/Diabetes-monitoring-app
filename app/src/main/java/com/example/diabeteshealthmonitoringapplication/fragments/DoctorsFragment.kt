@@ -13,11 +13,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel
 import com.example.diabeteshealthmonitoringapplication.R
 import com.example.diabeteshealthmonitoringapplication.adapters.DoctorsAdapter
 import com.example.diabeteshealthmonitoringapplication.models.User
 import com.example.diabeteshealthmonitoringapplication.notification.*
+import com.example.diabeteshealthmonitoringapplication.viewmodels.DoctorLandingViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot

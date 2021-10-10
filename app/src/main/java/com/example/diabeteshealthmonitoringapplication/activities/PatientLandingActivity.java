@@ -2,16 +2,12 @@ package com.example.diabeteshealthmonitoringapplication.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -19,20 +15,14 @@ import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.fragments.ChatFragment;
 import com.example.diabeteshealthmonitoringapplication.fragments.DoctorsFragment;
 import com.example.diabeteshealthmonitoringapplication.fragments.HospitalFragment;
-import com.example.diabeteshealthmonitoringapplication.fragments.PatientsFragment;
 import com.example.diabeteshealthmonitoringapplication.fragments.ReadingsFragment;
 import com.example.diabeteshealthmonitoringapplication.models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
 public class PatientLandingActivity extends AppCompatActivity {
-    private static final String TAG = "HomePage";
     BottomNavigationView bottomNavigationView;
     private User user;
     private String name, mUid, imageUrl, email, phone, deviceToken, type;
@@ -76,8 +66,6 @@ public class PatientLandingActivity extends AppCompatActivity {
                             Objects.requireNonNull(getSupportActionBar()).setTitle("Hospital");
                             inflateContainer(new HospitalFragment());
                             break;
-                            // This should not be here either make it a fragment or create entry action.
-                            // Make options menu universal
                         default:
                             return true;
                     }
@@ -102,10 +90,10 @@ public class PatientLandingActivity extends AppCompatActivity {
             Toast.makeText(this, "Register clicked", Toast.LENGTH_SHORT).show();
             return true;
         } else if (item.getItemId() == R.id.readings_patient) {
-            startActivity(new Intent(this,PatientsReadingsActivity.class));
+            startActivity(new Intent(this, PatientsReadingsActivity.class));
             return true;
         } else if (item.getItemId() == R.id.booking_patient) {
-            startActivity(new Intent(this,BookingActivity.class));
+            startActivity(new Intent(this, BookingActivity.class));
             return true;
         } else {
             return super.onOptionsItemSelected(item);

@@ -31,8 +31,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.models.User;
 import com.example.diabeteshealthmonitoringapplication.models.AssociatedHospital;
+import com.example.diabeteshealthmonitoringapplication.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;

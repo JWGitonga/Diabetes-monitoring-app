@@ -17,8 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.viewmodels.ReadingNode;
 import com.example.diabeteshealthmonitoringapplication.models.User;
+import com.example.diabeteshealthmonitoringapplication.viewmodels.ReadingNode;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,11 +36,11 @@ public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
     private OnItemClick listener;
     private User me;
 
-    public interface OnItemClick{
+    public interface OnItemClick {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClick listener){
+    public void setOnItemClickListener(OnItemClick listener) {
         this.listener = listener;
     }
 
@@ -84,17 +84,17 @@ public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
         TextView name, lastReading;
     }
 
-    private void getUser(String uid){
+    private void getUser(String uid) {
         FirebaseDatabase.getInstance().getReference("user")
                 .addValueEventListener(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        snapshot.getChildren().forEach(user->{
+                        snapshot.getChildren().forEach(user -> {
                             User u = user.getValue(User.class);
-                            if (u!=null){
-                                if (u.getUid().equals(uid)){
-                                  me = u;
+                            if (u != null) {
+                                if (u.getUid().equals(uid)) {
+                                    me = u;
                                 }
                             }
                         });
@@ -102,7 +102,7 @@ public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Log.e(TAG, "onCancelled: -> "+error.getMessage());
+                        Log.e(TAG, "onCancelled: -> " + error.getMessage());
                     }
                 });
     }

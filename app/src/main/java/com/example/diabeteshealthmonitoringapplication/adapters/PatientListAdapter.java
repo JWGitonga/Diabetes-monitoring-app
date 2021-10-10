@@ -134,14 +134,14 @@ public class PatientListAdapter extends ArrayAdapter<User> {
                                 .setValue(user1)
                                 .addOnCompleteListener(task1 -> {
                                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
-                                    Data data = new Data(uid,"Doctor "+mUser.getUsername()+" accepted your request","Healthy Living",uid,R.drawable.ic_launcher_foreground);
+                                    Data data = new Data(uid, "Doctor " + mUser.getUsername() + " accepted your request", "Healthy Living", uid, R.drawable.ic_launcher_foreground);
                                     Sender sender = new Sender(data, mUser.getDeviceToken());
                                     apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
                                         @Override
                                         public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
-                                            if (response.isSuccessful()){
+                                            if (response.isSuccessful()) {
                                                 if (response.body() != null) {
-                                                    if (response.body().success!=1){
+                                                    if (response.body().success != 1) {
                                                         Toast.makeText(context, "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
@@ -150,7 +150,7 @@ public class PatientListAdapter extends ArrayAdapter<User> {
 
                                         @Override
                                         public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
-                                            Log.i(TAG, "onFailure: error -> "+t.getMessage());
+                                            Log.i(TAG, "onFailure: error -> " + t.getMessage());
                                         }
                                     });
                                 })

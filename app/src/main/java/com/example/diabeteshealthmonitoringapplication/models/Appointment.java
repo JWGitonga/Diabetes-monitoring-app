@@ -4,9 +4,8 @@ public class Appointment {
     private String uid,date,time,hospital;
 
     /***
-     * @NoArgsConstructor
-     * No arguments constructor
-     ***/
+     *  @NoArgsConstructor - No arguments constructor
+     */
     public Appointment() {
 
     }

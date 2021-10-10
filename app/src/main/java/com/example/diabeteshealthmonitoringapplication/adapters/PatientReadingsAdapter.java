@@ -23,11 +23,12 @@ public class PatientReadingsAdapter extends RecyclerView.Adapter<PatientReadings
         this.readings = readings;
         this.context = context;
     }
-    public interface OnItemClick{
+
+    public interface OnItemClick {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClick listener){
+    public void setOnItemClickListener(OnItemClick listener) {
         this.listener = listener;
     }
 
@@ -36,9 +37,9 @@ public class PatientReadingsAdapter extends RecyclerView.Adapter<PatientReadings
     public PatientReadingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new PatientReadingViewHolder(
                 LayoutInflater.from(context)
-                .inflate(R.layout.patient_reading_item,
-                        parent,
-                        false),
+                        .inflate(R.layout.patient_reading_item,
+                                parent,
+                                false),
                 listener
         );
     }
@@ -53,23 +54,25 @@ public class PatientReadingsAdapter extends RecyclerView.Adapter<PatientReadings
         return readings.size();
     }
 
-    public static class PatientReadingViewHolder extends RecyclerView.ViewHolder{
+    public static class PatientReadingViewHolder extends RecyclerView.ViewHolder {
         private final TextView reading;
         private final TextView date;
         private final TextView description;
-        public PatientReadingViewHolder(View view,OnItemClick listener){
+
+        public PatientReadingViewHolder(View view, OnItemClick listener) {
             super(view);
             reading = view.findViewById(R.id.patient_reading_title);
             date = view.findViewById(R.id.patient_reading_date);
             description = view.findViewById(R.id.patient_reading_description);
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                if (position!=RecyclerView.NO_POSITION){
+                if (position != RecyclerView.NO_POSITION) {
                     listener.onItemClick(position);
                 }
             });
         }
-        public void bind(Reading read){
+
+        public void bind(Reading read) {
             reading.setText(read.getReading());
             date.setText(read.getDate());
             description.setText(read.getSuggestion());
