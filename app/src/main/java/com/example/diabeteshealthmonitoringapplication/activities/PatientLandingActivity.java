@@ -115,7 +115,8 @@ public class PatientLandingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.exit) {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, Registration.class));
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
             return true;
         } else if (item.getItemId() == R.id.register_with_doctor) {
             Toast.makeText(this, "Register clicked", Toast.LENGTH_SHORT).show();

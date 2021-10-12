@@ -1,7 +1,9 @@
 package com.example.diabeteshealthmonitoringapplication.viewmodels
 
 import android.app.Application
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +14,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.util.*
 
 private const val TAG = "DoctorLandingViewModel"
 
@@ -31,6 +34,7 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
     fun getAllDoctors(): LiveData<List<User>> {
         FirebaseDatabase.getInstance().getReference("users")
             .addValueEventListener(object : ValueEventListener {
+                @RequiresApi(Build.VERSION_CODES.N)
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         val doctor = it.getValue(User::class.java)
@@ -54,6 +58,7 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
         if (myDoctors == null) {
             FirebaseDatabase.getInstance().getReference("doctors/$uid")
                 .addValueEventListener(object : ValueEventListener {
+                    @RequiresApi(Build.VERSION_CODES.N)
                     override fun onDataChange(snapshot: DataSnapshot) {
                         snapshot.children.forEach {
                             val doc = it.getValue(User::class.java)
@@ -77,6 +82,7 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
         FirebaseDatabase.getInstance()
             .getReference("patients/${FirebaseAuth.getInstance().currentUser!!.uid}/")
             .addValueEventListener(object : ValueEventListener {
+                @RequiresApi(Build.VERSION_CODES.N)
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { dataSnapshot ->
                         val patient = dataSnapshot.getValue(User::class.java)
@@ -113,6 +119,7 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
     fun getPatientReadings(uid: String): LiveData<List<Reading>> {
         FirebaseDatabase.getInstance().getReference("readings/$uid/")
             .addValueEventListener(object : ValueEventListener {
+                @RequiresApi(Build.VERSION_CODES.N)
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         val reading = it.getValue(Reading::class.java)
@@ -134,6 +141,7 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
     fun getPatientRequests(uid: String): LiveData<List<User>> {
         FirebaseDatabase.getInstance().getReference("requests/$uid")
             .addValueEventListener(object : ValueEventListener {
+                @RequiresApi(Build.VERSION_CODES.N)
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         val request = it.getValue(User::class.java)
@@ -155,6 +163,7 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
     fun getReadings(uid: String): LiveData<List<Reading>> {
         FirebaseDatabase.getInstance().getReference("readings/$uid/readings")
             .addValueEventListener(object : ValueEventListener {
+                @RequiresApi(Build.VERSION_CODES.N)
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         val reading = it.getValue(Reading::class.java)
