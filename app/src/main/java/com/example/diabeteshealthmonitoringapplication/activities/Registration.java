@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,7 @@ import java.util.Objects;
 public class Registration extends AppCompatActivity {
     private static final String TAG = "Register";
     private EditText nameEt, emailEt, phoneEt, passwordEt, confirmPasswordEt;
+    private TextView loginTv;
     private RadioGroup radioGroup;
     private ImageView imageView;
     private Uri imageUrl;
@@ -64,74 +66,84 @@ public class Registration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Registration");
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait");
-        imageView = findViewById(R.id.image_view);
-        nameEt = findViewById(R.id.username_register);
-        emailEt = findViewById(R.id.email_register);
-        phoneEt = findViewById(R.id.phone_no_register);
-        passwordEt = findViewById(R.id.password_register);
-        confirmPasswordEt = findViewById(R.id.confirm_password);
-        radioGroup = findViewById(R.id.role_radio_group);
-        Button register = findViewById(R.id.register_btn);
-        imageView.setOnClickListener(v -> {
-            if (checkPermission()) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityIfNeeded(intent, 100);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
-            }
-        });
-        register.setOnClickListener(v -> {
-            progressDialog.show();
-            name = nameEt.getText().toString().trim();
-            email = emailEt.getText().toString().trim();
-            phone = phoneEt.getText().toString().trim();
-            password = passwordEt.getText().toString().trim();
-            cPassword = confirmPasswordEt.getText().toString().trim();
-            int checkId = radioGroup.getCheckedRadioButtonId();
-            if (checkId == R.id.patient_radio_button) role = "Patient";
-            else if (checkId == R.id.doctor_radio_button) role = "Health worker";
-            else return;
-            if (name.isEmpty()) {
-                nameEt.setError("Cannot be empty");
-                progressDialog.dismiss();
-            } else {
-                if (email.isEmpty()) {
-                    emailEt.setError("Cannot be empty");
+        if (FirebaseAuth.getInstance().getUid() != null) {
+            startActivity(new Intent(this, IntermediateActivity.class));
+            finish();
+        } else {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Please wait");
+            imageView = findViewById(R.id.image_view);
+            nameEt = findViewById(R.id.username_register);
+            emailEt = findViewById(R.id.email_register);
+            phoneEt = findViewById(R.id.phone_no_register);
+            passwordEt = findViewById(R.id.password_register);
+            confirmPasswordEt = findViewById(R.id.confirm_password);
+            radioGroup = findViewById(R.id.role_radio_group);
+            loginTv = findViewById(R.id.login_tv);
+            Button register = findViewById(R.id.register_btn);
+            imageView.setOnClickListener(v -> {
+                if (checkPermission()) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    startActivityIfNeeded(intent, 100);
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
+                }
+            });
+            loginTv.setOnClickListener(view -> {
+                startActivity(new Intent(this,LoginActivity.class));
+                finish();
+            });
+            register.setOnClickListener(v -> {
+                progressDialog.show();
+                name = nameEt.getText().toString().trim();
+                email = emailEt.getText().toString().trim();
+                phone = phoneEt.getText().toString().trim();
+                password = passwordEt.getText().toString().trim();
+                cPassword = confirmPasswordEt.getText().toString().trim();
+                int checkId = radioGroup.getCheckedRadioButtonId();
+                if (checkId == R.id.patient_radio_button) role = "Patient";
+                else if (checkId == R.id.doctor_radio_button) role = "Health worker";
+                else return;
+                if (name.isEmpty()) {
+                    nameEt.setError("Cannot be empty");
                     progressDialog.dismiss();
                 } else {
-                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                        emailEt.setError("Invalid email address");
+                    if (email.isEmpty()) {
+                        emailEt.setError("Cannot be empty");
                         progressDialog.dismiss();
                     } else {
-                        if (phone.isEmpty()) {
-                            phoneEt.setError("Cannot be empty");
+                        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                            emailEt.setError("Invalid email address");
                             progressDialog.dismiss();
                         } else {
-                            if (password.isEmpty()) {
-                                passwordEt.setError("Cannot be empty");
+                            if (phone.isEmpty()) {
+                                phoneEt.setError("Cannot be empty");
                                 progressDialog.dismiss();
                             } else {
-                                if (cPassword.isEmpty()) {
-                                    confirmPasswordEt.setError("Cannot be empty");
+                                if (password.isEmpty()) {
+                                    passwordEt.setError("Cannot be empty");
                                     progressDialog.dismiss();
                                 } else {
-                                    if (!password.equals(cPassword)) {
-                                        passwordEt.setError("Passwords does not match");
-                                        confirmPasswordEt.setError("Passwords does not match");
+                                    if (cPassword.isEmpty()) {
+                                        confirmPasswordEt.setError("Cannot be empty");
                                         progressDialog.dismiss();
                                     } else {
-                                        if (imageUrl == null) {
-                                            Toast.makeText(getApplicationContext(), "Please select a profile picture", Toast.LENGTH_SHORT).show();
+                                        if (!password.equals(cPassword)) {
+                                            passwordEt.setError("Passwords does not match");
+                                            confirmPasswordEt.setError("Passwords does not match");
                                             progressDialog.dismiss();
                                         } else {
-                                            if (role.isEmpty()) {
-                                                Toast.makeText(getApplicationContext(), "Please select a role", Toast.LENGTH_SHORT).show();
+                                            if (imageUrl == null) {
+                                                Toast.makeText(getApplicationContext(), "Please select a profile picture", Toast.LENGTH_SHORT).show();
                                                 progressDialog.dismiss();
                                             } else {
-                                                register(name, email, phone, password, role);
+                                                if (role.isEmpty()) {
+                                                    Toast.makeText(getApplicationContext(), "Please select a role", Toast.LENGTH_SHORT).show();
+                                                    progressDialog.dismiss();
+                                                } else {
+                                                    register(name, email, phone, password, role);
+                                                }
                                             }
                                         }
                                     }
@@ -140,8 +152,8 @@ public class Registration extends AppCompatActivity {
                         }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override

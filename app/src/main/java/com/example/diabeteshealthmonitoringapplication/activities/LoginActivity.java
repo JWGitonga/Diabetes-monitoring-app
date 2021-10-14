@@ -30,8 +30,12 @@ public class LoginActivity extends AppCompatActivity {
 //        if (FirebaseAuth.getInstance().getUid() != null) {
 //            startActivity(new Intent(this, IntermediateActivity.class));
 //            finish();
+<<<<<<< HEAD
 //        }
 //        else {
+=======
+//        } else {
+>>>>>>> 7972268cc705ee899a1c526acbf6d84c7fa3b072
             progressDialog = new ProgressDialog(this);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("Signing in...");

@@ -39,15 +39,17 @@
             android:name=".activities.DoctorLandingActivity"
             android:exported="true" />
         <activity android:name=".activities.PatientLandingActivity" />
-        <activity android:name=".activities.Registration" />
-        <activity
-            android:name=".activities.LoginActivity"
+        <activity android:name=".activities.Registration"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="true">
         </activity>
     </application>
 
