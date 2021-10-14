@@ -17,8 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.example.diabeteshealthmonitoringapplication.R;
+import com.example.diabeteshealthmonitoringapplication.models.ReadingNode;
 import com.example.diabeteshealthmonitoringapplication.models.User;
-import com.example.diabeteshealthmonitoringapplication.viewmodels.ReadingNode;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;

@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.diabeteshealthmonitoringapplication.models.Reading
+import com.example.diabeteshealthmonitoringapplication.models.ReadingNode
 import com.example.diabeteshealthmonitoringapplication.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -182,4 +183,3 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
     }
 }
 
-data class ReadingNode(val uid: String, val readings: List<Reading>)
