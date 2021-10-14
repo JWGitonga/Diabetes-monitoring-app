@@ -10,6 +10,7 @@ data class ReadingNode(val uid: String?, val readings: ArrayList<Reading>?):Parc
         parcel.createTypedArrayList(Reading.CREATOR)
     ) {
     }
+    constructor() : this("",null)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(uid)
