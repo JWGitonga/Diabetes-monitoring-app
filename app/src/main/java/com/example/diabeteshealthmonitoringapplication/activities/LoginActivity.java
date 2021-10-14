@@ -27,10 +27,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Login");
-        if (FirebaseAuth.getInstance().getUid() != null) {
-            startActivity(new Intent(this, IntermediateActivity.class));
-            finish();
-        } else {
+//        if (FirebaseAuth.getInstance().getUid() != null) {
+//            startActivity(new Intent(this, IntermediateActivity.class));
+//            finish();
+//        } else {
             progressDialog = new ProgressDialog(this);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("Signing in...");
@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, Registration.class));
                 finish();
             });
-        }
+//        }
 
     }
 }
