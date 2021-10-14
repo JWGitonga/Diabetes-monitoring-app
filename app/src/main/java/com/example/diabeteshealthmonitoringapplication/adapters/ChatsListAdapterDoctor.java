@@ -79,7 +79,6 @@ public class ChatsListAdapterDoctor extends ArrayAdapter<User> {
         return convertView;
     }
 
-
     static class ViewHolder {
         ImageView imageViewChat;
         TextView nameChat, messageChat, timeChat;

@@ -17,8 +17,7 @@ import com.google.firebase.database.ValueEventListener
 
 private const val TAG = "BookingsAdapter"
 
-class BookingsAdapter(private val appointments: List<Appointment>) :
-    RecyclerView.Adapter<BookingsAdapter.BookingViewHolder>() {
+class BookingsAdapter(private val appointments: List<Appointment>) : RecyclerView.Adapter<BookingsAdapter.BookingViewHolder>() {
 
     inner class BookingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.title_name_tv)
