@@ -62,8 +62,7 @@ public class InteractionFragment extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = (View) getResources().getLayout(R.layout.fragment_interraction);
-        setContentView(view);
+        setContentView(R.layout.fragment_interraction);
         Intent intent = getIntent();
         String id = intent.getStringExtra("uid");
         Log.i(TAG, "onCreate: uid -> "+id);
@@ -71,8 +70,8 @@ public class InteractionFragment extends AppCompatActivity {
         chatsRecycler = findViewById(R.id.message_recycler);
         messageET = findViewById(R.id.message_et);
         ImageView send = findViewById(R.id.send);
-        View myChatView = getLayoutInflater().inflate(R.layout.my_chat, (ViewGroup) view, false);
-        View hisChatView = getLayoutInflater().inflate(R.layout.my_chat, (ViewGroup) view, false);
+        View myChatView = getLayoutInflater().inflate(R.layout.my_chat, null, false);
+        View hisChatView = getLayoutInflater().inflate(R.layout.my_chat, null, false);
         TextView myName = myChatView.findViewById(R.id.my_name);
         TextView myText = myChatView.findViewById(R.id.my_text);
         ImageView sent = myChatView.findViewById(R.id.sent);
