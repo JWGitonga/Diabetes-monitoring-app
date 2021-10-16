@@ -40,6 +40,7 @@
 
         <activity
             android:name=".activities.PatientsReadingsActivity"
+            android:parentActivityName=".activities.DoctorLandingActivity"
             android:exported="true" />
         <activity
             android:name=".activities.DoctorLandingActivity"

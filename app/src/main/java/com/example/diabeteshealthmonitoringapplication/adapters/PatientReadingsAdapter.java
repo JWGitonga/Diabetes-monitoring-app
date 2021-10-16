@@ -58,12 +58,14 @@ public class PatientReadingsAdapter extends RecyclerView.Adapter<PatientReadings
         private final TextView reading;
         private final TextView date;
         private final TextView description;
+        private final TextView time;
 
         public PatientReadingViewHolder(View view, OnItemClick listener) {
             super(view);
             reading = view.findViewById(R.id.patient_reading_title);
             date = view.findViewById(R.id.patient_reading_date);
             description = view.findViewById(R.id.patient_reading_description);
+            time = view.findViewById(R.id.time_tv_patient_reading);
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
@@ -76,6 +78,7 @@ public class PatientReadingsAdapter extends RecyclerView.Adapter<PatientReadings
             reading.setText(read.getReading());
             date.setText(read.getDate());
             description.setText(read.getSuggestion());
+            time.setText(read.getTime());
         }
     }
 }
