@@ -83,7 +83,7 @@ public class ChatFragment extends Fragment {
                             recyclerView.setVisibility(View.VISIBLE);
                             adapter.setOnItemClickListener(position -> {
                                 Toast.makeText(requireContext(), position + " clicked", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(requireContext(),InteractionFragment.class).putExtra("uid",doctors.get(position).getUid()));
+                                startActivity(new Intent(requireContext(), MessagingActivity.class).putExtra("uid",doctors.get(position).getUid()));
                             });
                         }
                     }
