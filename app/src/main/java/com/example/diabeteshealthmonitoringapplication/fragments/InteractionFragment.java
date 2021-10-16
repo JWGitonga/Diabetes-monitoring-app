@@ -80,7 +80,7 @@ public class InteractionFragment extends AppCompatActivity {
         TextView hisText = hisChatView.findViewById(R.id.his_text);
         TextView hisTime = hisChatView.findViewById(R.id.my_time);
         me = getNames(FirebaseAuth.getInstance().getUid());
-        him = getNames(toUid);
+//        him = getNames(toUid);
         String uid = FirebaseAuth.getInstance().getUid();
         List<Chat> chats = getData();
         for (Chat chat : chats) {
