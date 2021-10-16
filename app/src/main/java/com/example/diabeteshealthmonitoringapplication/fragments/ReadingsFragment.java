@@ -135,6 +135,9 @@ public class ReadingsFragment extends Fragment {
         setHasOptionsMenu(true);
         return view;
     }
+    public void sendToDoctor(Reading reading){
+
+    }
 
 //    @Override
 //    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

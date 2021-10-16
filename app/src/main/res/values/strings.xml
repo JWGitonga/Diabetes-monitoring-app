@@ -22,6 +22,10 @@
     <string name="time">Time</string>
     <string name="readings">Readings</string>
     <string name="bookings">Bookings</string>
+    <string name="upload_reading">Upload Reading</string>
+    <string name="interaction">Interaction</string>
+    <string name="health_worker">Health worker</string>
+    <string name="hospital">Hospital</string>
     <array name="hospitals">
         <item>Coptic Hospital, Nairobi</item>
         <item>Kenyatta National Hospital, Nairobi</item>

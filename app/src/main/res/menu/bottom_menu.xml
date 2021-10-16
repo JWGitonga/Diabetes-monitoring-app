@@ -4,18 +4,18 @@
     <item
         android:id="@+id/reading"
         android:icon="@drawable/read"
-        android:title="Upload Reading" />
+        android:title="@string/upload_reading" />
     <item
         android:id="@+id/message"
         android:icon="@drawable/message"
-        android:title="Interaction" />
+        android:title="@string/interaction" />
     <item
         android:id="@+id/doctors"
         android:icon="@drawable/doctor_list"
-        android:title="Doctors" />
+        android:title="@string/health_worker" />
     <item
         android:id="@+id/hospital"
         android:icon="@drawable/outline_local_hospital_24"
-        android:title="Hospital" />
+        android:title="@string/hospital" />
 
 </menu>

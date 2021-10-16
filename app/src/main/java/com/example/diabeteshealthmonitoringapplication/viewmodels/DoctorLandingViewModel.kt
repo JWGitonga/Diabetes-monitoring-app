@@ -22,7 +22,7 @@ private const val TAG = "DoctorLandingViewModel"
 class DoctorLandingViewModel(application: Application) : AndroidViewModel(application) {
     private val doctors: MutableLiveData<List<User>> = MutableLiveData()
     private val myDoctors: MutableLiveData<List<User>> = MutableLiveData()
-    private val readings: MutableLiveData<List<ReadingNode>> = MutableLiveData()
+    private val readings: MutableLiveData<List<Reading>> = MutableLiveData()
     private val patientReadingz: MutableLiveData<List<Reading>> = MutableLiveData()
     private val doctorsList: ArrayList<User> = ArrayList()
     private val myDoctorsList: ArrayList<User> = ArrayList()
@@ -78,8 +78,8 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
         return myDoctors
     }
 
-    fun getMyPatientsReadings(): LiveData<List<ReadingNode>> {
-        val readingNodez = ArrayList<ReadingNode>()
+    fun getMyPatientsReadings(): LiveData<List<Reading>> {
+        val readingNodez = ArrayList<Reading>()
         FirebaseDatabase.getInstance()
             .getReference("patients/${FirebaseAuth.getInstance().currentUser!!.uid}/")
             .addValueEventListener(object : ValueEventListener {
@@ -92,9 +92,10 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
                                 .addValueEventListener(object : ValueEventListener {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         snapshot.children.forEach {
-                                            val readingNode = it.getValue(ReadingNode::class.java)
+                                            val readingNode = it.getValue(Reading::class.java)
                                             if (readingNode != null) {
                                                 if (it.key == patient.uid) {
+                                                    readingNode.from = it.key
                                                     readingNodez.add(readingNode)
                                                 }
                                             }

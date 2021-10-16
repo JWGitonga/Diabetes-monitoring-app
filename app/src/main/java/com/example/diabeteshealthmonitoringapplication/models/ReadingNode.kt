@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.util.ArrayList
 
-data class ReadingNode(val uid: String?, val readings: ArrayList<Reading>?):Parcelable {
+data class ReadingNode(var uid: String?, val readings: ArrayList<Reading>?):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.createTypedArrayList(Reading.CREATOR)

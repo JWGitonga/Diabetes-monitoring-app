@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.example.diabeteshealthmonitoringapplication.R;
-import com.example.diabeteshealthmonitoringapplication.models.ReadingNode;
+import com.example.diabeteshealthmonitoringapplication.models.Reading;
 import com.example.diabeteshealthmonitoringapplication.models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,11 +27,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
+public class ReadingListAdapter extends ArrayAdapter<Reading> {
     private static final String TAG = "ReadingListAdapter";
     private final Context context;
     private final int resource;
-    private final List<ReadingNode> userList;
+    private final List<Reading> userList;
     private int lastPosition = -1;
     private OnItemClick listener;
     private User me;
@@ -44,7 +44,7 @@ public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
         this.listener = listener;
     }
 
-    public ReadingListAdapter(@NonNull Context context, int resource, @NonNull List<ReadingNode> userList) {
+    public ReadingListAdapter(@NonNull Context context, int resource, @NonNull List<Reading> userList) {
         super(context, resource, userList);
         this.context = context;
         this.resource = resource;
@@ -54,7 +54,7 @@ public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        getUser(userList.get(position).getUid());
+        getUser(userList.get(position).getFrom());
         LayoutInflater inflater = LayoutInflater.from(context);
         ViewHolder viewHolder = new ViewHolder();
         View result;
@@ -71,7 +71,8 @@ public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
         }
         Picasso.get().load(me.getImageUrl()).placeholder(R.drawable.outline_account_circle_24).into(viewHolder.imageView);
         viewHolder.name.setText(me.getUsername());
-        viewHolder.lastReading.setText(userList.get(position).getReadings().get(1).getReading());
+        viewHolder.name.setText(userList.get(position).getFrom());
+        viewHolder.lastReading.setText(userList.get(position).getReading());
         Animation animation = AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
