@@ -161,7 +161,7 @@ public class PatientLandingActivity extends AppCompatActivity {
             popupMenu.show();
             return true;
         } else if (item.getItemId() == R.id.readings_patient) {
-            startActivity(new Intent(this, PatientsReadingsActivity.class));
+            startActivity(new Intent(this, PatientsReadingsActivity.class).putExtra("uid",FirebaseAuth.getInstance().getUid()));
             return true;
         } else if (item.getItemId() == R.id.booking_patient) {
             startActivity(new Intent(this, BookingActivity.class));

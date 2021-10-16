@@ -95,7 +95,8 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
                                             val readingNode = it.getValue(ReadingNode::class.java)
                                             if (readingNode != null) {
                                                 if (it.key == patient.uid) {
-                                                    readingNode.uid = it.key
+                                                    readingNode.uid = readingNode.readings?.get(0)?.from
+                                                    Log.i(TAG, "onDataChange: ${it.key}")
                                                     readingNodez.add(readingNode)
                                                 }
                                             }

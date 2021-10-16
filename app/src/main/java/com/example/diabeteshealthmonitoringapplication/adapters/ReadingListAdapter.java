@@ -81,8 +81,7 @@ public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
                         snapshot.getChildren().forEach(user -> {
                             User u = user.getValue(User.class);
                             if (u != null) {
-                                if (u.getUid().equals(userList.get(position).getReadings().get(0).getFrom())) {
-                                    Log.i(TAG, "onDataChange: uid -> "+userList.get(position).getReadings().get(0).getFrom());
+                                if (u.getUid().equals(userList.get(position).getUid())) {
                                     Picasso.get().load(me.getImageUrl()).placeholder(R.drawable.outline_account_circle_24).into(finalViewHolder.imageView);
                                     finalViewHolder.name.setText(me.getUsername());
                                     finalViewHolder.lastReadingDate.setText(userList.get(position).getReadings().get(0).getDate());
