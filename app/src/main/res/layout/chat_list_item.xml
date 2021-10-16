@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/image_pic"
+        android:id="@+id/image_pic_chat"
         android:layout_width="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="10dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/name_text_view"
+        android:id="@+id/name_tv_chat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
@@ -26,8 +26,8 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/time_text_view"
-        app:layout_constraintStart_toEndOf="@+id/image_pic"
+        app:layout_constraintEnd_toStartOf="@+id/time_tv_chat"
+        app:layout_constraintStart_toEndOf="@+id/image_pic_chat"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -40,13 +40,13 @@
         android:visibility="invisible"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/name_text_view"
+        app:layout_constraintEnd_toEndOf="@+id/name_tv_chat"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/name_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/name_text_view" />
+        app:layout_constraintStart_toStartOf="@+id/name_tv_chat"
+        app:layout_constraintTop_toBottomOf="@+id/name_tv_chat" />
 
     <TextView
-        android:id="@+id/time_text_view"
+        android:id="@+id/time_tv_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
