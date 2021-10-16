@@ -5,27 +5,24 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.diabeteshealthmonitoringapplication.R;
 import com.example.diabeteshealthmonitoringapplication.activities.Registration;
 import com.example.diabeteshealthmonitoringapplication.models.Chat;
 import com.example.diabeteshealthmonitoringapplication.models.User;
 import com.example.diabeteshealthmonitoringapplication.notification.APIService;
-import com.example.diabeteshealthmonitoringapplication.notification.Client;
 import com.example.diabeteshealthmonitoringapplication.notification.Data;
 import com.example.diabeteshealthmonitoringapplication.notification.MyResponse;
 import com.example.diabeteshealthmonitoringapplication.notification.Sender;
@@ -44,11 +41,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InteractionFragment extends Fragment {
+public class InteractionFragment extends AppCompatActivity {
     private static final String TAG = "InteractionFragment";
     private static final String FROM_UID = "fromUid";
     private static final String TO_UID = "toUid";
-    private RecyclerView chatsRecycler;
+    private LinearLayout chatsRecycler;
     private EditText messageET;
     private String fromUid;
     private String toUid;
@@ -62,35 +59,20 @@ public class InteractionFragment extends Fragment {
     }
 
 
-    public static InteractionFragment newInstance(String param1, String param2) {
-        InteractionFragment fragment = new InteractionFragment();
-        Bundle args = new Bundle();
-        args.putString(FROM_UID, param1);
-        args.putString(TO_UID, param2);
-
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
-        if (getArguments() != null) {
-            fromUid = getArguments().getString(FROM_UID);
-            toUid = getArguments().getString(TO_UID);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_interraction, container, false);
+        View view = (View) getResources().getLayout(R.layout.fragment_interraction);
+        setContentView(view);
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("uid");
+        Log.i(TAG, "onCreate: uid -> "+id);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault());
-        chatsRecycler = view.findViewById(R.id.message_recycler);
-        messageET = view.findViewById(R.id.message_et);
-        ImageView send = view.findViewById(R.id.send);
-        View myChatView = getLayoutInflater().inflate(R.layout.my_chat, container, false);
-        View hisChatView = getLayoutInflater().inflate(R.layout.my_chat, container, false);
+        chatsRecycler = findViewById(R.id.message_recycler);
+        messageET = findViewById(R.id.message_et);
+        ImageView send = findViewById(R.id.send);
+        View myChatView = getLayoutInflater().inflate(R.layout.my_chat, (ViewGroup) view, false);
+        View hisChatView = getLayoutInflater().inflate(R.layout.my_chat, (ViewGroup) view, false);
         TextView myName = myChatView.findViewById(R.id.my_name);
         TextView myText = myChatView.findViewById(R.id.my_text);
         ImageView sent = myChatView.findViewById(R.id.sent);
@@ -137,7 +119,7 @@ public class InteractionFragment extends Fragment {
                                     if (response.isSuccessful()) {
                                         if (response.body() != null) {
                                             if (response.body().success != 1) {
-                                                Toast.makeText(requireContext(), "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(InteractionFragment.this, "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     }
@@ -151,14 +133,13 @@ public class InteractionFragment extends Fragment {
                         }
                     });
         });
-        setHasOptionsMenu(true);
-        return view;
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.interaction_menu, menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.interaction_menu, menu);
+        return true;
     }
 
     private List<Chat> getData() {
@@ -207,15 +188,15 @@ public class InteractionFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.order_drugs:
-                Toast.makeText(requireContext(), "Order drugs clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(InteractionFragment.this, "Order drugs clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://www.jumia.com"));
-                requireContext().startActivity(intent);
+                InteractionFragment.this.startActivity(intent);
                 break;
             case R.id.exit:
                 FirebaseAuth.getInstance().signOut();
-                requireContext().startActivity(new Intent(requireActivity(), Registration.class));
-                requireActivity().finish();
+                startActivity(new Intent(InteractionFragment.this, Registration.class));
+                finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);

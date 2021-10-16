@@ -1,5 +1,6 @@
 package com.example.diabeteshealthmonitoringapplication.fragments;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,14 +83,7 @@ public class ChatFragment extends Fragment {
                             recyclerView.setVisibility(View.VISIBLE);
                             adapter.setOnItemClickListener(position -> {
                                 Toast.makeText(requireContext(), position + " clicked", Toast.LENGTH_SHORT).show();
-                                requireActivity()
-                                        .getSupportFragmentManager()
-                                        .beginTransaction()
-                                        .replace(R.id.fragment_container,
-                                                InteractionFragment
-                                                        .newInstance(FirebaseAuth.getInstance().getUid(),
-                                                                doctors.get(position)
-                                                                        .getUid()));
+                                startActivity(new Intent(requireContext(),InteractionFragment.class).putExtra("uid",doctors.get(position).getUid()));
                             });
                         }
                     }
