@@ -69,9 +69,29 @@ public class ChatsListAdapterDoctor extends ArrayAdapter<User> {
             viewHolder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
-        User user = getUserDetails(chatListItems.get(position).getUsername());
-        Picasso.get().load(chatListItems.get(position).getImageUrl()).placeholder(R.drawable.outline_account_circle_24).into(viewHolder.imageViewChat);
-        viewHolder.nameChat.setText(user.getUsername());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+        ViewHolder finalViewHolder = viewHolder;
+        reference.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getChildren().forEach(node -> {
+                    User user = node.getValue(User.class);
+                    if (user != null) {
+                        if (user.getUid().equals(chatListItems.get(position).getUid())) {
+                            Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.outline_account_circle_24).into(finalViewHolder.imageViewChat);
+                            finalViewHolder.nameChat.setText(user.getUsername());
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i(TAG, "onCancelled: " + error.getMessage());
+            }
+        });
+
         Animation animation = AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
