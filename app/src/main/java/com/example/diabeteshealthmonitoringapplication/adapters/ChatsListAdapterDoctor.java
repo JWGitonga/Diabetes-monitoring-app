@@ -61,6 +61,8 @@ public class ChatsListAdapterDoctor extends ArrayAdapter<User> {
             convertView = inflater.inflate(resource, null, false);
             viewHolder.imageViewChat = convertView.findViewById(R.id.image_pic_chat);
             viewHolder.nameChat = convertView.findViewById(R.id.name_tv_chat);
+            viewHolder.messageChat = convertView.findViewById(R.id.text_text_view);
+            viewHolder.timeChat = convertView.findViewById(R.id.time_tv_chat);
             result = convertView;
             convertView.setTag(viewHolder);
         } else {

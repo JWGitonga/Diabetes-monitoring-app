@@ -72,10 +72,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListViewHolder> {
 
         public ChatListViewHolder(View view, OnItemClick listener) {
             super(view);
-            nameTv = view.findViewById(R.id.name_text_view);
+            nameTv = view.findViewById(R.id.name_tv_chat);
             messageTv = view.findViewById(R.id.text_text_view);
-            timeTv = view.findViewById(R.id.time_text_view);
-            imageV = view.findViewById(R.id.image_pic);
+            timeTv = view.findViewById(R.id.time_tv_chat);
+            imageV = view.findViewById(R.id.image_pic_chat);
             view.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position!=RecyclerView.NO_POSITION){
