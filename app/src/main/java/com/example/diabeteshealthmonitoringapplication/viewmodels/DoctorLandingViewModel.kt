@@ -26,7 +26,6 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
     private val patientReadingz: MutableLiveData<List<Reading>> = MutableLiveData()
     private val doctorsList: ArrayList<User> = ArrayList()
     private val myDoctorsList: ArrayList<User> = ArrayList()
-    private val requestList: ArrayList<User> = ArrayList()
     private val myReadingz: ArrayList<Reading> = ArrayList()
     private val patientReadings: ArrayList<Reading> = ArrayList()
     private val myReadings: MutableLiveData<List<Reading>> = MutableLiveData()
@@ -142,6 +141,7 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
 
 
     fun getPatientRequests(uid: String): LiveData<List<User>> {
+        val requestList: ArrayList<User> = ArrayList()
         FirebaseDatabase.getInstance().getReference("requests/$uid")
             .addValueEventListener(object : ValueEventListener {
                 @RequiresApi(Build.VERSION_CODES.N)

@@ -25,6 +25,9 @@ import com.example.diabeteshealthmonitoringapplication.notification.Client;
 import com.example.diabeteshealthmonitoringapplication.notification.Data;
 import com.example.diabeteshealthmonitoringapplication.notification.MyResponse;
 import com.example.diabeteshealthmonitoringapplication.notification.Sender;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -121,6 +124,18 @@ public class PatientListAdapter extends ArrayAdapter<User> {
             }
         });
     }
+    private void addDoctors(User doctor,User you){
+        FirebaseDatabase.getInstance().getReference("doctors/"+you.getUid()+"/"+doctor.getUid())
+                .setValue(doctor)
+                .addOnCompleteListener(task -> {
+                    if (task.isComplete() && task.isSuccessful()){
+                        Toast.makeText(context,"Success",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(e -> {
+                    Log.i(TAG, "onFailure: error -> "+e.getMessage());
+                    Toast.makeText(context,"Success",Toast.LENGTH_SHORT).show();
+                });
+    }
 
     private void addToPatients(User user) {
         String uid = FirebaseAuth.getInstance().getUid();
@@ -134,25 +149,45 @@ public class PatientListAdapter extends ArrayAdapter<User> {
                                 .setValue(user1)
                                 .addOnCompleteListener(task1 -> {
                                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
-                                    Data data = new Data(uid, "Doctor " + mUser.getUsername() + " accepted your request", "Healthy Living", uid, R.drawable.ic_launcher_foreground);
-                                    Sender sender = new Sender(data, mUser.getDeviceToken());
-                                    apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
-                                        @Override
-                                        public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
-                                            if (response.isSuccessful()) {
-                                                if (response.body() != null) {
-                                                    if (response.body().success != 1) {
-                                                        Toast.makeText(context, "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            }
-                                        }
+                                    FirebaseDatabase.getInstance().getReference("users")
+                                            .addValueEventListener(new ValueEventListener() {
+                                                @RequiresApi(api = Build.VERSION_CODES.N)
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    snapshot.getChildren().forEach(user1 -> {
+                                                        User u = user1.getValue(User.class);
+                                                        if (u != null) {
+                                                            addDoctors(u,user);
+                                                            if (u.getRole().equals("Doctor") && u.getUid().equals(uid)) {
+                                                                Data data = new Data(uid, "Doctor " + mUser.getUsername() + " accepted your request", "Healthy Living", uid, R.drawable.ic_launcher_foreground);
+                                                                Sender sender = new Sender(data, user.getDeviceToken());
+                                                                apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                                                                    @Override
+                                                                    public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
+                                                                        if (response.isSuccessful()) {
+                                                                            if (response.body() != null) {
+                                                                                if (response.body().success != 1) {
+                                                                                    Toast.makeText(context, "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
 
-                                        @Override
-                                        public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
-                                            Log.i(TAG, "onFailure: error -> " + t.getMessage());
-                                        }
-                                    });
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
+                                                                        Log.i(TAG, "onFailure: error -> " + t.getMessage());
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    });
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                    Log.i(TAG, "onCancelled: " + error.getMessage());
+                                                }
+                                            });
                                 })
                                 .addOnFailureListener(e -> Log.i(TAG, "addToPatients: " + e.getMessage()));
                     }
