@@ -12,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DiabetesHealthMonitoringApplication">
+        <activity android:name=".fragments.InteractionFragment"
+            android:parentActivityName=".activities.PatientLandingActivity"
+            android:exported="true"/>
         <activity
             android:name=".activities.BookingActivity"
             android:parentActivityName=".activities.PatientLandingActivity"
