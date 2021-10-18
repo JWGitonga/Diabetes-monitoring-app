@@ -47,7 +47,6 @@ public class MessagingActivity extends AppCompatActivity {
         ImageView send = findViewById(R.id.send);
         List<Chat> chatList = new ArrayList<>();
         String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        new Thread(() ->
                 FirebaseDatabase.getInstance().getReference("messages")
                 .addValueEventListener(new ValueEventListener() {
                     @SuppressLint("NotifyDataSetChanged")
@@ -75,12 +74,12 @@ public class MessagingActivity extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                         }
                     }
-
+git
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Log.e(TAG, "onCancelled: error -> " + error.getMessage());
                     }
-                })).start();
+                });
         send.setOnClickListener(view -> {
             String message = messageEt.getText().toString();
             Chat chat = new Chat(FirebaseAuth.getInstance().getUid(), uid,message,System.currentTimeMillis());
