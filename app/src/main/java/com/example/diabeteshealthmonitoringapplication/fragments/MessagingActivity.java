@@ -46,9 +46,9 @@ public class MessagingActivity extends AppCompatActivity {
         messageEt = findViewById(R.id.message_et);
         ImageView send = findViewById(R.id.send);
         List<Chat> chatList = new ArrayList<>();
-        String myId = FirebaseAuth.getInstance().getUid();
+        String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         new Thread(() ->
-                FirebaseDatabase.getInstance().getReference("messages/")
+                FirebaseDatabase.getInstance().getReference("messages")
                 .addValueEventListener(new ValueEventListener() {
                     @SuppressLint("NotifyDataSetChanged")
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -57,7 +57,7 @@ public class MessagingActivity extends AppCompatActivity {
                         snapshot.getChildren().forEach(chat -> {
                             Chat ch = chat.getValue(Chat.class);
                             if (ch != null) {
-                                if (ch.getFromUid().equals(myId) && ch.getToUid().equals(uid) || ch.getFromUid().equals(uid) && ch.getToUid().equals(myId)) {
+                                if (ch.getFromUid()==myId && ch.getToUid()==uid || ch.getFromUid()==uid && ch.getToUid()==myId) {
                                     chatList.add(ch);
                                 }
                             }
@@ -84,7 +84,7 @@ public class MessagingActivity extends AppCompatActivity {
         send.setOnClickListener(view -> {
             String message = messageEt.getText().toString();
             Chat chat = new Chat(FirebaseAuth.getInstance().getUid(), uid,message,System.currentTimeMillis());
-            FirebaseDatabase.getInstance().getReference("messages/" + myId + "/" + uid+"/"+chat.getTime())
+            FirebaseDatabase.getInstance().getReference("messages/" +chat.getTime())
                     .setValue(chat)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful() && task.isComplete()){
