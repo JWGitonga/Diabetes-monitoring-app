@@ -39,6 +39,7 @@ public class MessagingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
         String uid = getIntent().getStringExtra("uid");
+        Log.i(TAG, "onCreate: uid -> "+uid);
         chatsRecycler = findViewById(R.id.messages_recycler);
         noChatsYetTv = findViewById(R.id.no_chats_yet_tv);
         noChatsYetIv = findViewById(R.id.no_chats_yet_iv);
