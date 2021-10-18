@@ -47,7 +47,7 @@ public class MessagingActivity extends AppCompatActivity {
         List<Chat> chatList = new ArrayList<>();
         String myId = FirebaseAuth.getInstance().getUid();
         new Thread(() ->
-                FirebaseDatabase.getInstance().getReference("messages/" + myId + "/" + uid)
+                FirebaseDatabase.getInstance().getReference("messages/")
                 .addValueEventListener(new ValueEventListener() {
                     @SuppressLint("NotifyDataSetChanged")
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -56,7 +56,9 @@ public class MessagingActivity extends AppCompatActivity {
                         snapshot.getChildren().forEach(chat -> {
                             Chat ch = chat.getValue(Chat.class);
                             if (ch != null) {
-                                chatList.add(ch);
+                                if (ch.getFromUid().equals(myId) && ch.getToUid().equals(uid) || ch.getFromUid().equals(uid) && ch.getToUid().equals(myId)) {
+                                    chatList.add(ch);
+                                }
                             }
                         });
                         if (chatList.isEmpty()) {
