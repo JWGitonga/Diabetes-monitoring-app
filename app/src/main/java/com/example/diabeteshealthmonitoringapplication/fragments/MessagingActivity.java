@@ -74,7 +74,6 @@ public class MessagingActivity extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                         }
                     }
-git
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Log.e(TAG, "onCancelled: error -> " + error.getMessage());
