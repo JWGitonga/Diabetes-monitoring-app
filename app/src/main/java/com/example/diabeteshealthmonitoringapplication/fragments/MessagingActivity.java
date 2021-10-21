@@ -50,7 +50,7 @@ public class MessagingActivity extends AppCompatActivity {
         messagesViewModel = new ViewModelProvider(this).get(MessagesViewModel.class);
         ImageView send = findViewById(R.id.send);
         List<Chat> chatList = new ArrayList<>();
-<<<<<<< HEAD
+
         String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 FirebaseDatabase.getInstance().getReference("messages")
                 .addValueEventListener(new ValueEventListener() {
@@ -84,8 +84,8 @@ public class MessagingActivity extends AppCompatActivity {
                         Log.e(TAG, "onCancelled: error -> " + error.getMessage());
                     }
                 });
-=======
-        String myId = FirebaseAuth.getInstance().getUid();
+
+
         assert myId != null;
         messagesViewModel.getMessages(myId,uid).observe(this, chats -> {
                   if (chats.isEmpty()) {
@@ -102,8 +102,6 @@ public class MessagingActivity extends AppCompatActivity {
                   }
               });
 
-
->>>>>>> 61f2dba86831752365c6cf219521599b2ac7f42f
         send.setOnClickListener(view -> {
             String message = messageEt.getText().toString();
             Chat chat = new Chat(FirebaseAuth.getInstance().getUid(), uid,message,System.currentTimeMillis());
