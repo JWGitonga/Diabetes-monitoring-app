@@ -69,7 +69,6 @@ public class MessagingActivity extends AppCompatActivity {
                     }
                 });
         ImageView send = findViewById(R.id.send);
-        List<Chat> chatList = new ArrayList<>();
         String myId = FirebaseAuth.getInstance().getUid();
         assert myId != null;
         messagesViewModel.getMessages(myId, uid).observe(this, chats -> {
@@ -77,6 +76,7 @@ public class MessagingActivity extends AppCompatActivity {
                 noChatsYetIv.setVisibility(View.VISIBLE);
                 noChatsYetTv.setVisibility(View.VISIBLE);
                 chatsRecycler.setVisibility(View.GONE);
+
             } else {
                 noChatsYetIv.setVisibility(View.GONE);
                 noChatsYetTv.setVisibility(View.GONE);
