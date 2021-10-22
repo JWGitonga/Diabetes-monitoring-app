@@ -107,12 +107,13 @@
             android:gravity="start" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/fab_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
+        android:text="UPLOAD READING"
         android:clickable="true"
         android:src="@drawable/cloud_upload"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"

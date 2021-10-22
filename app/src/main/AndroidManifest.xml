@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DiabetesHealthMonitoringApplication">
         <activity android:name=".fragments.MessagingActivity"
-            android:parentActivityName=".activities.PatientLandingActivity"
             android:exported="true"/>
         <activity
             android:name=".activities.BookingActivity"
