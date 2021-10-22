@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -76,7 +77,7 @@ public class ReadingsFragment extends Fragment {
         reading = view.findViewById(R.id.reading_et);
         date = view.findViewById(R.id.date_et);
         time = view.findViewById(R.id.time_et);
-        FloatingActionButton upload = view.findViewById(R.id.fab_upload);
+        Button upload = view.findViewById(R.id.fab_upload);
         suggestion = view.findViewById(R.id.suggestion);
         docs = getDoctors();
         date.setOnFocusChangeListener((v, hasFocus) -> {
