@@ -75,7 +75,7 @@ public class MessagingActivity extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("messages")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds: snapshot.getChildren()) {
                             Chat chat = ds.getValue(Chat.class);
                             if (chat!=null){
