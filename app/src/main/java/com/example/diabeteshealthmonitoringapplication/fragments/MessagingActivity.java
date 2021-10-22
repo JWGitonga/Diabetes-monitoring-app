@@ -85,7 +85,7 @@ public class MessagingActivity extends AppCompatActivity {
                     }
                 });
 
-
+        String Id = FirebaseAuth.getInstance().getUid();
         assert myId != null;
         messagesViewModel.getMessages(myId,uid).observe(this, chats -> {
                   if (chats.isEmpty()) {
