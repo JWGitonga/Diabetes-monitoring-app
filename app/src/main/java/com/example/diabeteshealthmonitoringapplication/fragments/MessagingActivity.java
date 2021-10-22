@@ -71,37 +71,6 @@ public class MessagingActivity extends AppCompatActivity {
         ImageView send = findViewById(R.id.send);
         String myId = FirebaseAuth.getInstance().getUid();
         assert myId != null;
-        FirebaseDatabase.getInstance().getReference("messages")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds: snapshot.getChildren()) {
-                            Chat chat = ds.getValue(Chat.class);
-                            if (chat!=null){
-                                if (chat.getFromUid()==myId && chat.getToUid()==uid || chat.getToUid()==myId && chat.getFromUid()==uid){
-                                    chatList.add(chat);
-                                }
-                            }
-                            if (chatList.isEmpty()) {
-                                noChatsYetIv.setVisibility(View.VISIBLE);
-                                noChatsYetTv.setVisibility(View.VISIBLE);
-                                chatsRecycler.setVisibility(View.GONE);
-                            } else {
-                                noChatsYetIv.setVisibility(View.GONE);
-                                noChatsYetTv.setVisibility(View.GONE);
-                                chatsRecycler.setVisibility(View.VISIBLE);
-                                ChatAdapter adapter = new ChatAdapter(MessagingActivity.this, chatList);
-                                chatsRecycler.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.e(TAG, "onCancelled: error -> "+error.getMessage());
-                    }
-                });
         messagesViewModel.getMessages(myId, uid).observe(this, chats -> {
             if (chats.isEmpty()) {
                 noChatsYetIv.setVisibility(View.VISIBLE);
@@ -112,7 +81,7 @@ public class MessagingActivity extends AppCompatActivity {
                 noChatsYetIv.setVisibility(View.GONE);
                 noChatsYetTv.setVisibility(View.GONE);
                 chatsRecycler.setVisibility(View.VISIBLE);
-                ChatAdapter adapter = new ChatAdapter(MessagingActivity.this, chatList);
+                ChatAdapter adapter = new ChatAdapter(MessagingActivity.this, chats);
                 chatsRecycler.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
