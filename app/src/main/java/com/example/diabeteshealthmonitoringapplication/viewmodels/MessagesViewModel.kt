@@ -26,8 +26,9 @@ class MessagesViewModel(application:Application):AndroidViewModel(application) {
                                 chatList.add(chat)
                             }
                         }
+                        chats.postValue(chatList);
                     }
-                   chats.postValue(chatList);
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
