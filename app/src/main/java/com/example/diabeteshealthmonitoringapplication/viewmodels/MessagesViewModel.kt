@@ -16,6 +16,7 @@ class MessagesViewModel(application:Application):AndroidViewModel(application) {
     var chats:MutableLiveData<List<Chat>> = MutableLiveData()
     var chatList: ArrayList<Chat> = ArrayList()
     fun getMessages(myUid:String,hisUid:String):LiveData<List<Chat>>{
+        chatList.clear()
         FirebaseDatabase.getInstance().getReference("messages")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
