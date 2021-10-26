@@ -16,7 +16,6 @@
             android:exported="true"/>
         <activity
             android:name=".activities.BookingActivity"
-            android:parentActivityName=".activities.PatientLandingActivity"
             android:exported="true" />
         <activity
             android:name=".activities.IntermediateActivity"

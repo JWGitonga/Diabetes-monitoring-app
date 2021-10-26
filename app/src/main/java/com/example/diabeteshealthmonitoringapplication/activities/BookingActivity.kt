@@ -1,8 +1,8 @@
 package com.example.diabeteshealthmonitoringapplication.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diabeteshealthmonitoringapplication.R
 import com.example.diabeteshealthmonitoringapplication.adapters.BookingsAdapter
@@ -20,6 +20,8 @@ class BookingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_booking)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val recyclerView:RecyclerView = findViewById(R.id.appointment_recyclerview)
         val appointments:ArrayList<Appointment> = ArrayList()
         FirebaseDatabase.getInstance().getReference("appointments/" + FirebaseAuth.getInstance().uid + "/")
