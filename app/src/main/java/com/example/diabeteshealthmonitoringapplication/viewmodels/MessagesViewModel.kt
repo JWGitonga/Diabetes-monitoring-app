@@ -15,19 +15,23 @@ private const val TAG = "MessagesViewModel"
 
 class MessagesViewModel(application: Application) : AndroidViewModel(application) {
     var chats: MutableLiveData<List<Chat>> = MutableLiveData()
+
     fun getMessages(myUid: String, hisUid: String): LiveData<List<Chat>> {
+        val chatList: ArrayList<Chat> = ArrayList()
         FirebaseDatabase.getInstance().getReference("messages")
             .addValueEventListener(object : ValueEventListener {
-                var chatList: ArrayList<Chat> = ArrayList()
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.children.forEach {
-                        val chat = it.getValue(Chat::class.java)
-                        if (chat != null) {
-                            if (chat.fromUid == myUid && chat.toUid == hisUid || chat.toUid == myUid && chat.fromUid == hisUid) {
-                                chatList.add(chat)
+                    if (snapshot.exists()) {
+                        chatList.clear()
+                        for (ds in snapshot.children) {
+                            val chat = ds.getValue(Chat::class.java)
+                            if (chat != null) {
+                                if (chat.fromUid == myUid && chat.toUid == hisUid || chat.toUid == myUid && chat.fromUid == hisUid) {
+                                    chatList.add(chat)
+                                }
                             }
+                            chats.postValue(chatList)
                         }
-                        chats.postValue(chatList);
                     }
                 }
 

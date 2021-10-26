@@ -55,7 +55,6 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun getMyDoctors(uid: String): LiveData<List<User>> {
-        if (myDoctors == null) {
             FirebaseDatabase.getInstance().getReference("doctors/$uid")
                 .addValueEventListener(object : ValueEventListener {
                     @RequiresApi(Build.VERSION_CODES.N)
@@ -73,7 +72,6 @@ class DoctorLandingViewModel(application: Application) : AndroidViewModel(applic
                         Log.e(TAG, "onCancelled: ${error.message}")
                     }
                 })
-        }
         return myDoctors
     }
 

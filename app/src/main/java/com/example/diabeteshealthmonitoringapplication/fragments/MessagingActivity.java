@@ -83,7 +83,6 @@ public class MessagingActivity extends AppCompatActivity {
                 chatsRecycler.setVisibility(View.VISIBLE);
                 ChatAdapter adapter = new ChatAdapter(MessagingActivity.this, chats);
                 chatsRecycler.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
             }
         });
 
