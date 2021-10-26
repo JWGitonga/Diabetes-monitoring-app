@@ -91,7 +91,7 @@ public class ReadingsFragment extends Fragment {
                                     date.setText("");
                                     time.setText("");
                                     suggestion.setText("");
-                                   startActivity(new Intent(requireContext(), PatientsReadingsActivity.class));
+                                   startActivity(new Intent(requireContext(), PatientsReadingsActivity.class).putExtra("uid",FirebaseAuth.getInstance().getUid()));
                                 }
                             }).addOnFailureListener(e -> Toast.makeText(requireContext(), "An error occurred try again", Toast.LENGTH_SHORT).show());
                 }
