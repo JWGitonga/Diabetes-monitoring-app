@@ -21,7 +21,7 @@ class BookingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_booking)
         supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val recyclerView:RecyclerView = findViewById(R.id.appointment_recyclerview)
         val appointments:ArrayList<Appointment> = ArrayList()
         FirebaseDatabase.getInstance().getReference("appointments/" + FirebaseAuth.getInstance().uid + "/")
