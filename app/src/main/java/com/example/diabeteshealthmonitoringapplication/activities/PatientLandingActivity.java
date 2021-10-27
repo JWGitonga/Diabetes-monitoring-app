@@ -89,7 +89,7 @@ public class PatientLandingActivity extends AppCompatActivity {
                             inflateContainer(new ChatFragment());
                             break;
                         case R.id.doctors:
-                            Objects.requireNonNull(getSupportActionBar()).setTitle("Doctors");
+                            Objects.requireNonNull(getSupportActionBar()).setTitle("Health Worker");
                             inflateContainer(new DoctorsFragment());
                             break;
                         case R.id.hospital:
@@ -118,49 +118,7 @@ public class PatientLandingActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return true;
-        } else if (item.getItemId() == R.id.register_with_doctor) {
-            Toast.makeText(this, "Register clicked", Toast.LENGTH_SHORT).show();
-            PopupMenu popupMenu = new PopupMenu(this, bottomNavigationView);
-            docs.forEach(doctor -> popupMenu.getMenu().add(doctor.getName() + " - " + doctor.getHospital() + " - " + doctor.getUid()));
-            popupMenu.setOnMenuItemClickListener(item1 -> {
-                String s = item1.toString();
-                String[] chars = s.split(" - ");
-                String uid = chars[2];
-                String from = FirebaseAuth.getInstance().getUid();
-                getUser(uid);
-                Map<String, String> request = new HashMap<>();
-                request.put("from", from);
-                request.put("response", "request");
-                FirebaseDatabase.getInstance().getReference("patient_requests/" + uid + "/" + from + "/")
-                        .setValue(request)
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful() && task.isComplete()) {
-                                Toast.makeText(this, "Sent notification to doctor", Toast.LENGTH_SHORT).show();
-                                Data data = new Data(from, "Patient Request", "Health Living", uid, R.drawable.ic_launcher_foreground);
-                                Sender sender = new Sender(data, mUser.getDeviceToken());
-                                apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
-                                    @Override
-                                    public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
-                                        if (response.isSuccessful()) {
-                                            assert response.body() != null;
-                                            if (response.body().success != 1) {
-                                                Toast.makeText(PatientLandingActivity.this, "Failed to send notification check internet and try again", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
-                                        Toast.makeText(PatientLandingActivity.this, "Something went wrong....", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        });
-                return true;
-            });
-            popupMenu.show();
-            return true;
-        } else if (item.getItemId() == R.id.readings_patient) {
+        }  else if (item.getItemId() == R.id.readings_patient) {
             startActivity(new Intent(this, PatientsReadingsActivity.class).putExtra("uid",FirebaseAuth.getInstance().getUid()));
             return true;
         } else if (item.getItemId() == R.id.booking_patient) {
@@ -169,31 +127,6 @@ public class PatientLandingActivity extends AppCompatActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void getUser(String uid) {
-        FirebaseDatabase.getInstance().getReference("users")
-                .addValueEventListener(new ValueEventListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        snapshot.getChildren().forEach(user -> {
-                            User u = user.getValue(User.class);
-                            if (u != null) {
-                                if (u.getUid().equals(uid)) {
-                                    mUser = u;
-                                }
-                            } else {
-                                Log.i(TAG, "onDataChange: Null user");
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.i(TAG, "onCancelled: error -> " + error.getMessage());
-                    }
-                });
     }
 
     List<AssociatedHospital> getDoctors() {
