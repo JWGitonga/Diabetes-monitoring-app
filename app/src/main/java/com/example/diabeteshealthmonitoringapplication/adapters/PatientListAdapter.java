@@ -98,9 +98,6 @@ public class PatientListAdapter extends ArrayAdapter<User> {
 
     private void rejectRequest(User user) {
         String uid = FirebaseAuth.getInstance().getUid();
-        FirebaseDatabase.getInstance().getReference("patients/" + uid + "/" + user.getUid())
-                .setValue(null).addOnCompleteListener(task -> {
-            if (task.isComplete() && task.isComplete()) {
                 Toast.makeText(context, "Successfully declined", Toast.LENGTH_SHORT).show();
                 Data data = new Data(uid, "Doctor " + mUser.getUsername() + " refused your request", "Healthy Living", uid, R.drawable.ic_launcher_foreground);
                 Sender sender = new Sender(data, mUser.getDeviceToken());
@@ -121,8 +118,7 @@ public class PatientListAdapter extends ArrayAdapter<User> {
                         Log.i(TAG, "onFailure: error -> " + t.getMessage());
                     }
                 });
-            }
-        });
+
     }
     private void addDoctors(User doctor,User you){
         FirebaseDatabase.getInstance().getReference("doctors/"+you.getUid()+"/"+doctor.getUid())
@@ -145,7 +141,7 @@ public class PatientListAdapter extends ArrayAdapter<User> {
                     if (task.isSuccessful() && task.isComplete()) {
                         Toast.makeText(context, "Patient added successfully", Toast.LENGTH_SHORT).show();
                         User user1 = getDoctor(uid);
-                        FirebaseDatabase.getInstance().getReference(user.getUid() + "/doctors/" + uid)
+                        FirebaseDatabase.getInstance().getReference("/doctors/" + user.getUid()+"/"+uid)
                                 .setValue(user1)
                                 .addOnCompleteListener(task1 -> {
                                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
@@ -157,7 +153,6 @@ public class PatientListAdapter extends ArrayAdapter<User> {
                                                     snapshot.getChildren().forEach(user1 -> {
                                                         User u = user1.getValue(User.class);
                                                         if (u != null) {
-                                                            addDoctors(u,user);
                                                             if (u.getRole().equals("Doctor") && u.getUid().equals(uid)) {
                                                                 Data data = new Data(uid, "Doctor " + mUser.getUsername() + " accepted your request", "Healthy Living", uid, R.drawable.ic_launcher_foreground);
                                                                 Sender sender = new Sender(data, user.getDeviceToken());
