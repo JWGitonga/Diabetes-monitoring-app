@@ -25,7 +25,7 @@ class BookingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_booking)
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        //Set toolbar title to Bookings
+        supportActionBar!!.title = "Bookings"
         val recyclerView: RecyclerView = findViewById(R.id.appointment_recyclerview)
         val noBookingIv: ImageView = findViewById(R.id.no_bookings_iv)
         val noBookingTv: TextView = findViewById(R.id.no_bookings_tv)
