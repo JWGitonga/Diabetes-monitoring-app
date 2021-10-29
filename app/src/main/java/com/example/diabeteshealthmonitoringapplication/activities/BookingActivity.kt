@@ -22,6 +22,7 @@ class BookingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_booking)
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        //Set toolbar title to Bookings
         val recyclerView:RecyclerView = findViewById(R.id.appointment_recyclerview)
         val appointments:ArrayList<Appointment> = ArrayList()
         FirebaseDatabase.getInstance().getReference("appointments/" + FirebaseAuth.getInstance().uid + "/")
