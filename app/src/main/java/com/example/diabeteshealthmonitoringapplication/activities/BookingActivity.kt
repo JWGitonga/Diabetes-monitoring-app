@@ -20,7 +20,7 @@ class BookingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_booking)
-//        supportActionBar!!.setHomeButtonEnabled(true)
+        supportActionBar!!.setHomeButtonEnabled(true)
 //        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.arrow_back_24)
         val recyclerView:RecyclerView = findViewById(R.id.appointment_recyclerview)
