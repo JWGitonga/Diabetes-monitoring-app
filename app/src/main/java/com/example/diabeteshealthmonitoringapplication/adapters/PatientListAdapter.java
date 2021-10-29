@@ -145,6 +145,7 @@ public class PatientListAdapter extends ArrayAdapter<User> {
                                 .setValue(user1)
                                 .addOnCompleteListener(task1 -> {
                                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                                    addDoctors(user,user1);
                                     FirebaseDatabase.getInstance().getReference("users")
                                             .addValueEventListener(new ValueEventListener() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)

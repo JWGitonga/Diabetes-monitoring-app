@@ -78,8 +78,7 @@ class DoctorsFragment : Fragment() {
                 listView.clipToPadding = false
                 listView.adapter = doctorsAdapter
                 doctorsAdapter.setOnItemClickListener { position: Int ->
-                    Toast.makeText(requireContext(), "$position clicked", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(requireContext(), "$position clicked", Toast.LENGTH_SHORT).show()
                     FirebaseDatabase.getInstance()
                         .getReference("requests/${it[position].uid}/${me1.uid}").setValue(me1)
                         .addOnCompleteListener { task ->
