@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import com.example.diabeteshealthmonitoringapplication.R;
@@ -24,9 +22,6 @@ import com.example.diabeteshealthmonitoringapplication.models.AssociatedHospital
 import com.example.diabeteshealthmonitoringapplication.models.User;
 import com.example.diabeteshealthmonitoringapplication.notification.APIService;
 import com.example.diabeteshealthmonitoringapplication.notification.Client;
-import com.example.diabeteshealthmonitoringapplication.notification.Data;
-import com.example.diabeteshealthmonitoringapplication.notification.MyResponse;
-import com.example.diabeteshealthmonitoringapplication.notification.Sender;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,14 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class PatientLandingActivity extends AppCompatActivity {
     private static final String TAG = "PatientLandingActivity";
@@ -61,13 +50,17 @@ public class PatientLandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_homepage);
         Intent intent = getIntent();
         user = intent.getParcelableExtra("user");
-        type = user.getRole();
-        name = user.getUsername();
-        mUid = user.getUid();
-        imageUrl = user.getImageUrl();
-        email = user.getEmail();
-        phone = user.getPhone();
-        deviceToken = user.getDeviceToken();
+        if (user != null) {
+            type = user.getRole();
+            name = user.getUsername();
+            mUid = user.getUid();
+            imageUrl = user.getImageUrl();
+            email = user.getEmail();
+            phone = user.getPhone();
+            deviceToken = user.getDeviceToken();
+        } else {
+            mUid = FirebaseAuth.getInstance().getUid();
+        }
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         doctors = new ArrayList<>();
         docs = getDoctors();
@@ -118,8 +111,8 @@ public class PatientLandingActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return true;
-        }  else if (item.getItemId() == R.id.readings_patient) {
-            startActivity(new Intent(this, PatientsReadingsActivity.class).putExtra("uid",FirebaseAuth.getInstance().getUid()));
+        } else if (item.getItemId() == R.id.readings_patient) {
+            startActivity(new Intent(this, PatientsReadingsActivity.class).putExtra("uid", FirebaseAuth.getInstance().getUid()));
             return true;
         } else if (item.getItemId() == R.id.booking_patient) {
             startActivity(new Intent(this, BookingActivity.class));

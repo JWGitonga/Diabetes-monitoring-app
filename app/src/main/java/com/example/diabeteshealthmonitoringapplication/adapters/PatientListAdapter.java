@@ -141,6 +141,7 @@ public class PatientListAdapter extends ArrayAdapter<User> {
                     if (task.isSuccessful() && task.isComplete()) {
                         Toast.makeText(context, "Patient added successfully", Toast.LENGTH_SHORT).show();
                         User user1 = getDoctor(uid);
+                        //nest the above code below
                         FirebaseDatabase.getInstance().getReference("doctors/" + user.getUid()+"/"+uid)
                                 .setValue(user1)
                                 .addOnCompleteListener(task1 -> {
