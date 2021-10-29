@@ -84,10 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (!Patterns.EMAIL_ADDRESS.matcher(strEmail).matches()) {
                         Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show();
                     } else {
-                        FirebaseAuth.getInstance().sendPasswordResetEmail(strEmail).addOnCompleteListener(task -> {
-                            if (task.isSuccessful() && task.isComplete()){
-                                Toast.makeText(this, "Reset link sent to email", Toast.LENGTH_SHORT).show();
-                            }
+                        FirebaseAuth.getInstance().sendPasswordResetEmail(strEmail).addOnSuccessListener(unused -> {
+                            Toast.makeText(LoginActivity.this, "Reset link sent to your email", Toast.LENGTH_LONG).show();
                         });
                     }
                 }
