@@ -2,6 +2,9 @@ package com.example.diabeteshealthmonitoringapplication.activities
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diabeteshealthmonitoringapplication.R
@@ -23,21 +26,35 @@ class BookingActivity : AppCompatActivity() {
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         //Set toolbar title to Bookings
-        val recyclerView:RecyclerView = findViewById(R.id.appointment_recyclerview)
-        val appointments:ArrayList<Appointment> = ArrayList()
-        FirebaseDatabase.getInstance().getReference("appointments/" + FirebaseAuth.getInstance().uid + "/")
-            .addValueEventListener(object :ValueEventListener{
+        val recyclerView: RecyclerView = findViewById(R.id.appointment_recyclerview)
+        val noBookingIv: ImageView = findViewById(R.id.no_bookings_iv)
+        val noBookingTv: TextView = findViewById(R.id.no_bookings_tv)
+        val appointments: ArrayList<Appointment> = ArrayList()
+        FirebaseDatabase.getInstance()
+            .getReference("appointments/" + FirebaseAuth.getInstance().uid + "/")
+            .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         val appointment = it.getValue(Appointment::class.java)
-                        if (appointment!=null){
+                        if (appointment != null) {
                             appointments.add(appointment)
                         }
                     }
-                    val appointmentsAdapter = BookingsAdapter(appointments)
-                    recyclerView.setHasFixedSize(true)
-                    recyclerView.adapter = appointmentsAdapter
+                    if (appointments.isEmpty()) {
+                        noBookingIv.visibility = View.VISIBLE
+                        noBookingTv.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
+                    } else {
+                        noBookingIv.visibility = View.GONE
+                        noBookingTv.visibility = View.GONE
+                        recyclerView.visibility = View.VISIBLE
+                        val appointmentsAdapter = BookingsAdapter(appointments)
+                        recyclerView.setHasFixedSize(true)
+                        recyclerView.adapter = appointmentsAdapter
+                    }
+
                 }
+
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "onCancelled: -> ${error.message}")
                 }
