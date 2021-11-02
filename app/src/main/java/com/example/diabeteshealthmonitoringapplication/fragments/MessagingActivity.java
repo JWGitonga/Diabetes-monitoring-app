@@ -112,7 +112,7 @@ public class MessagingActivity extends AppCompatActivity {
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             User user = ds.getValue(User.class);
                             if (user != null) {
-                                if (user.getUid(myUid)) {
+                                if (user.getUid().equals(myUid)) {
                                     me = user;
                                 }
                             }
