@@ -24,8 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MessagingActivity extends AppCompatActivity {
@@ -35,6 +33,8 @@ public class MessagingActivity extends AppCompatActivity {
     private ImageView noChatsYetIv;
     private EditText messageEt;
     private MessagesViewModel messagesViewModel;
+    private User me;
+    private User him;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +55,10 @@ public class MessagingActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             User user = ds.getValue(User.class);
-                            if (user!=null){
-                                if (user.getUid().equals(uid)){
+                            if (user != null) {
+                                if (user.getUid().equals(uid)) {
                                     Objects.requireNonNull(getSupportActionBar()).setTitle(user.getUsername());
+                                    him = user;
                                 }
                             }
                         }
@@ -89,7 +90,7 @@ public class MessagingActivity extends AppCompatActivity {
 
         send.setOnClickListener(view -> {
             String message = messageEt.getText().toString();
-            Chat chat = new Chat(FirebaseAuth.getInstance().getUid(), uid, message, System.currentTimeMillis());
+            Chat chat = new Chat(FirebaseAuth.getInstance().getUid(), uid, message, System.currentTimeMillis(), me.getUserName(), him.getUserName());
             FirebaseDatabase.getInstance().getReference("messages/" + chat.getTime())
                     .setValue(chat)
                     .addOnCompleteListener(task -> {
@@ -103,4 +104,25 @@ public class MessagingActivity extends AppCompatActivity {
         });
     }
 
+    void getUsername(String myUid) {
+        FirebaseDatabase.getInstance().getReference("users")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            User user = ds.getValue(User.class);
+                            if (user != null) {
+                                if (user.getUid(myUid)) {
+                                    me = user;
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e(TAG, "onCancelled: error -> " + error.getMessage());
+                    }
+                });
+    }
 }

@@ -199,7 +199,6 @@ public class PatientListAdapter extends ArrayAdapter<User> {
                                 Log.e(TAG, "onCancelled: error -> " + error.getMessage());
                             }
                         });
-                        //nest the above code below
                     }
                 }).addOnFailureListener(e -> Log.i(TAG, "addToPatients: " + e.getMessage()));
     }

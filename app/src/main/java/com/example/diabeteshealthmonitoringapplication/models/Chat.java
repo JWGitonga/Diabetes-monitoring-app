@@ -1,7 +1,7 @@
 package com.example.diabeteshealthmonitoringapplication.models;
 
 public class Chat {
-    private String fromUid,toUid,message;
+    private String fromUid,toUid,message,fromName,toName;
     private Long time;
 
     /**
@@ -18,11 +18,13 @@ public class Chat {
      * @param message
      * @param time
      */
-    public Chat(String fromUid, String toUid, String message,Long time) {
+    public Chat(String fromUid, String toUid, String message,Long time,String fromName,String toName) {
         this.fromUid = fromUid;
         this.toUid = toUid;
         this.message = message;
         this.time = time;
+        this.fromName = fromName;
+        this.toName = toName;
     }
 
     public String getFromUid() {
@@ -55,5 +57,21 @@ public class Chat {
 
     public void setTime(Long time) {
         this.time = time;
+    }
+
+    public String getFromName() {
+        return fromName;
+    }
+
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
+    }
+
+    public String getToName() {
+        return toName;
+    }
+
+    public void setToName(String toName) {
+        this.toName = toName;
     }
 }
