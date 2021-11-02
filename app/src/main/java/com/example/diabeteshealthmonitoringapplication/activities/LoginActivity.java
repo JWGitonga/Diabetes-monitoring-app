@@ -3,6 +3,7 @@ package com.example.diabeteshealthmonitoringapplication.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,28 +70,24 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         forgotPassword.setOnClickListener(v -> {
-            EditText email = new EditText(this);
-            email.setMaxEms(10);
-            email.setPadding(50, 20, 50, 20);
-            email.setHint("Enter email address");
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            alertDialog.setTitle("Password recovery");
-            alertDialog.setView(email);
-            alertDialog.setPositiveButton("Submit", (dialog, which) -> {
-                String strEmail = email.getText().toString().trim();
-                if (strEmail.isEmpty()) {
-                    email.setError("Cannot be empty");
+            final AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+            final EditText edittext = new EditText(LoginActivity.this);
+            edittext.setPadding(25, 0, 25, 20);
+            edittext.setMaxWidth(100);
+            edittext.setHint("Enter email address...");
+            alert.setTitle("Password Recovery");
+            alert.setView(edittext);
+            alert.setIcon(R.drawable.ic_launcher_foreground);
+            alert.setPositiveButton("Submit", (dialog, whichButton) -> {
+                String email = edittext.getText().toString();
+                if (!TextUtils.isEmpty(email)) {
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnSuccessListener(aVoid -> Toast.makeText(LoginActivity.this, "Link was sent to your email", Toast.LENGTH_SHORT).show());
                 } else {
-                    if (!Patterns.EMAIL_ADDRESS.matcher(strEmail).matches()) {
-                        Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show();
-                    } else {
-                        FirebaseAuth.getInstance().sendPasswordResetEmail(strEmail).addOnSuccessListener(unused -> {
-                            Toast.makeText(LoginActivity.this, "Reset link sent to your email", Toast.LENGTH_LONG).show();
-                        });
-                    }
+                    Toast.makeText(LoginActivity.this, "Nothing was entered in the field", Toast.LENGTH_SHORT).show();
                 }
             });
-            AlertDialog alert = alertDialog.create();
+            alert.setNegativeButton("Cancel", (dialog, whichButton) -> {
+            });
             alert.show();
         });
         registration.setOnClickListener(v -> {
