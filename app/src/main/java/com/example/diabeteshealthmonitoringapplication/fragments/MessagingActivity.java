@@ -90,7 +90,7 @@ public class MessagingActivity extends AppCompatActivity {
 
         send.setOnClickListener(view -> {
             String message = messageEt.getText().toString();
-            Chat chat = new Chat(FirebaseAuth.getInstance().getUid(), uid, message, System.currentTimeMillis(), me.getUserName(), him.getUserName());
+            Chat chat = new Chat(FirebaseAuth.getInstance().getUid(), uid, message, System.currentTimeMillis(), me.getUsername(), him.getUsername());
             FirebaseDatabase.getInstance().getReference("messages/" + chat.getTime())
                     .setValue(chat)
                     .addOnCompleteListener(task -> {
