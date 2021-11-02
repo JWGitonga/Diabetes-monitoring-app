@@ -92,9 +92,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                                 snapshot.getChildren().forEach(user -> {
                                     User user1 = user.getValue(User.class);
                                     if (user1 != null) {
-                                        myName.setText(user1.getUsername());
-                                        myText.setText(chat.getMessage());
-                                        myDate.setText(new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault()).format(chat.getTime()));
+                                        if (user1.getUid().equals(chat.getFromUid())) {
+                                            myName.setText(user1.getUsername());
+                                            myText.setText(chat.getMessage());
+                                            myDate.setText(new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault()).format(chat.getTime()));
+                                        }
                                     }
                                 });
                             }
@@ -114,10 +116,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                                 snapshot.getChildren().forEach(user -> {
                                     User user1 = user.getValue(User.class);
                                     if (user1 != null) {
-                                        hisName.setText(user1.getUsername());
-                                        hisText.setText(chat.getMessage());
-                                        hisDate.setText(new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault()).format(chat.getTime()));
-                                        Picasso.get().load(user1.getImageUrl()).placeholder(R.drawable.outline_account_circle_24).into(hisPic);
+                                        if (user1.getUid().equals(FirebaseAuth.getInstance().getUid())) {
+                                            hisName.setText(user1.getUsername());
+                                            hisText.setText(chat.getMessage());
+                                            hisDate.setText(new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault()).format(chat.getTime()));
+                                            Picasso.get().load(user1.getImageUrl()).placeholder(R.drawable.outline_account_circle_24).into(hisPic);
+                                        }
                                     }
                                 });
                             }
