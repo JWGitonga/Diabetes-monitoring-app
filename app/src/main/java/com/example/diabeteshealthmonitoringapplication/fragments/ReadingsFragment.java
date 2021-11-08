@@ -83,7 +83,7 @@ public class ReadingsFragment extends Fragment {
                         reading.setError("Invalid reading");
                     } else {
                         String uid = FirebaseAuth.getInstance().getUid();
-                        Reading r = new Reading(uid, strReading, strDate, strTime, strSuggestion);
+                        Reading r = new Reading(uid, strReading+"mg/dL", strDate, strTime, strSuggestion);
                         String[] fom = strDate.split("/");
                         FirebaseDatabase.getInstance().getReference("readings/" + uid + "/" + fom[0] + "-" + fom[1] + "-" + fom[2] + " -> " + strTime)
                                 .setValue(r)
