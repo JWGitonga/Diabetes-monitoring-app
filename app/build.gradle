@@ -3,6 +3,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'kotlin-android'
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 31
@@ -65,6 +66,11 @@ dependencies {
     // Lifecycles only (without ViewModel or LiveData)
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
+}
+repositories {
+    mavenCentral()
 }

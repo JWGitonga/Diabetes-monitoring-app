@@ -12,11 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DiabetesHealthMonitoringApplication">
-        <activity android:name=".fragments.MessagingActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".fragments.MessagingActivity"
+            android:exported="true" />
         <activity
             android:name=".activities.BookingActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.HomeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DiabetesHealthMonitoringApplicationNoActionBar" />
         <activity
             android:name=".activities.IntermediateActivity"
             android:theme="@style/Theme.DiabetesHealthMonitoringApplication" />
@@ -29,7 +34,8 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".notification.MyFirebaseMessaging"
+        <service
+            android:name=".notification.MyFirebaseMessaging"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -42,13 +48,14 @@
 
         <activity
             android:name=".activities.PatientsReadingsActivity"
-            android:parentActivityName=".activities.DoctorLandingActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".activities.DoctorLandingActivity" />
         <activity
             android:name=".activities.DoctorLandingActivity"
             android:exported="true" />
         <activity android:name=".activities.PatientLandingActivity" />
-        <activity android:name=".activities.Registration"
+        <activity
+            android:name=".activities.Registration"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,8 +65,7 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>
