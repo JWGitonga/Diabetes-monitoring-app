@@ -2,6 +2,7 @@ package com.example.diabeteshealthmonitoringapplication.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,8 +85,8 @@ public class PatientListAdapter extends ArrayAdapter<User> {
         result.startAnimation(animation);
         lastPosition = position;
         viewHolder.call.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.putExtra("number", userList.get(position).getPhone());
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:"+userList.get(position).getPhone()));
             context.startActivity(intent);
         });
         viewHolder.accept.setOnClickListener(v -> addToPatients(userList.get(position)));
