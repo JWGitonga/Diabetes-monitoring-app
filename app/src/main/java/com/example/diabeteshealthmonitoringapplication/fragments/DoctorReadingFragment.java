@@ -40,7 +40,7 @@ public class DoctorReadingFragment extends Fragment {
             listView.setAdapter(adapter);
             adapter.setOnItemClickListener(position ->
                     startActivity(new Intent(requireContext(), PatientsReadingsActivity.class)
-                            .putExtra("uid", readingNodes.get(position).getReadings().get(0).getFrom())));
+                            .putExtra("uid", readingNodes.get(position).getUid())));
         });
         return view;
     }
