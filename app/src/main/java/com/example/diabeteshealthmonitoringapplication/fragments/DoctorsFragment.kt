@@ -101,7 +101,7 @@ class DoctorsFragment : Fragment() {
                                                 if (response.body() != null) if (response.body()!!.success != 1) {
                                                     Snackbar.make(
                                                         listView,
-                                                        "Something went wrong try again...",
+                                                        "Notification will be sent later...",
                                                         Snackbar.LENGTH_LONG
                                                     ).setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
                                                         .show()
