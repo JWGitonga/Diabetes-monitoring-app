@@ -73,7 +73,7 @@ public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
             result = convertView;
         }
         ViewHolder finalViewHolder = viewHolder;
-        FirebaseDatabase.getInstance().getReference("user")
+        FirebaseDatabase.getInstance().getReference("users")
                 .addValueEventListener(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
