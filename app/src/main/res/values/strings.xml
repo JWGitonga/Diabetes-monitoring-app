@@ -5,8 +5,8 @@
     <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="phone">Phone</string>
-    <string name="password">Password</string>
-    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password.....6+ characters</string>
+    <string name="confirm_password">Confirm Password…6+ characters</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="patient">Patient</string>
     <string name="doctor">Health worker</string>
