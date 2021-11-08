@@ -84,8 +84,10 @@ public class ReadingListAdapter extends ArrayAdapter<ReadingNode> {
                                 if (u.getUid().equals(userList.get(position).getUid())) {
                                     Picasso.get().load(me.getImageUrl()).placeholder(R.drawable.outline_account_circle_24).into(finalViewHolder.imageView);
                                     finalViewHolder.name.setText(me.getUsername());
-                                    finalViewHolder.lastReadingDate.setText(userList.get(position).getReadings().get(0).getDate());
-                                    finalViewHolder.lastReading.setText(userList.get(position).getReadings().get(0).getReading());
+                                    String date = userList.get(position).getReadings().get(0).getDate().toString();
+                                    String reading = userList.get(position).getReadings().get(0).getReading();
+                                    finalViewHolder.lastReadingDate.setText(date);
+                                    finalViewHolder.lastReading.setText(reading);
                                 }
                             }
                         });
