@@ -79,21 +79,25 @@ public class ReadingsFragment extends Fragment {
                 if (strDate.isEmpty()) {
                     reading.setError("Cannot be empty");
                 } else {
-                    String uid = FirebaseAuth.getInstance().getUid();
-                    Reading r = new Reading(uid, strReading, strDate, strTime, strSuggestion);
-                    String[] fom = strDate.split("/");
-                    FirebaseDatabase.getInstance().getReference("readings/" + uid + "/" + fom[0] + "-" + fom[1] + "-" + fom[2] + " -> " + strTime)
-                            .setValue(r)
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(requireContext(), "Successfully uploaded reading...", Toast.LENGTH_SHORT).show();
-                                    reading.setText("");
-                                    date.setText("");
-                                    time.setText("");
-                                    suggestion.setText("");
-                                   startActivity(new Intent(requireContext(), PatientsReadingsActivity.class).putExtra("uid",FirebaseAuth.getInstance().getUid()));
-                                }
-                            }).addOnFailureListener(e -> Toast.makeText(requireContext(), "An error occurred try again", Toast.LENGTH_SHORT).show());
+                    if (strReading.length() > 3) {
+                        reading.setError("Invalid reading");
+                    } else {
+                        String uid = FirebaseAuth.getInstance().getUid();
+                        Reading r = new Reading(uid, strReading, strDate, strTime, strSuggestion);
+                        String[] fom = strDate.split("/");
+                        FirebaseDatabase.getInstance().getReference("readings/" + uid + "/" + fom[0] + "-" + fom[1] + "-" + fom[2] + " -> " + strTime)
+                                .setValue(r)
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(requireContext(), "Successfully uploaded reading...", Toast.LENGTH_SHORT).show();
+                                        reading.setText("");
+                                        date.setText("");
+                                        time.setText("");
+                                        suggestion.setText("");
+                                        startActivity(new Intent(requireContext(), PatientsReadingsActivity.class).putExtra("uid", FirebaseAuth.getInstance().getUid()));
+                                    }
+                                }).addOnFailureListener(e -> Toast.makeText(requireContext(), "An error occurred try again", Toast.LENGTH_SHORT).show());
+                    }
                 }
             }
         });
