@@ -39,7 +39,8 @@ public class DoctorReadingFragment extends Fragment {
             adapter = new ReadingListAdapter(requireContext(), R.layout.doctor_reading_item, readingNodes);
             listView.setAdapter(adapter);
             adapter.setOnItemClickListener(position ->
-                    startActivity(new Intent(requireContext(), PatientsReadingsActivity.class).putExtra("uid", readingNodes.get(position).getUid())));
+                    startActivity(new Intent(requireContext(), PatientsReadingsActivity.class)
+                            .putExtra("uid", readingNodes.get(position).getReadings().get(0).getFrom())));
         });
         return view;
     }
